@@ -1,0 +1,479 @@
+# Save the uploaded image as a base64 or copy it into the HTML structure
+import base64
+
+with open('269519.jpg', 'rb') as f:
+    img_data = base64.b64encode(f.read()).decode('utf-8')
+
+html_content = f"""<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinta Di Bawah Naungan Sakura - Rizal & Aisyah</title>
+    <style>
+        :root {{
+            --primary: #d63384;
+            --primary-dark: #a81d5a;
+            --bg-color: #fcf4f7;
+            --card-bg: #ffffff;
+            --text-color: #2c2c2c;
+            --text-muted: #6c757d;
+            --sakura-pink: #ffb7c5;
+        }}
+
+        * {{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }}
+
+        body {{
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }}
+
+        header {{
+            background: linear-gradient(135deg, #2b081a, #521232, #8b1e4f);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }}
+
+        .top-bar {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto 20px auto;
+        }}
+
+        .btn {{
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }}
+
+        .btn:hover {{
+            background-color: white;
+            color: var(--primary-dark);
+        }}
+
+        .btn-primary {{
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }}
+
+        .btn-primary:hover {{
+            background-color: var(--primary-dark);
+            color: white;
+        }}
+
+        h1 {{
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+        }}
+
+        .subtitle {{
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }}
+
+        .hero-img {{
+            max-width: 350px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            margin: 20px 0;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+        }}
+
+        .synopsis {{
+            max-width: 700px;
+            margin: 0 auto 25px auto;
+            font-size: 1.05rem;
+            background: rgba(0,0,0,0.2);
+            padding: 15px 20px;
+            border-radius: 10px;
+        }}
+
+        .container {{
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }}
+
+        .card {{
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }}
+
+        .card-title {{
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--sakura-pink);
+            padding-bottom: 8px;
+        }}
+
+        .chapter-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }}
+
+        .chapter-btn {{
+            background: #fff0f5;
+            border: 1px solid #ffd1dc;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-color);
+        }}
+
+        .chapter-btn:hover, .chapter-btn.active {{
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }}
+
+        .chapter-btn strong {{
+            display: block;
+            font-size: 0.9rem;
+        }}
+
+        .chapter-btn span {{
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }}
+
+        .reader {{
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }}
+
+        .reader-controls {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }}
+
+        .font-size-btn {{
+            background: #e9ecef;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }}
+
+        .nav-buttons {{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }}
+
+        .form-group {{
+            margin-bottom: 15px;
+        }}
+
+        .form-group label {{
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }}
+
+        .form-group input, .form-group textarea {{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }}
+
+        .tiktok-box {{
+            background: linear-gradient(45deg, #000000, #25f4ee, #fe2c55);
+            background-size: 200% 200%;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }}
+
+        .tiktok-btn {{
+            display: inline-block;
+            background: white;
+            color: black;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }}
+
+        @media (max-width: 600px) {{
+            h1 {{ font-size: 1.8rem; }}
+            .hero-img {{ max-width: 100%; }}
+        }}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <button class="btn" id="musicToggle" onclick="toggleMusic()">🎵 Musik: OFF</button>
+            <button class="btn btn-primary" onclick="scrollToDownload()">📥 Unduh</button>
+        </div>
+        <p>✨ Sebuah Mahakarya Cinta Abadi ✨</p>
+        <h1>Rizal & Aisyah</h1>
+        <p class="subtitle">"Cinta Di Bawah Naungan Sakura"</p>
+
+        <img src="data:image/jpeg;base64,{img_data}" alt="Rizal & Aisyah" class="hero-img">
+
+        <p class="synopsis">
+            Diadaptasi dari gelora roman klasik Romeo & Juliet, mengisahkan dua jiwa yang ditakdirkan bersatu namun terhalang perselisihan takdir dan kasta. Akankah cinta abadi mereka melampaui gugurnya bunga sakura?
+        </p>
+
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <a href="#baca" class="btn btn-primary" style="padding: 12px 24px; font-size: 16px;">📖 Mulai Membaca Bab 1</a>
+            <a href="#kontak" class="btn" style="padding: 12px 24px; font-size: 16px;">💌 Kirim Pesan Cinta</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Antologi Bab -->
+        <div class="card">
+            <h2 class="card-title">📚 Antologi Bab</h2>
+            <p style="color: var(--text-muted); margin-bottom: 15px;">Kisah Lengkap 10 Bab. Klik nomor Bab untuk membaca atau gunakan tombol Navigasi Bab.</p>
+            <div class="chapter-grid" id="chapterGrid">
+                <!-- Chapters JS generated -->
+            </div>
+        </div>
+
+        <!-- Area Baca -->
+        <div class="card" id="baca">
+            <div class="reader-controls">
+                <span id="chapterProgress">Bab 1 Dari 10</span>
+                <div>
+                    <button class="font-size-btn" onclick="changeFontSize(-1)">A-</button>
+                    <button class="font-size-btn" onclick="changeFontSize(1)">A+</button>
+                </div>
+            </div>
+
+            <h2 id="chapterTitle" style="color: var(--primary-dark); margin-bottom: 5px;">Bab 1: Pertemuan Di Bawah Kelopak Bunga</h2>
+            <p id="chapterSubtitle" style="font-style: italic; color: var(--text-muted); margin-bottom: 20px;">"Kala Takdir Mempertemukan Dua Jiwa"</p>
+
+            <div class="reader" id="chapterContent">
+                <p>Di bawah naungan awan senja kota Kyoto tua, kelopak bunga sakura merah muda gugur perlahan, melayang tertiup angin sepoi-sepoi yang dingin. Di sinilah kisah ini bermula. Rizal, seorang pemuda sederhana berjiwa seni yang mengagumi keindahan dunia melalui kanvas lukisnya, melangkah perlahan mengelilingi pelataran kuil kuno.</p>
+                <br>
+                <p>Malam itu, Festival Bunga Sakura sedang berlangsung meriah. Lampu-lampu lampion emas menerangi jalanan setapak. Tiba-tiba, pandangan Rizal terhenti pada sesosok gadis yang berdiri di tepi jembatan kayu. Gadis itu bernama Aisyah—putri tunggal dari keluarga bangsawan megah yang disegani. Aisyah mengenakan kimono bersulamkan benang sutra emas, jemarinya memegang kipas dengan keanggunan tiada tara.</p>
+                <br>
+                <p>Saat Aisyah melangkah, selembar selendang sutranya terlepas terbawa angin dan jatuh tepat di hadapan Rizal. Ketika Rizal mengambilnya dan menyerahkannya, pandangan mata mereka saling mengunci. Seolah waktu berhenti berputar, detak jantung mereka berdua bergema seirama dengan rontoknya bunga sakura. Sebuah ikatan tak kasat mata tercipta pada detik itu—sebuah cinta pada pandangan pertama yang terlarang.</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-primary" id="prevBtn" onclick="navigateChapter(-1)" disabled>Bab Sebelumnya</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="navigateChapter(1)">Bab Selanjutnya</button>
+            </div>
+        </div>
+
+        <!-- Simpan & Unduh -->
+        <div class="card" id="unduh">
+            <h2 class="card-title">💾 Simpan & Unduh Kisah Ini</h2>
+            <p style="margin-bottom: 20px;">Anda dapat mengunduh seluruh naskah kisah cinta "Rizal & Aisyah" (Bab 1 - 10) sebagai berkas teks atau mencetak E-Book PDF untuk dibaca kapan saja offline.</p>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="downloadTxt()" style="padding: 12px 20px;">📄 Unduh File Teks (.txt)</button>
+                <button class="btn" style="background: #28a745; border: none; padding: 12px 20px;" onclick="window.print()">🖨️ Cetak / Save PDF E-Book</button>
+            </div>
+        </div>
+
+        <!-- Hubungi Kami -->
+        <div class="card" id="kontak">
+            <h2 class="card-title">💌 Hubungi Kami</h2>
+            <p style="margin-bottom: 20px;">Tinggalkan pesan cinta, kesan, atau doa untuk pasangan Rizal & Aisyah.</p>
+            <form onsubmit="event.preventDefault(); alert('Pesan cinta Anda telah terkirim dengan hangat! ❤️');">
+                <div class="form-group">
+                    <label>Nama Anda</label>
+                    <input type="text" placeholder="Tuliskan nama Anda..." required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="nama@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Pesan Romantis</label>
+                    <textarea rows="4" placeholder="Tuliskan kesan atau doa romantis Anda..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 16px;">💖 Kirim Pesan</button>
+            </form>
+        </div>
+
+        <!-- TikTok Section -->
+        <div class="tiktok-box">
+            <h3>✨ Ikuti konten & puisi romantis lainnya ✨</h3>
+            <p style="margin-top: 10px;"><strong>Akun Resmi TikTok</strong></p>
+            <p style="margin-top: 5px; font-size: 0.95rem;">Saksikan klip video sinematik, kutipan romantis, serta update kisah terbaru Rizal & Aisyah langsung dari pencipta.</p>
+            <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" class="tiktok-btn">🎵 Kunjungi TikTok @villains_starboy</a>
+        </div>
+
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=sad-soul-112392.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const chapters = [
+            {{
+                num: 1,
+                title: "Bab 1: Pertemuan Di Bawah Kelopak Bunga",
+                sub: '"Kala Takdir Mempertemukan Dua Jiwa"',
+                content: `Di bawah naungan awan senja kota Kyoto tua, kelopak bunga sakura merah muda gugur perlahan, melayang tertiup angin sepoi-sepoi yang dingin. Di sinilah kisah ini bermula. Rizal, seorang pemuda sederhana berjiwa seni yang mengagumi keindahan dunia melalui kanvas lukisnya, melangkah perlahan mengelilingi pelataran kuil kuno.<br><br>Malam itu, Festival Bunga Sakura sedang berlangsung meriah. Lampu-lampu lampion emas menerangi jalanan setapak. Tiba-tiba, pandangan Rizal terhenti pada sesosok gadis yang berdiri di tepi jembatan kayu. Gadis itu bernama Aisyah—putri tunggal dari keluarga bangsawan megah yang disegani. Aisyah mengenakan kimono bersulamkan benang sutra emas, jemarinya memegang kipas dengan keanggunan tiada tara.<br><br>Saat Aisyah melangkah, selembar selendang sutranya terlepas terbawa angin dan jatuh tepat di hadapan Rizal. Ketika Rizal mengambilnya dan menyerahkannya, pandangan mata mereka saling mengunci. Seolah waktu berhenti berputar, detak jantung mereka berdua bergema seirama dengan rontoknya bunga sakura. Sebuah ikatan tak kasat mata tercipta pada detik itu—sebuah cinta pada pandangan pertama yang terlarang.`
+            }},
+            {{
+                num: 2,
+                title: "Bab 2: Taman Sakura",
+                sub: '"Bisikan Rindu di Antara Pepohonan"',
+                content: `Pertemuan rahasia mulai terjalin di sudut taman sakura yang tak pernah terjangkau oleh pengawal istana. Di bawah kerimbunan dahan merah muda, Rizal melukis paras Aisyah dengan penuh kelembutan.`
+            }},
+            {{
+                num: 3,
+                title: "Bab 3: Dua Keluarga",
+                sub: '"Dinding Jurang Kasta dan Ambisi"',
+                content: `Kisah cinta manis itu perlahan dibayangi ancaman. Keluarga besar Aisyah menolak keras ikatan dengan pemuda biasa. Garis kasta membentang gagah bak tembok benteng tak tertembus.`
+            }},
+            {{
+                num: 4,
+                title: "Bab 4: Bisikan Malam",
+                sub: '"Janji Suci Dalam Bayang Rembulan"',
+                content: `Malam semakin pekat ketika Rizal menyelinap menuju jendela kediaman Aisyah. Dalam keheningan malam, mereka mengikrarkanjanji untuk saling setia walau dunia menentang.`
+            }},
+            {{
+                num: 5,
+                title: "Bab 5: Sumpah Rahasia",
+                sub: '"Cinta yang Terikat Kata Hati"',
+                content: `Di hadapan kuil tua yang menjadi saksi bisu, mereka bertukar cincin perak sederhana. Sumpah cinta terucap lembut, mengikat jiwa mereka secara abadi.`
+            }},
+            {{
+                num: 6,
+                title: "Bab 6: Badai Pemisah",
+                sub: '"Kutukan Konflik yang Meletus"',
+                content: `Perselisihan keluarga meletus bagaikan badai. Aisyah dikurung di dalam kediaman, sementara Rizal diasingkan jauh dari tanah kelahirannya.`
+            }},
+            {{
+                num: 7,
+                title: "Bab 7: Surat Kerinduan",
+                sub: '"Tinta Air Mata yang Menembus Jarak"',
+                content: `Melalui merpati pos rahasia, surat-surat penuh air mata dan kerinduan menjadi satu-satunya jembatan penawar rindu di antara Rizal dan Aisyah.`
+            }},
+            {{
+                num: 8,
+                title: "Bab 8: Rencana Terlarang",
+                sub: '"Langkah Pelarian Menuju Kebebasan"',
+                content: `Aisyah menolak dijodohkan dengan saudagar kaya. Bersama Rizal, mereka menyusun rencana pelarian nekat di malam festival sakura tahun berikutnya.`
+            }},
+            {{
+                num: 9,
+                title: "Bab 9: Ujian Pengorbanan",
+                sub: '"Darah dan Air Mata di Pelarian"',
+                content: `Malam pelarian tiba, namun pengawal kerajaan mengejar mereka. Rizal mempertaruhkan nyawanya demi melindungi Aisyah dari tajamnya pedang perpisahan.`
+            }},
+            {{
+                num: 10,
+                title: "Bab 10: Keabadian Cinta",
+                sub: '"Melampaui Gugurnya Bunga Sakura"',
+                content: `Takdir tak mampu menghancurkan cinta sejati. Di sebuah desa terpencil yang tenang di bawah guguran bunga sakura, Rizal dan Aisyah akhirnya hidup bersama dalam keabadian cinta.`
+            }}
+        ];
+
+        let currentChapter = 0;
+        let fontSize = 1.1;
+        let isMusicPlaying = false;
+
+        function renderChapterGrid() {{
+            const grid = document.getElementById('chapterGrid');
+            grid.innerHTML = '';
+            chapters.forEach((ch, idx) => {{
+                const btn = document.createElement('a');
+                btn.className = `chapter-btn ${{idx === currentChapter ? 'active' : ''}}`;
+                btn.href = '#baca';
+                btn.onclick = () => loadChapter(idx);
+                btn.innerHTML = `<strong>Bab ${{ch.num}}</strong><span>${{ch.title.split(': ')[1] || ''}}</span>`;
+                grid.appendChild(btn);
+            }});
+        }}
+
+        function loadChapter(index) {{
+            currentChapter = index;
+            const ch = chapters[index];
+            document.getElementById('chapterProgress').innerText = `Bab ${{ch.num}} Dari 10`;
+            document.getElementById('chapterTitle').innerText = ch.title;
+            document.getElementById('chapterSubtitle').innerText = ch.sub;
+            document.getElementById('chapterContent').innerHTML = ch.content;
+
+            document.getElementById('prevBtn').disabled = (index === 0);
+            document.getElementById('nextBtn').disabled = (index === chapters.length - 1);
+
+            renderChapterGrid();
+        }}
+
+        function navigateChapter(dir) {{
+            const newIndex = currentChapter + dir;
+            if (newIndex >= 0 && newIndex < chapters.length) {{
+                loadChapter(newIndex);
+            }}
+        }}
+
+        function changeFontSize(delta) {{
+            fontSize += delta * 0.1;
+            if (fontSize < 0.8) fontSize = 0.8;
+            if (fontSize > 1.8) fontSize = 1.8;
+            document.getElementById('chapterContent').style.fontSize = `${{fontSize}}rem`;
+        }}
+
+        function toggleMusic() {{
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicToggle');
+            if (isMusicPlaying) {{
+                music.pause();
+                btn.innerText = '🎵 Musik: OFF';
+            }} else {{
+                music.play().catch(e => console.log('Audio play error:', e));
+                btn.innerText = '🎶 Musik: ON';
+            }}
+            isMusicPlaying = !isMusicPlaying;
+        }}
+
+        function scrollToDownload() {{
+            document.getElementById('unduh').scrollIntoView({{ be
