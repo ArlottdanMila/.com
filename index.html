@@ -1,775 +1,753 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinta Di Bawah Naungan Sakura - Rizal & Aisyah</title>
+    <title>Kisah Cinta Pangeran Rizal & Putri Aisyah - Takhta & Mawar</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        sakura: {
-                            50: '#fff5f7',
-                            100: '#ffe3eb',
-                            200: '#ffcddb',
-                            300: '#ff9ebb',
-                            400: '#ff6291',
-                            500: '#f9336e',
-                            600: '#e11252',
-                        },
-                        night: {
-                            800: '#1e0f24',
-                            900: '#120717',
-                            950: '#0a030d',
-                        },
-                        gold: {
-                            300: '#fde047',
-                            400: '#facc15',
-                            500: '#eab308',
+                        royal: {
+                            900: '#1a050b',
+                            800: '#2c0b14',
+                            700: '#4a1120',
+                            600: '#721931',
+                            gold: '#dfb15b',
+                            goldlight: '#f5d796',
+                            golddark: '#a87d32',
+                            cream: '#fcf8f2',
+                            card: '#220810'
                         }
                     },
                     fontFamily: {
-                        serif: ['"Cormorant Garamond"', 'serif'],
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        cinzelDeco: ['Cinzel Decorative', 'serif'],
+                        garamond: ['Cormorant Garamond', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
                     }
                 }
             }
         }
     </script>
+
     <style>
+        /* Custom Styling for Royal Atmosphere */
         body {
-            background-color: #0a030d;
-            color: #ffe3eb;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #120307;
+            color: #fcf8f2;
             overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .font-serif-custom {
+        .font-royal-title {
+            font-family: 'Cinzel Decorative', 'Cinzel', serif;
+        }
+
+        .font-story {
             font-family: 'Cormorant Garamond', serif;
         }
 
-        /* Glassmorphism effects */
-        .glass-panel {
-            background: rgba(30, 15, 36, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 183, 197, 0.18);
+        /* Gold Gradient Text */
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff3d1 0%, #dfb15b 50%, #996c1b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .glass-card {
-            background: rgba(45, 20, 55, 0.5);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 183, 197, 0.12);
-            transition: all 0.3s ease;
+        /* Royal Card Border Shadow */
+        .royal-border {
+            border: 1px solid rgba(223, 177, 91, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 15px rgba(223, 177, 91, 0.15);
         }
 
-        .glass-card:hover {
-            border-color: rgba(255, 183, 197, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(249, 51, 110, 0.25);
+        .royal-border-glow {
+            border: 1px solid rgba(223, 177, 91, 0.6);
+            box-shadow: 0 0 25px rgba(223, 177, 91, 0.3);
         }
 
-        .text-glow {
-            text-shadow: 0 0 15px rgba(255, 158, 187, 0.6), 0 0 30px rgba(249, 51, 110, 0.3);
-        }
-
-        .text-glow-gold {
-            text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
-        }
-
-        /* Canvas fixed overlay */
-        #sakura-canvas {
+        /* Falling Petals Canvas */
+        #petalCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 20;
+            z-index: 10;
         }
 
-        /* Print styles */
-        @media print {
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            #sakura-canvas, header, footer, .no-print {
-                display: none !important;
-            }
-            .print-only {
-                display: block !important;
-            }
-            .glass-panel, .glass-card {
-                background: none !important;
-                border: none !important;
-                box-shadow: none !important;
-                color: black !important;
-            }
-            .font-reader {
-                color: black !important;
-                font-size: 12pt !important;
-                line-height: 1.6 !important;
-            }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #120307;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a1120;
+            border-radius: 4px;
+            border: 1px solid #dfb15b;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #721931;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(34, 8, 16, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Golden Divider */
+        .gold-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #dfb15b, transparent);
         }
     </style>
 </head>
-<body class="relative min-h-screen selection:bg-sakura-500 selection:text-white">
+<body class="relative min-h-screen selection:bg-royal-gold selection:text-royal-900">
 
-    <canvas id="sakura-canvas"></canvas>
+    <!-- Falling Petals Background Canvas -->
+    <canvas id="petalCanvas"></canvas>
 
-    <header class="sticky top-0 z-50 w-full glass-panel border-b border-sakura-300/20 px-4 py-3 sm:px-8">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Top Sticky Bar Navigation -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-royal-gold/20 px-4 py-3 shadow-2xl">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Logo / Brand -->
             <div class="flex items-center space-x-3">
-                <span class="text-2xl animate-pulse">🌸</span>
-                <span class="font-serif-custom text-xl sm:text-2xl font-bold tracking-wide text-sakura-100">
-                    Rizal <span class="text-sakura-400">&amp;</span> Aisyah
-                </span>
+                <div class="w-10 h-10 rounded-full border border-royal-gold flex items-center justify-center bg-royal-800 text-royal-gold text-xl font-bold shadow-inner">
+                    👑
+                </div>
+                <div>
+                    <h1 class="font-royal-title text-sm md:text-base font-bold gold-gradient-text tracking-wider">RIZAL & AISYAH</h1>
+                    <p class="text-[10px] text-royal-gold/70 tracking-widest uppercase">Takhta & Cinta Abadi</p>
+                </div>
             </div>
 
-            <!-- Header Controls -->
-            <div class="flex items-center gap-3">
-                <!-- Music Toggle Button -->
-                <button id="music-btn" onclick="toggleAudio()" class="flex items-center gap-2 bg-sakura-900/80 hover:bg-sakura-800 border border-sakura-400/40 text-sakura-200 px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all shadow-lg active:scale-95">
-                    <i id="music-icon" class="fa-solid fa-volume-xmark text-sakura-400"></i>
-                    <span id="music-text" class="hidden sm:inline">Musik: OFF</span>
+            <!-- Header Controls: Text Size, Music, Download -->
+            <div class="flex items-center flex-wrap gap-2 md:gap-4">
+                
+                <!-- Font Size Controller -->
+                <div class="flex items-center bg-royal-900/80 rounded-lg p-1 border border-royal-gold/30">
+                    <span class="text-xs text-royal-gold/70 px-2 hidden sm:inline">Ukuran Teks:</span>
+                    <button id="btnDecreaseFont" title="Kecilkan Teks" class="w-8 h-8 rounded hover:bg-royal-700 text-royal-gold font-bold transition flex items-center justify-center text-sm active:scale-95">
+                        A-
+                    </button>
+                    <span id="fontSizeDisplay" class="text-xs text-royal-gold font-mono px-1">100%</span>
+                    <button id="btnIncreaseFont" title="Besarkan Teks" class="w-8 h-8 rounded hover:bg-royal-700 text-royal-gold font-bold transition flex items-center justify-center text-sm active:scale-95">
+                        A+
+                    </button>
+                </div>
+
+                <!-- Music Switch Button -->
+                <button id="btnMusicToggle" class="flex items-center gap-2 bg-royal-800 hover:bg-royal-700 border border-royal-gold/50 text-royal-gold text-xs font-semibold px-3 py-2 rounded-lg transition shadow-md active:scale-95">
+                    <span id="musicIcon">🔇</span>
+                    <span id="musicStatus">Musik: OFF</span>
                 </button>
 
-                <!-- Quick Download Button -->
-                <a href="#download-section" class="flex items-center gap-2 bg-gradient-to-r from-sakura-500 to-sakura-600 hover:from-sakura-600 hover:to-sakura-700 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-sakura-500/20 active:scale-95">
-                    <i class="fa-solid fa-download"></i>
-                    <span>Unduh</span>
-                </a>
+                <!-- Download Website Button -->
+                <button id="btnDownloadWeb" class="flex items-center gap-2 bg-gradient-to-r from-royal-golddark via-royal-gold to-royal-goldlight hover:brightness-110 text-royal-900 font-bold text-xs px-3 py-2 rounded-lg transition shadow-lg active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>Unduh Website</span>
+                </button>
+
             </div>
         </div>
     </header>
 
-    <main class="relative z-10 space-y-16 sm:space-y-24 pb-16">
-
-        <section class="relative pt-12 pb-8 sm:pt-20 sm:pb-16 px-4 max-w-6xl mx-auto text-center">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-sakura-300 text-xs sm:text-sm tracking-wider mb-6 border border-sakura-300/30">
-                <span>✨</span>
-                <span>Sebuah Mahakarya Cinta Abadi</span>
-                <span>✨</span>
+    <!-- Hero Banner Section -->
+    <section class="relative py-20 px-4 text-center overflow-hidden border-b border-royal-gold/20">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-royal-700/30 via-royal-900/80 to-royal-900 pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-20 space-y-6">
+            <div class="inline-block px-4 py-1 rounded-full border border-royal-gold/40 bg-royal-800/50 backdrop-blur-md text-royal-gold text-xs tracking-widest uppercase mb-2">
+                ✨ Epik Rembulan Kerajaan ✨
             </div>
-
-            <h1 class="font-serif-custom text-5xl sm:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-sakura-100 to-sakura-300 text-glow mb-4">
-                Rizal &amp; Aisyah
+            
+            <h1 class="font-royal-title text-3xl sm:text-5xl md:text-6xl font-extrabold gold-gradient-text leading-tight tracking-wide drop-shadow-lg">
+                Kisah Cinta Pangeran Rizal & Putri Aisyah
             </h1>
+            
+            <div class="w-32 h-1 bg-gradient-to-r from-transparent via-royal-gold to-transparent mx-auto my-4"></div>
 
-            <p class="font-serif-custom text-2xl sm:text-4xl italic text-gold-300 mb-8 text-glow-gold">
-                "Cinta Di Bawah Naungan Sakura"
+            <p class="font-story text-xl sm:text-2xl text-royal-cream/90 max-w-2xl mx-auto italic font-light leading-relaxed">
+                "Di antara intrik takhta, pedang pertempuran, dan konspirasi istana... takdir merajut kasih abadi yang tak terpadamkan oleh waktu."
             </p>
 
-            <!-- Anime Visual Illustration Card -->
-            <div class="max-w-4xl mx-auto my-8 relative rounded-2xl overflow-hidden glass-panel p-2 sm:p-4 shadow-2xl group border border-sakura-400/30">
-                <div class="relative h-72 sm:h-96 md:h-[450px] w-full rounded-xl overflow-hidden">
-                    <img id="hero-img" 
-                         src="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=1200&q=80" 
-                         alt="Pasangan Anime Romantis di Bawah Sakura" 
-                         class="w-full h-full object-cover object-center transform transition-transform duration-1000 group-hover:scale-105"
-                         onerror="this.onerror=null; this.src='https://placehold.co/1200x800/120717/ffcddb?text=Rizal+%26+Aisyah+Di+Bawah+Sakura';" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-night-950 via-night-900/30 to-transparent"></div>
-                    
-                    <!-- Overlay Anime Silhouette Concept Badge -->
-                    <div class="absolute bottom-6 left-6 right-6 text-left glass-panel p-4 sm:p-6 rounded-xl border border-sakura-200/20">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-sakura-400 animate-ping"></span>
-                            <span class="text-xs uppercase tracking-widest text-sakura-300 font-bold">Kisah Epik Terpopuler</span>
-                        </div>
-                        <p class="text-sm sm:text-base text-sakura-100 font-serif-custom italic leading-relaxed">
-                            "Meskipun takdir memisahkan takhta dan kasta, di bawah guguran bunga sakura cinta kita bernapas abadi..."
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Story Synopsis -->
-            <p class="max-w-3xl mx-auto text-base sm:text-lg text-sakura-100/90 leading-relaxed mb-10 px-2 font-light">
-                Diadaptasi dari gelora roman klasik <span class="text-gold-300 font-semibold italic">Romeo &amp; Juliet</span>, mengisahkan dua jiwa yang ditakdirkan bersatu namun terhalang perselisihan takdir dan kasta. Akankah cinta abadi mereka melampaui gugurnya bunga sakura?
-            </p>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-                <a href="#reader-section" onclick="selectChapter(1)" class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sakura-500 via-sakura-600 to-sakura-500 bg-[length:200%_auto] hover:bg-right text-white font-semibold px-8 py-3.5 rounded-full shadow-lg shadow-sakura-500/30 transition-all duration-300 hover:scale-105">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span>Mulai Membaca Bab 1</span>
-                </a>
-                <a href="#contact-section" class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-3 glass-panel hover:bg-sakura-900/80 text-sakura-200 hover:text-white font-semibold px-8 py-3.5 rounded-full border border-sakura-300/40 transition-all duration-300 hover:scale-105">
-                    <i class="fa-solid fa-paper-plane"></i>
-                    <span>Kirim Pesan Cinta</span>
+            <div class="flex justify-center items-center gap-4 pt-4">
+                <a href="#cerita" class="bg-royal-gold hover:bg-royal-goldlight text-royal-900 font-bold px-6 py-3 rounded-xl transition duration-300 shadow-xl flex items-center gap-2 text-sm uppercase tracking-wider">
+                    <span>Mulai Membaca</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="anthology-section" class="max-w-6xl mx-auto px-4">
-            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-sakura-300/20 shadow-xl">
-                <div class="text-center mb-8">
-                    <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-sakura-100 mb-2">
-                        Antologi Bab
+    <!-- Main Content Container -->
+    <main id="cerita" class="max-w-5xl mx-auto px-4 py-12 space-y-12 relative z-20">
+
+        <!-- Navigation Tabs & Chapter Quick Selector -->
+        <div class="glass-panel p-6 rounded-2xl royal-border space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-royal-gold/20 pb-4">
+                <div>
+                    <h2 class="font-cinzel text-xl font-bold text-royal-gold flex items-center gap-2">
+                        <span>📜</span> Daftar Bab Kerajaan (1 - 20)
                     </h2>
-                    <p class="text-sakura-300 font-medium text-sm sm:text-base">
-                        Kisah Lengkap 10 Bab
-                    </p>
-                    <p class="text-xs sm:text-sm text-sakura-200/70 mt-1 italic">
-                        Klik nomor Bab untuk membaca atau gunakan tombol Navigasi Bab
-                    </p>
+                    <p class="text-xs text-royal-cream/70">Pilih bab atau gulir ke bawah untuk menikmati kisah secara utuh.</p>
                 </div>
-
-                <!-- Chapter Grid Buttons -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4" id="chapter-grid">
-                    <!-- JS generated chapter buttons -->
-                </div>
-            </div>
-        </section>
-
-        <section id="reader-section" class="max-w-4xl mx-auto px-4 scroll-mt-24">
-            <div class="glass-panel rounded-3xl p-6 sm:p-12 border border-sakura-300/30 shadow-2xl relative overflow-hidden">
-                <!-- Top Indicator & Font Controls -->
-                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-sakura-300/20">
-                    <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 rounded-full bg-sakura-500/20 border border-sakura-400/30 text-sakura-300 text-xs sm:text-sm font-semibold">
-                            <span id="reader-indicator">Bab 1 Dari 10</span>
-                        </span>
-                    </div>
-
-                    <!-- Text Size Customizer -->
-                    <div class="flex items-center gap-2 bg-night-950/60 p-1 rounded-xl border border-sakura-300/20">
-                        <span class="text-xs text-sakura-300 px-2 font-medium">Ukuran Teks:</span>
-                        <button onclick="changeFontSize(-1)" class="w-8 h-8 flex items-center justify-center rounded-lg bg-sakura-900/60 hover:bg-sakura-800 text-sakura-200 font-bold transition-all" title="Kecilkan Teks">
-                            A-
-                        </button>
-                        <button onclick="changeFontSize(1)" class="w-8 h-8 flex items-center justify-center rounded-lg bg-sakura-900/60 hover:bg-sakura-800 text-sakura-200 font-bold transition-all" title="Besarkan Teks">
-                            A+
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Chapter Header Info -->
-                <div class="text-center my-8 space-y-3">
-                    <h3 id="reader-title" class="font-serif-custom text-3xl sm:text-5xl font-bold text-gold-300 tracking-wide">
-                        Bab 1: Pertemuan Di Bawah Kelopak Bunga
-                    </h3>
-                    <p id="reader-subtitle" class="font-serif-custom text-xl sm:text-2xl italic text-sakura-200">
-                        "Kala Takdir Mempertemukan Dua Jiwa"
-                    </p>
-                </div>
-
-                <!-- Chapter Narrative Content -->
-                <div id="reader-content" class="font-reader text-sakura-100/90 leading-relaxed text-base sm:text-lg space-y-6 text-justify px-1 sm:px-4 py-4">
-                    <!-- Dynamic narrative text populated via JS -->
-                </div>
-
-                <!-- Chapter Navigation Footer -->
-                <div class="flex items-center justify-between pt-8 border-t border-sakura-300/20 mt-8 gap-4">
-                    <button id="prev-btn" onclick="navigateChapter(-1)" class="flex items-center gap-2 bg-sakura-900/80 hover:bg-sakura-800 border border-sakura-300/30 text-sakura-200 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all hover:-translate-x-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-x-0">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        <span>Bab Sebelumnya</span>
+                <div class="flex items-center gap-2">
+                    <button id="btnExpandAll" class="text-xs bg-royal-800 hover:bg-royal-700 text-royal-gold border border-royal-gold/30 px-3 py-1.5 rounded-lg transition">
+                        Buka Semua Bab
                     </button>
-
-                    <button id="next-btn" onclick="navigateChapter(1)" class="flex items-center gap-2 bg-gradient-to-r from-sakura-500 to-sakura-600 hover:from-sakura-600 hover:to-sakura-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:translate-x-1 shadow-lg shadow-sakura-500/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-x-0">
-                        <span>Bab Selanjutnya</span>
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <button id="btnCollapseAll" class="text-xs bg-royal-800 hover:bg-royal-700 text-royal-gold border border-royal-gold/30 px-3 py-1.5 rounded-lg transition">
+                        Tutup Semua Bab
                     </button>
                 </div>
             </div>
-        </section>
 
-        <section id="download-section" class="max-w-4xl mx-auto px-4">
-            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-sakura-300/20 text-center space-y-6">
-                <div class="w-16 h-16 bg-sakura-500/20 rounded-2xl border border-sakura-400/40 flex items-center justify-center mx-auto text-sakura-300 text-2xl">
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                </div>
-
-                <div class="max-w-2xl mx-auto space-y-2">
-                    <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-sakura-100">
-                        Simpan &amp; Unduh Kisah Ini
-                    </h2>
-                    <p class="text-sakura-200/80 text-sm sm:text-base leading-relaxed">
-                        Anda dapat mengunduh seluruh naskah kisah cinta "Rizal &amp; Aisyah" (Bab 1 - 10) sebagai berkas teks atau mencetak E-Book PDF untuk dibaca kapan saja offline.
-                    </p>
-                </div>
-
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 max-w-md mx-auto">
-                    <button onclick="downloadStoryTxt()" class="w-full sm:w-auto flex-1 flex items-center justify-center gap-2 bg-sakura-900/90 hover:bg-sakura-800 border border-sakura-300/40 text-sakura-100 font-semibold px-6 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-md">
-                        <i class="fa-solid fa-file-lines text-sakura-400"></i>
-                        <span>Unduh File Teks (.txt)</span>
-                    </button>
-
-                    <button onclick="printStoryPdf()" class="w-full sm:w-auto flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-gold-500 to-amber-600 hover:from-gold-400 hover:to-amber-500 text-night-950 font-bold px-6 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-gold-500/20">
-                        <i class="fa-solid fa-print"></i>
-                        <span>Cetak / Save PDF E-Book</span>
-                    </button>
-                </div>
+            <!-- Chapter Quick Jump Buttons Grid -->
+            <div id="chapterGrid" class="grid grid-cols-5 sm:grid-cols-10 gap-2 pt-2">
+                <!-- Javascript will inject 1-20 buttons -->
             </div>
-        </section>
+        </div>
 
-        <section id="contact-section" class="max-w-3xl mx-auto px-4">
-            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-sakura-300/20 shadow-xl">
-                <div class="text-center mb-8">
-                    <span class="text-3xl">💌</span>
-                    <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-sakura-100 mt-2">
-                        Hubungi Kami
-                    </h2>
-                    <p class="text-sakura-300 text-sm sm:text-base">
-                        Tinggalkan pesan cinta, kesan, atau doa untuk pasangan Rizal &amp; Aisyah.
-                    </p>
-                </div>
+        <!-- Story Reader Container with Font Resizing -->
+        <div id="storyContentArea" class="space-y-8 font-story text-lg md:text-xl leading-relaxed transition-all duration-200">
+            <!-- Chapter Cards injected dynamically -->
+        </div>
 
-                <form id="love-form" onsubmit="handleFormSubmit(event)" class="space-y-5">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-sakura-300 font-semibold mb-2">Nama Anda</label>
-                        <input type="text" required placeholder="Tuliskan nama Anda..." class="w-full bg-night-950/70 border border-sakura-300/20 rounded-xl px-4 py-3 text-sakura-100 placeholder-sakura-200/40 focus:outline-none focus:border-sakura-400 transition-colors">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-sakura-300 font-semibold mb-2">Email</label>
-                        <input type="email" required placeholder="nama@email.com" class="w-full bg-night-950/70 border border-sakura-300/20 rounded-xl px-4 py-3 text-sakura-100 placeholder-sakura-200/40 focus:outline-none focus:border-sakura-400 transition-colors">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-sakura-300 font-semibold mb-2">Pesan Romantis</label>
-                        <textarea rows="4" required placeholder="Tuliskan kesan atau doa romantis Anda..." class="w-full bg-night-950/70 border border-sakura-300/20 rounded-xl px-4 py-3 text-sakura-100 placeholder-sakura-200/40 focus:outline-none focus:border-sakura-400 transition-colors resize-none"></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sakura-500 to-sakura-600 hover:from-sakura-600 hover:to-sakura-700 text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.01] active:scale-95 shadow-lg shadow-sakura-500/25">
-                        <i class="fa-solid fa-heart"></i>
-                        <span>Kirim Pesan</span>
-                    </button>
-                </form>
-
-                <!-- Feedback Toast -->
-                <div id="form-toast" class="hidden mt-4 p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-emerald-200 text-center text-sm font-medium animate-fade-in">
-                    💖 Terima kasih atas pesan romantis dan doa indahnya!
-                </div>
-            </div>
-        </section>
-
-        <section class="max-w-4xl mx-auto px-4">
-            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-sakura-300/20 text-center flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4 text-left">
-                    <div class="w-14 h-14 rounded-2xl bg-black border border-sakura-400/30 flex items-center justify-center text-sakura-400 text-2xl flex-shrink-0">
-                        <i class="fa-brands fa-tiktok"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-semibold text-sakura-400 uppercase tracking-wider">Akun Resmi TikTok</span>
-                        <h3 class="font-serif-custom text-2xl font-bold text-sakura-100">Ikuti konten &amp; puisi romantis lainnya</h3>
-                        <p class="text-xs sm:text-sm text-sakura-200/70 mt-1">
-                            Saksikan klip video sinematik, kutipan romantis, serta update kisah terbaru Rizal &amp; Aisyah langsung dari pencipta.
-                        </p>
-                    </div>
-                </div>
-
-                <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-900 border border-sakura-400/50 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-xl flex-shrink-0">
-                    <i class="fa-brands fa-tiktok text-sakura-400"></i>
-                    <span>Kunjungi TikTok</span>
-                </a>
-            </div>
-        </section>
     </main>
 
-    <footer class="glass-panel border-t border-sakura-300/10 py-8 px-4 text-center text-xs sm:text-sm text-sakura-200/60 relative z-10">
-        <p>© 2026 Rizal &amp; Aisyah - Cinta Di Bawah Naungan Sakura. Diciptakan dengan cinta abadi.</p>
+    <!-- Contact / Messages Section -->
+    <section class="max-w-4xl mx-auto px-4 py-12 relative z-20">
+        <div class="glass-panel rounded-3xl p-6 sm:p-10 royal-border relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-royal-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center space-y-3 mb-8">
+                <div class="text-3xl">🕊️</div>
+                <h2 class="font-royal-title text-2xl sm:text-3xl font-bold gold-gradient-text">Hubungi Kami</h2>
+                <div class="gold-divider max-w-xs mx-auto"></div>
+                <p class="font-story text-lg text-royal-cream/80 italic">
+                    Tinggalkan pesan cinta, kesan, atau doa untuk pasangan Rizal & Aisyah.
+                </p>
+            </div>
+
+            <form id="contactForm" class="space-y-6 max-w-2xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="userName" class="block text-xs font-semibold uppercase tracking-wider text-royal-gold">Nama Anda</label>
+                        <input type="text" id="userName" required placeholder="Tuliskan nama Anda..." 
+                            class="w-full bg-royal-900/90 border border-royal-gold/30 rounded-xl px-4 py-3 text-royal-cream placeholder-royal-cream/30 focus:outline-none focus:border-royal-gold focus:ring-1 focus:ring-royal-gold transition text-sm">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="userEmail" class="block text-xs font-semibold uppercase tracking-wider text-royal-gold">Email</label>
+                        <input type="email" id="userEmail" required placeholder="nama@email.com" 
+                            class="w-full bg-royal-900/90 border border-royal-gold/30 rounded-xl px-4 py-3 text-royal-cream placeholder-royal-cream/30 focus:outline-none focus:border-royal-gold focus:ring-1 focus:ring-royal-gold transition text-sm">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="userMessage" class="block text-xs font-semibold uppercase tracking-wider text-royal-gold">Pesan Romantis</label>
+                    <textarea id="userMessage" rows="4" required placeholder="Tuliskan kesan atau doa romantis Anda..." 
+                        class="w-full bg-royal-900/90 border border-royal-gold/30 rounded-xl px-4 py-3 text-royal-cream placeholder-royal-cream/30 focus:outline-none focus:border-royal-gold focus:ring-1 focus:ring-royal-gold transition text-sm resize-none"></textarea>
+                </div>
+
+                <div class="text-center pt-2">
+                    <button type="submit" class="bg-gradient-to-r from-royal-golddark via-royal-gold to-royal-goldlight text-royal-900 font-bold px-8 py-3.5 rounded-xl transition duration-300 shadow-xl hover:brightness-110 active:scale-95 text-sm uppercase tracking-widest w-full sm:w-auto">
+                        Kirim Pesan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Social Media & Creator Info Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-16 relative z-20">
+        <div class="glass-panel rounded-3xl p-6 sm:p-8 royal-border text-center space-y-6 relative overflow-hidden bg-gradient-to-b from-royal-800/40 to-royal-900/90">
+            
+            <div class="space-y-2">
+                <span class="text-xs uppercase tracking-widest text-royal-gold/80 font-bold">Informasi Kreator</span>
+                <h3 class="font-royal-title text-xl sm:text-2xl font-bold text-royal-cream">
+                    Tentang cinta Rizal dan Aisyah
+                </h3>
+                <p class="text-xs sm:text-sm text-royal-cream/70 max-w-xl mx-auto">
+                    Ikuti konten & puisi romantis lainnya
+                </p>
+            </div>
+
+            <div class="gold-divider max-w-md mx-auto"></div>
+
+            <div class="max-w-md mx-auto bg-royal-900/80 p-6 rounded-2xl border border-royal-gold/20 space-y-4 hover:border-royal-gold/50 transition">
+                <div class="w-14 h-14 bg-black rounded-full mx-auto flex items-center justify-center border-2 border-royal-gold shadow-lg">
+                    <svg class="w-7 h-7 fill-current text-white" viewBox="0 0 24 24">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
+                    </svg>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-royal-gold text-base">Akun Resmi TikTok</h4>
+                    <p class="text-xs text-royal-cream/80 mt-1 leading-relaxed">
+                        Saksikan klip video sinematik, kutipan romantis, serta update kisah terbaru Rizal & Aisyah langsung dari pencipta.
+                    </p>
+                </div>
+
+                <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 via-red-600 to-amber-600 hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition shadow-lg w-full active:scale-95">
+                    <span>Kunjungi TikTok</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-royal-gold/20 py-8 text-center text-xs text-royal-gold/60 relative z-20">
+        <p>© 2026 Kisah Cinta Kerajaan Pangeran Rizal & Putri Aisyah. Diciptakan dengan Cinta Abadi.</p>
     </footer>
 
+    <!-- Message Received Custom Modal -->
+    <div id="messageModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel royal-border-glow rounded-3xl p-8 max-w-md w-full text-center space-y-4 transform scale-90 transition-transform duration-300" id="modalBox">
+            <div class="text-5xl animate-bounce">💖</div>
+            <h3 class="font-royal-title text-xl font-bold gold-gradient-text">Pesan Doa Terkirim</h3>
+            <p class="font-story text-lg text-royal-cream/90 leading-relaxed" id="modalText">
+                Terima kasih atas pesan indah Anda. Semoga kehangatan cinta Pangeran Rizal & Putri Aisyah senantiasa menyinari langkah Anda.
+            </p>
+            <button id="btnCloseModal" class="bg-royal-gold hover:bg-royal-goldlight text-royal-900 font-bold px-6 py-2 rounded-xl transition text-xs uppercase tracking-wider mt-4">
+                Tutup Saja
+            </button>
+        </div>
+    </div>
+
     <script>
-        // Data Anthology 10 Chapters
-        const chaptersData = [
+        // Story Chapters Data (Bab 1 to Bab 20)
+        const storyChapters = [
             {
-                id: 1,
-                title: "Pertemuan Pertama",
-                fullTitle: "Bab 1: Pertemuan Di Bawah Kelopak Bunga",
-                subtitle: "Kala Takdir Mempertemukan Dua Jiwa",
-                paragraphs: [
-                    "Di bawah naungan awan senja kota Kyoto tua, kelopak bunga sakura merah muda gugur perlahan, melayang tertiup angin sepoi-sepoi yang dingin. Di sinilah kisah ini bermula. Rizal, seorang pemuda sederhana berjiwa seni yang mengagumi keindahan dunia melalui kanvas lukisnya, melangkah perlahan mengelilingi pelataran kuil kuno.",
-                    "Malam itu, Festival Bunga Sakura sedang berlangsung meriah. Lampu-lampu lampion emas menerangi jalanan setapak. Tiba-tiba, pandangan Rizal terhenti pada sesosok gadis yang berdiri di tepi jembatan kayu. Gadis itu bernama Aisyah—putri tunggal dari keluarga bangsawan megah yang disegani. Aisyah mengenakan kimono bersulamkan benang sutra emas, jemarinya memegang kipas dengan keanggunan tiada tara.",
-                    "Saat Aisyah melangkah, selembar selendang sutranya terlepas terbawa angin dan jatuh tepat di hadapan Rizal. Ketika Rizal mengambilnya dan menyerahkannya, pandangan mata mereka saling mengunci. Seolah waktu berhenti berputar, detak jantung mereka berdua bergema seirama dengan rontoknya bunga sakura. Sebuah ikatan tak kasat mata tercipta pada detik itu—sebuah cinta pada pandangan pertama yang terlarang."
-                ]
+                number: 1,
+                title: "Pertemuan di Kebun Mawar Perak",
+                content: `Di balik megahnya dinding Istana Arandelle yang menjulang tinggi menembus awan, Putri Aisyah berdiri mengamati senja yang bersepuh emas. Kebun mawar perak kerajaan sedang bermekaran penuh, menebarkan aroma manis di udara malam. Malam itu, di antara semak-semak mawar yang sunyi, seorang ksatria berpakaian zirah perak menuntun kudanya dengan tenang. Dia adalah Pangeran Rizal dari Kerajaan Vaeloria, putra mahkota yang datang menyamar sebagai pengawal diplomatik. Ketika tatapan mereka beradu untuk pertama kalinya di bawah sinar rembulan, takdir seolah berhenti berputar. Rizal terpana melihat ketenangan dan keanggunan Aisyah, sementara Aisyah merasakan getaran hangat yang belum pernah ia rasakan dalam hidupnya yang penuh dengan aturan istana.`
             },
             {
-                id: 2,
-                title: "Taman Sakura",
-                fullTitle: "Bab 2: Bisikan Angin Taman Sakura",
-                subtitle: "Lukisan Rahasia Di Bawah Bintang",
-                paragraphs: [
-                    "Pertemuan pertama di jembatan kayu terus membayangi benak Rizal. Tanpa ragu, setiap senja ia kembali ke taman kuil, berharap bayangan Aisyah kembali hadir di antara hamparan warna merah muda.",
-                    "Harapannya terwujud. Aisyah secara sembunyi-sembunyi melarikan diri dari pengawasan pengawalnya hanya untuk menemui pemuda pelukis itu. Di bawah mahkota pohon sakura raksasa yang berumur ratusan tahun, Rizal melukis potret keindahan Aisyah.",
-                    "Canda tawa hangat menggantikan dinginnya malam Kyoto. Dalam tatapan redup lampion, dua insan dari dunia yang bertolak belakang ini menyadari bahwa takdir telah menjalin simpul yang tak dapat diputuskan dengan mudah."
-                ]
+                number: 2,
+                title: "Rahasia di Balik Topeng Takhta",
+                content: `Kehadiran Rizal di Istana Arandelle bukanlah tanpa alasan sederhana. Kerajaan Vaeloria dan Arandelle telah berada di ambang ketegangan politik selama lebih dari dua dekade. Namun, di dalam aula megah bernuansa krem marmer dan pilar berukir emas, Rizal dan Aisyah sering kali menghabiskan waktu bertukar pikiran. Aisyah mengagumi pemikiran Rizal yang bijaksana mengenai kedamaian tanpa pertumpahan darah, sedangkan Rizal dibuat takjub oleh keberanian Aisyah yang menginginkan kebebasan bagi rakyatnya. Di balik topeng status bangsawan mereka, tumbuh benih-benih cinta yang tulus dan jujur.`
             },
             {
-                id: 3,
-                title: "Dua Keluarga",
-                fullTitle: "Bab 3: Jurang Kasta Dan Nama Besar",
-                subtitle: "Perselisihan Yang Berakar Dingin",
-                paragraphs: [
-                    "Keluarga Aisyah adalah keturunan bangsawan klan kaya raya yang menjunjung tinggi martabat, sementara Rizal hanyalah pemuda biasa tanpa garis keturunan terpandang. Namun kehancuran hubungan mereka tak hanya soal kasta.",
-                    "Sebuah dendam masa lalu antar keluarga yang terpendam puluhan tahun kembali mencuat. Ketika rumor mengenai kedekatan Aisyah dan seorang pelukis jalanan terdengar hingga ke kediaman megah bangsawan, ancaman keras mulai terlontar.",
-                    "Aisyah dikurung di balik dinding kasteil yang dingin, dilarang menapakkan kaki di festival sakura. Cinta mereka yang baru bersemi kini berhadapan dengan tembok tinggi berupa aturan tradisi yang tak kenal ampun."
-                ]
+                number: 3,
+                title: "Dansa Pertama di Malam Purnama",
+                content: `Pesta dansa istana diadakan dengan kemegahan luar biasa. Ribuan lilin kristal menerangi aula utama. Musik simfoni kerajaan mengalun lembut, memikat setiap pasang mata. Ketika Rizal memberanikan diri mengulurkan tangannya meminta Aisyah berdansa, seluruh ruangan seakan redup. Langkah kaki mereka selaras dengan alunan melodi manis. Tatapan mata Rizal yang tajam namun lembut mengunci pandangan Aisyah. Dalam gema dansa malam itu, Rizal berbisik lirih, "Jika seluruh takhta ini runtuh, Putri, aku tetap akan memilih menjadi pelindungmu."`
             },
             {
-                id: 4,
-                title: "Bisikan Malam",
-                fullTitle: "Bab 4: Bisikan Di Balik Jendela Jendela",
-                subtitle: "Keberanian Mempertaruhkan Nyawa",
-                paragraphs: [
-                    "Di bawah sinar rembulan yang tertutup awan mendung, Rizal mempertaruhkan segalanya. Ia memanjat tembok kediaman Aisyah, menembus bayang-bayang pepohonan bambu yang diterpa angin.",
-                    "Di balik jendela kamar berlapis kertas beras, Aisyah terkejut sekaligus tersentuh melihat kehadiran Rizal. Dalam bisikan lembut malam, Rizal memegang jemari Aisyah dan berjanji tak akan pernah membiarkan cinta mereka padam.",
-                    "\"Jika seluruh dunia menentang kita,\" bisik Rizal penuh kehangatan, \"aku akan membuat dunia baru di mana hanya ada aku, engkau, dan guguran sakura ini.\""
-                ]
+                number: 4,
+                title: "Surat Rahasia Utusan Malam",
+                content: `Kasih sayang mereka berkembang dalam sembunyi-sembunyi. Setiap tengah malam, seekor burung merpati putih terlatih menerbangkan surat-surat berstempel lilin emas antara menara barat tempat Aisyah berdiam dan markas Rizal. Puisi-puisi manis tentang kerinduan dan harapan menyirami malam-malam mereka. Aisyah menuliskan bagaimana Rizal memberi warna pada hidupnya yang dulu kelabu oleh tuntutan perjodohan politik, sementara Rizal berjanji akan menyerahkan segalanya demi senyuman Aisyah.`
             },
             {
-                id: 5,
-                title: "Sumpah Rahasia",
-                fullTitle: "Bab 5: Ikatan Sakral Tanpa Saksi",
-                subtitle: "Sumpah Abadi Di Kuil Tua",
-                paragraphs: [
-                    "Dengan bantuan seorang biarawan tua yang iba pada nasib kedua sejoli ini, Rizal dan Aisyah mengikat sumpah setia secara rahasia di dalam altar kuil tua yang tersembunyi di bukit.",
-                    "Tanpa pesta megah maupun gaun sutra bercahaya, mereka bertukar janji setia hanya disaksikan oleh gema lonceng kuil dan guguran kelopak sakura yang tertiup masuk dari jendela kuil.",
-                    "Sumpah tersebut mengikat dua jiwa dalam keabadian. Apapun badai yang akan menghadang, mereka berikrar untuk saling memiliki hingga nafas terakhir."
-                ]
+                number: 5,
+                title: "Awan Kelakatu Bisikan Konspirasi",
+                content: `Kebahagiaan yang tenang itu mulai diguncang oleh bayang-bayang pengkhianatan. Penasihat Agung Istana, Archduke Morgan, mulai mencurigai hubungan terlarang tersebut. Morgan memiliki rencana licik untuk menjodohkan Aisyah dengan Pangeran dari Kerajaan Utara yang kejam guna menguasai tambang emas Arandelle. Desas-desus tentang latar belakang Rizal yang sebenarnya mulai dibisikkan di koridor-koridor gelap istana, menciptakan benih perpecahan dan kecurigaan.`
             },
             {
-                id: 6,
-                title: "Badai Pemisah",
-                fullTitle: "Bab 6: Hantaman Badai Pengasingan",
-                subtitle: "Saat Takdir Menunjukkan Duri",
-                paragraphs: [
-                    "Pernikahan rahasia itu tak bertahan lama dari penciuman keluarga bangsawan. Murka sang kepala keluarga tak terbendung lagi saat mengetahui putri satu-satunya menolak dijodohkan dengan saudagar kaya.",
-                    "Rizal diusir paksa dari kota Kyoto dengan ancaman keselamatan jiwanya, sementara Aisyah dipindahkan ke vila terisolasi di balik pegunungan berniat untuk memisahkan raga mereka selamanya.",
-                    "Malam itu, badai hujan lebat mengguyur Kyoto, menggugurkan seluruh kelopak sakura hingga tak tersisa. Cinta mereka seolah dihantam badai kegelapan tanpa batas."
-                ]
+                number: 6,
+                title: "Terbongkarnya Penyamaran",
+                content: `Malam persidangan kerajaan menjadi awal malapetaka. Di hadapan Raja Arandelle dan para bangsawan, Archduke Morgan membongkar identitas asli Rizal sebagai Putra Mahkota Vaeloria—musuh politik utama kerajaan. Gelak tawa gembira berubah menjadi keheningan mencekam. Pedang-pedang pengawal kerajaan ditarik. Aisyah berdiri terperanjat dengan dada menyesak, bukan karena kecewa pada Rizal, melainkan karena rasa takut akan keselamatan pria yang sangat dicintainya itu.`
             },
             {
-                id: 7,
-                title: "Surat Kerinduan",
-                fullTitle: "Bab 7: Merpati Dan Surat Buram",
-                subtitle: "Nafas Cinta Dari Jarak Jauh",
-                paragraphs: [
-                    "Bulan demi bulan berlalu dalam kesendirian yang menyiksa. Rizal hidup menetap di pesisir pantai, melukis kerinduan hatinya pada setiap kanvas yang ia temui.",
-                    "Melalui merpati pos rahasia dan bantuan pelayan setia Aisyah, lembaran-lembaran surat bertuliskan tinta air mata saling bertukar. Surat-surat itu menjadi satu-satunya penopang hidup Aisyah di tempat pengasingan.",
-                    "\"Kelopak sakura mungkin telah gugur dari tangkainya,\" tulis Aisyah dalam suratnya, \"namun baunya masih tertinggal abadi di dalam jiwaku.\""
-                ]
+                number: 7,
+                title: "Jeruji Besi dan Pengorbanan",
+                content: `Rizal dipenjarakan di menara bawah tanah yang dingin dan gelap di bawah istana. Kendati tubuhnya dipasung rantai berat, pikiran Rizal hanya tertuju pada Aisyah. Di sisi lain, Aisyah memohon berlutut di hadapan ayahnya, sang Raja, agar mengampuni nyawa Rizal. "Dia datang bukan untuk menghancurkan Arandelle, Ayah, tapi untuk menghentikan perang!" ratap Aisyah dengan air mata yang membasahi pipi lembutnya.`
             },
             {
-                id: 8,
-                title: "Rencana Terlarang",
-                fullTitle: "Bab 8: Siasat Bunga Musim Semi",
-                subtitle: "Keputusan Nekat Di Ujung Tanduk",
-                paragraphs: [
-                    "Mendengar kabar bahwa pernikahan paksa Aisyah akan dilaksanakan saat musim semi mendatang, Rizal merencanakan jalan nekat untuk melarikan Aisyah.",
-                    "Ia menyusun rencana pelarian menuju benua jauh dengan kapal dagang. Aisyah menyetujui siasat berbahaya ini tanpa ragu, sebab baginya hidup tanpa Rizal hanyalah kematian yang tertunda.",
-                    "Malam sebelum hari pernikahan yang ditentukan, siasat pelarian dimulai di bawah kegelapan malam musim semi yang dingin."
-                ]
+                number: 8,
+                title: "Pilihan Sulit sang Putri",
+                content: `Morgan memberikan ultimatum kejam kepada Aisyah: setujui pernikahan politik dengan Pangeran Utara, atau Rizal akan dieksekusi atas tuduhan mata-mata pada fajar mendatang. Demi menyelamatkan nyawa pria yang amat dicintainya, Aisyah mengangguk dalam kepasrahan yang menyayat hati. Malam itu, Aisyah mengunjungi sel tahanan Rizal untuk terakhir kalinya, memberikan senyuman palsu di balik tangis yang tak tertahankan.`
             },
             {
-                id: 9,
-                title: "Ujian Pengorbanan",
-                fullTitle: "Bab 9: Pengorbanan Di Tepi Pelabuhan",
-                subtitle: "Darah Dan Air Mata Jiwa",
-                paragraphs: [
-                    "Pelarian tak berjalan mulus. Pengawal keluarga berhasil mengepung pelabuhan sebelum kapal sempat berlayar. Pertikaian sengit tak terelakkan.",
-                    "Demi melindungi Aisyah dari sabetan pedang pengawal, Rizal pasang badan dan terluka parah. Melihat Rizal terkulai bersimbah darah, Aisyah berlutut sambil menangis histeris, bersumpah tidak akan pernah sudi hidup jika Rizal tiada.",
-                    "Keteguhan cinta dan kesiapan mati dari Aisyah akhirnya meluluhkan hati kepala pengawal, yang terharu menyaksikan gelora pengorbanan cinta sejati tersebut."
-                ]
+                number: 9,
+                title: "Pelarian di Bawah Hujan Badai",
+                content: `Namun, tidak semua pengawal kerajaan buta akan kebenaran. Kapten Pengawal yang setia pada keadilan membantu membebaskan Rizal sebelum fajar tiba. Di tengah hujan deras yang mengguyur benteng kerajaan, Rizal menolak untuk melarikan diri seorang diri. Ia menerobos masuk ke kamar Aisyah, mengajaknya lari meninggalkan kemewahan palsu istana demi mempertahankan kebenaran dan cinta mereka.`
             },
             {
-                id: 10,
-                title: "Keabadian Cinta",
-                fullTitle: "Bab 10: Mekar Abadi Di Bawah Naungan Sakura",
-                subtitle: "Kemenangan Cinta Melampaui Takdir",
-                paragraphs: [
-                    "Pengorbanan suci dan keajaiban luka yang sembuh membuka mata kedua keluarga. Maut yang hampir merenggut mereka menyadarkan semua orang bahwa tak ada kasta atau harta yang sanggup memadamkan takdir cinta sejati.",
-                    "Bertahun-tahun kemudian, di sebuah desa tenang di Kyoto, sebuah rumah kayu sederhana berdiri dikelilingi taman sakura yang mekar sempurna. Rizal dan Aisyah hidup bahagia bersama buah hati mereka.",
-                    "Di bawah naungan kelopak bunga sakura yang terus berguguran dengan indah, kisah cinta Rizal & Aisyah diukir abadi sebagai simbol bahwa cinta sejati selalu menang menembus batas waktu."
-                ]
+                number: 10,
+                title: "Malam-Malam Pelarian",
+                content: `Dikejar oleh pasukan tempur Archduke Morgan, Rizal dan Aisyah berlari menembus Hutan Bisikan yang lebat. Di dalam sebuah pondok tua di tepi danau berkabut, mereka berlindung. Di situlah, jauh dari kebisingan takhta dan busana kemewahan, mereka merasakan kehangatan yang sejati. Rizal merawat luka-luka di jemari Aisyah, sementara Aisyah menyandarkan kepalanya di dada hangat Rizal, mendengarkan detak jantung yang menjadi rumah bagi jiwanya.`
+            },
+            {
+                number: 11,
+                title: "Pecahnya Perang Kerajaan",
+                content: `Kabar melarikan diri Putri Aisyah bersama Pangeran Vaeloria menyulut amarah Kerajaan Utara dan meletuskan perang besar. Panji-panji perang dikibarkan di perbatasan. Asam hitam pertempuran membumbung tinggi ke udara. Rizal sadar ia tidak bisa terus bersembunyi sementara rakyat innocence menjadi korban. Ia harus berdiri di medan perang untuk menghentikan pertumpahan darah ini sekali dan untuk selamanya.`
+            },
+            {
+                number: 12,
+                title: "Perpisahan yang Menyayat Hati",
+                content: `Di tepi lembah bersalju sebelum pertempuran puncak dimulai, Rizal memeluk Aisyah dengan erat. Ia mencium kening Aisyah panjang, seolah merekam harum tubuh sang putri dalam jiwanya. "Tunggulah aku di kebun mawar kita, Aisyah. Jika takdir mengizinkan aku bernapas, aku akan kembali memelukmu sebagai pria bebas," janji Rizal. Aisyah menggenggam liontin emas pemberian Rizal, melepaskannya dengan derai air mata yang tak terhentikan.`
+            },
+            {
+                number: 13,
+                title: "Pertempuran di Lembah Kelabu",
+                content: `Rizal memimpin pasukan kebenaran bertempur gagah berani di Lembah Kelabu. Dentingan pedang dan dentuman tameng membahana. Rizal bertarung bukan demi kejayaan takhta, melainkan demi masa depan di mana ia dan Aisyah bisa hidup berdampingan tanpa bayang-bayang ketakutan. Namun, Archduke Morgan yang licik melayangkan panah beracun ke arah Rizal dari balik kegelapan.`
+            },
+            {
+                number: 14,
+                title: "Darah di Atas Salju",
+                content: `Anak panah menembus zirah dada Rizal. Pangeran gagah itu jatuh tersungkur di atas salju putih yang berubah menjadi merah darah. Di saat yang sama, jauh di dalam menara istana, Aisyah merasakan dadanya sesak secara tiba-tiba dan liontin emas di genggamannya pecah menjadi dua. Firasat buruk merajut kegelapan di hati Putri Aisyah.`
+            },
+            {
+                number: 15,
+                title: "Duka Menggantung di Arandelle",
+                content: `Kabar jatuhnya Pangeran Rizal menyebar cepat bagaikan angin dingin malam. Istana Arandelle tenggelam dalam duka mendalam. Aisyah mengurung diri di dalam kamar, menolak makanan dan minuman. Setiap malam ia berdiri di jendela, menatap bintang-bintang di langit, berdoa agar angin malam menyampaikan rasa rindu dan penyesalannya karena tidak berada di samping Rizal di saat-saat terakhirnya.`
+            },
+            {
+                number: 16,
+                title: "Pembersihan Pengkhianatan",
+                content: `Kebenaran akhirnya terungkap sewaktu dokumen rahasia milik Morgan ditemukan oleh Raja Arandelle. Bukti pengkhianatan Morgan dengan Kerajaan Utara menjadi terang benderang. Morgan ditangkap dan diasingkan selamanya. Raja Arandelle menyadari betapa besarnya kesalahan dan kebebalan politiknya yang telah mengorbankan kebahagiaan putri tunggalnya dan pria tulus seperti Rizal.`
+            },
+            {
+                number: 17,
+                title: "Keajaiban di Kebun Sunyi",
+                content: `Musim berganti, bunga-bunga mawar perak di kebun kerajaan kembali bermekaran. Tiga tahun telah berlalu sejak perang dahsyat itu usai. Aisyah tetap setia pada memorinya bersama Rizal, menolak setiap lamaran raja-raja lain. Pada suatu sore yang sunyi, ketika kabut tipis turun membalut taman, suara langkah kaki yang tertatih-tatih terdengar dari balik gerbang mawar.`
+            },
+            {
+                number: 18,
+                title: "Bayangan yang Kembali",
+                content: `Aisyah membalikkan badannya. Di sana, berlanjut di bawah gumpalan sinar matahari sore, berdiri seorang pria berambut gelombang dengan bekas luka perkasa di wajahnya, mengenakan jubah perak yang lusuh. Pria itu memegang seangkut mawar merah. Ia adalah Rizal—yang rupanya diselamatkan oleh tabib penyembuh dari pegunungan dan bertahun-tahun berjuang pulih dari komanya demi satu janji: kembali kepada Aisyah.`
+            },
+            {
+                number: 19,
+                title: "Penyatuan Dua Jiwa yang Teruji",
+                content: `Aisyah tidak memercayai penglihatannya. Air mata kebahagiaan menyembur deras membasahi pipinya. Tanpa memedulikan gaun bahagianya, ia berlari kencang menyeberangi taman dan menjatuhkan dirinya ke dalam pelukan Rizal. Rizal memeluknya begitu erat, menyerap seluruh rindu, kepedihan, dan perjuangan yang telah mereka lewati. "Aku pulang, Putriku... aku kembali untukmu," bisik Rizal dengan suara serak yang penuh emosi.`
+            },
+            {
+                number: 20,
+                title: "Pernikahan Suci dan Takhta Cinta Abadi",
+                content: `Dua kerajaan besar, Arandelle dan Vaeloria, akhirnya bersatu bukan karena perjanjian perang yang dingin, melainkan karena ikatan cinta sejati yang tak terintimidasi oleh takdir. Pernikahan Pangeran Rizal dan Putri Aisyah dilangsungkan di bawah sinar rembulan paling terang dalam sejarah kerajaan. Diiringi kelopak mawar yang berguguran dan sorak-sorai ribuan rakyat yang terharu, Rizal dan Aisyah saling mengumpamakan janji suci di atas takhta. Rizal mengecup lembut bibir Aisyah di tengah tepuk tangan kemegahan, membuktikan bahwa cinta tulus, pengorbanan, dan kesetiaan akan selalu menang melintasi badai terbesar kehidupan.`
             }
         ];
 
-        // State variables
-        let currentChapterIndex = 0;
-        let fontScale = 0; // -2 to +4 font scale
-        let isAudioPlaying = false;
-        let audioCtx = null;
-        let synthInterval = null;
+        // Global State variables
+        let fontScale = 100; // Font size percentage
+        let isMusicPlaying = false;
+        let synth, polySynth, loop;
 
-        // Initialize UI on Load
-        window.onload = function() {
+        // Initialize UI Elements & Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
             renderChapterButtons();
-            selectChapter(1);
-            initSakuraCanvas();
-        };
+            renderStoryContent();
+            setupPetalCanvas();
+            setupFontResizer();
+            setupMusicToggle();
+            setupDownloadWebsite();
+            setupContactForm();
+        });
 
-        // Render Anthology Buttons
+        // Render Chapter Jump Buttons
         function renderChapterButtons() {
-            const grid = document.getElementById('chapter-grid');
+            const grid = document.getElementById('chapterGrid');
             grid.innerHTML = '';
-
-            chaptersData.forEach((ch, idx) => {
+            
+            storyChapters.forEach(ch => {
                 const btn = document.createElement('button');
-                btn.id = `grid-btn-${ch.id}`;
-                btn.onclick = () => selectChapter(ch.id);
-                btn.className = `glass-card p-3 rounded-2xl text-left border transition-all flex flex-col justify-between group`;
-                btn.innerHTML = `
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-sakura-500/20 text-sakura-300 group-hover:bg-sakura-500 group-hover:text-white transition-colors">
-                            Bab ${ch.id}
-                        </span>
-                        <i class="fa-solid fa-heart text-[10px] text-sakura-400/40 group-hover:text-sakura-400"></i>
-                    </div>
-                    <span class="text-xs sm:text-sm font-semibold text-sakura-100 line-clamp-1 group-hover:text-gold-300">
-                        ${ch.title}
-                    </span>
-                `;
+                btn.className = 'bg-royal-900/90 hover:bg-royal-gold hover:text-royal-900 border border-royal-gold/30 text-royal-gold text-xs font-bold py-2 rounded-lg transition active:scale-95 flex items-center justify-center shadow';
+                btn.innerText = `Bab ${ch.number}`;
+                btn.onclick = () => {
+                    const targetCard = document.getElementById(`chapter-${ch.number}`);
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        openChapter(ch.number);
+                    }
+                };
                 grid.appendChild(btn);
             });
+
+            document.getElementById('btnExpandAll').onclick = () => {
+                document.querySelectorAll('.chapter-body').forEach(el => el.classList.remove('hidden'));
+            };
+            document.getElementById('btnCollapseAll').onclick = () => {
+                document.querySelectorAll('.chapter-body').forEach(el => el.classList.add('hidden'));
+            };
         }
 
-        // Select and Display Chapter
-        function selectChapter(chapterId) {
-            currentChapterIndex = chapterId - 1;
-            const ch = chaptersData[currentChapterIndex];
+        // Render Story Chapters to HTML
+        function renderStoryContent() {
+            const container = document.getElementById('storyContentArea');
+            container.innerHTML = '';
 
-            // Update Reader Elements
-            document.getElementById('reader-indicator').innerText = `Bab ${ch.id} Dari ${chaptersData.length}`;
-            document.getElementById('reader-title').innerText = ch.fullTitle;
-            document.getElementById('reader-subtitle').innerText = `"${ch.subtitle}"`;
+            storyChapters.forEach(ch => {
+                const card = document.createElement('article');
+                card.id = `chapter-${ch.number}`;
+                card.className = 'glass-panel rounded-2xl royal-border p-6 md:p-8 space-y-4 transition duration-300 hover:border-royal-gold/60';
 
-            // Populate Text
-            const contentDiv = document.getElementById('reader-content');
-            contentDiv.innerHTML = ch.paragraphs.map(p => `<p class="indent-6 sm:indent-8 leading-relaxed">${p}</p>`).join('');
+                const isEnding = ch.number === 20;
 
-            // Update Navigation Buttons State
-            document.getElementById('prev-btn').disabled = currentChapterIndex === 0;
-            document.getElementById('next-btn').disabled = currentChapterIndex === chaptersData.length - 1;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between cursor-pointer border-b border-royal-gold/20 pb-4" onclick="toggleChapter(${ch.number})">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-royal-gold text-royal-900 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Bab ${ch.number}</span>
+                                ${isEnding ? '<span class="bg-rose-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">Ending Mengharukan ❤️</span>' : ''}
+                            </div>
+                            <h3 class="font-royal-title text-xl md:text-2xl font-bold ${isEnding ? 'gold-gradient-text' : 'text-royal-cream'} pt-1">
+                                ${ch.title}
+                            </h3>
+                        </div>
+                        <button class="w-8 h-8 rounded-full bg-royal-800 border border-royal-gold/30 text-royal-gold flex items-center justify-center font-bold text-sm shrink-0">
+                            <span id="icon-ch-${ch.number}">▼</span>
+                        </button>
+                    </div>
 
-            // Highlight Active Chapter Grid Button
-            chaptersData.forEach(c => {
-                const b = document.getElementById(`grid-btn-${c.id}`);
-                if (b) {
-                    if (c.id === chapterId) {
-                        b.classList.add('border-sakura-400', 'bg-sakura-900/60', 'ring-2', 'ring-sakura-400/30');
-                    } else {
-                        b.classList.remove('border-sakura-400', 'bg-sakura-900/60', 'ring-2', 'ring-sakura-400/30');
-                    }
-                }
+                    <div id="body-ch-${ch.number}" class="chapter-body space-y-4 pt-2 text-royal-cream/90 font-story leading-relaxed">
+                        <p class="first-letter:text-4xl first-letter:font-bold first-letter:text-royal-gold first-letter:mr-1 first-letter:float-left">
+                            ${ch.content}
+                        </p>
+                        ${isEnding ? `
+                            <div class="mt-8 p-6 bg-gradient-to-r from-royal-800/80 via-royal-700/50 to-royal-800/80 rounded-xl border border-royal-gold/40 text-center space-y-3">
+                                <p class="text-2xl">🌹👑💍</p>
+                                <p class="font-royal-title text-base text-royal-gold font-bold">Cinta Pangeran Rizal & Putri Aisyah Bersemi Selamanya dalam Keabadian</p>
+                                <p class="text-sm italic text-royal-cream/80">"Di mana ada kesetiaan dan ketulusan, di situ takhta sejati didirikan."</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+
+                container.appendChild(card);
             });
-
-            // Smooth Scroll to reader on user interaction
-            if (window.scrollY > 400) {
-                document.getElementById('reader-section').scrollIntoView({ behavior: 'smooth' });
-            }
         }
 
-        // Chapter Navigation
-        function navigateChapter(direction) {
-            const newIndex = currentChapterIndex + direction;
-            if (newIndex >= 0 && newIndex < chaptersData.length) {
-                selectChapter(newIndex + 1);
-            }
-        }
-
-        // Font Size Adjuster
-        function changeFontSize(delta) {
-            fontScale = Math.max(-2, Math.min(4, fontScale + delta));
-            const readerContent = document.getElementById('reader-content');
-            
-            const sizes = ['text-xs', 'text-sm', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl'];
-            const defaultIndex = 3; // text-lg
-            const targetIndex = Math.max(0, Math.min(sizes.length - 1, defaultIndex + fontScale));
-
-            // Reset size classes
-            sizes.forEach(s => readerContent.classList.remove(s));
-            readerContent.classList.add(sizes[targetIndex]);
-        }
-
-        // Download TXT File
-        function downloadStoryTxt() {
-            let fullText = `=========================================================\n`;
-            fullText += `CINTA DI BAWAH NAUNGAN SAKURA\n`;
-            fullText += `Kisah Romantis Abadi Rizal & Aisyah (Bab 1 - 10)\n`;
-            fullText += `=========================================================\n\n`;
-
-            chaptersData.forEach(ch => {
-                fullText += `---------------------------------------------------------\n`;
-                fullText += `${ch.fullTitle.toUpperCase()}\n`;
-                fullText += `"${ch.subtitle}"\n`;
-                fullText += `---------------------------------------------------------\n\n`;
-                ch.paragraphs.forEach(p => {
-                    fullText += `${p}\n\n`;
-                });
-                fullText += `\n`;
-            });
-
-            const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Rizal_dan_Aisyah_Kisah_Lengkap.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Print PDF E-Book
-        function printStoryPdf() {
-            window.print();
-        }
-
-        // Handle Love Form Submission
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const toast = document.getElementById('form-toast');
-            toast.classList.remove('hidden');
-            e.target.reset();
-
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 5000);
-        }
-
-        function toggleAudio() {
-            const musicBtn = document.getElementById('music-btn');
-            const musicIcon = document.getElementById('music-icon');
-            const musicText = document.getElementById('music-text');
-
-            if (!isAudioPlaying) {
-                startRomanticSynth();
-                isAudioPlaying = true;
-                musicIcon.className = 'fa-solid fa-volume-high text-sakura-300 animate-bounce';
-                musicText.innerText = 'Musik: ON';
-                musicBtn.classList.add('border-sakura-400', 'bg-sakura-800');
+        // Toggle Chapter Visibility
+        window.toggleChapter = function(num) {
+            const body = document.getElementById(`body-ch-${num}`);
+            const icon = document.getElementById(`icon-ch-${num}`);
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.innerText = '▼';
             } else {
-                stopRomanticSynth();
-                isAudioPlaying = false;
-                musicIcon.className = 'fa-solid fa-volume-xmark text-sakura-400';
-                musicText.innerText = 'Musik: OFF';
-                musicBtn.classList.remove('border-sakura-400', 'bg-sakura-800');
+                body.classList.add('hidden');
+                icon.innerText = '►';
+            }
+        };
+
+        function openChapter(num) {
+            const body = document.getElementById(`body-ch-${num}`);
+            const icon = document.getElementById(`icon-ch-${num}`);
+            if (body) body.classList.remove('hidden');
+            if (icon) icon.innerText = '▼';
+        }
+
+        // Font Resizer Logic (A- / A+)
+        function setupFontResizer() {
+            const btnDecrease = document.getElementById('btnDecreaseFont');
+            const btnIncrease = document.getElementById('btnIncreaseFont');
+            const display = document.getElementById('fontSizeDisplay');
+            const storyArea = document.getElementById('storyContentArea');
+
+            btnDecrease.onclick = () => {
+                if (fontScale > 80) {
+                    fontScale -= 10;
+                    updateFontScale();
+                }
+            };
+
+            btnIncrease.onclick = () => {
+                if (fontScale < 150) {
+                    fontScale += 10;
+                    updateFontScale();
+                }
+            };
+
+            function updateFontScale() {
+                display.innerText = `${fontScale}%`;
+                storyArea.style.fontSize = `${fontScale}%`;
             }
         }
 
-        function startRomanticSynth() {
-            try {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (!audioCtx) audioCtx = new AudioCtx();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
+        // Tone.js Background Romantic Melodic Music Engine
+        function setupMusicToggle() {
+            const musicBtn = document.getElementById('btnMusicToggle');
+            const musicIcon = document.getElementById('musicIcon');
+            const musicStatus = document.getElementById('musicStatus');
 
-                // Soft Pentatonic Romantic Scale Notes (Hz)
-                const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33];
-                let noteIdx = 0;
+            // Initialize Tone Synth Melody (Romantic Arpeggio Chord Progression)
+            polySynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "sine" },
+                envelope: { attack: 0.8, decay: 1.5, sustain: 0.6, release: 2.5 }
+            }).toDestination();
+            
+            // Reverb effect for royal hall acoustics
+            const reverb = new Tone.Reverb({ decay: 4, wet: 0.5 }).toDestination();
+            polySynth.connect(reverb);
+            polySynth.volume.value = -12;
 
-                synthInterval = setInterval(() => {
-                    if (!isAudioPlaying) return;
+            // Soft romantic chord progression (D minor -> Bb major -> F major -> C major)
+            const chords = [
+                ["D3", "F3", "A3", "D4"],
+                ["A2", "C#3", "E3", "A3"],
+                ["A#2", "D3", "F3", "A#3"],
+                ["F2", "A2", "C3", "F3"],
+                ["G2", "A#2", "D3", "G3"],
+                ["C3", "E3", "G3", "C4"]
+            ];
 
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
+            let chordIdx = 0;
+            loop = new Tone.Loop((time) => {
+                polySynth.triggerAttackRelease(chords[chordIdx], "2n", time);
+                chordIdx = (chordIdx + 1) % chords.length;
+            }, "1n");
 
-                    // Warm Sine/Triangle Blend
-                    osc.type = noteIdx % 2 === 0 ? 'sine' : 'triangle';
-                    osc.frequency.setValueAtTime(notes[noteIdx % notes.length], audioCtx.currentTime);
+            musicBtn.onclick = async () => {
+                await Tone.start(); // Unlock Audio Context on Browser User Gesture
+                
+                if (!isMusicPlaying) {
+                    Tone.Transport.bpm.value = 55; // Slow romantic tempo
+                    Tone.Transport.start();
+                    loop.start(0);
+                    isMusicPlaying = true;
+                    musicIcon.innerText = "🎵";
+                    musicStatus.innerText = "Musik: ON";
+                    musicBtn.classList.add("royal-border-glow");
+                } else {
+                    Tone.Transport.stop();
+                    loop.stop();
+                    isMusicPlaying = false;
+                    musicIcon.innerText = "🔇";
+                    musicStatus.innerText = "Musik: OFF";
+                    musicBtn.classList.remove("royal-border-glow");
+                }
+            };
+        }
 
-                    // Soft Envelope
-                    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.8);
-                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.2);
+        // Download Website HTML File
+        function setupDownloadWebsite() {
+            document.getElementById('btnDownloadWeb').onclick = () => {
+                const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Kisah_Cinta_Pangeran_Rizal_dan_Putri_Aisyah.html';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+        }
 
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
+        // Contact Form Processing & Modal Feedback
+        function setupContactForm() {
+            const form = document.getElementById('contactForm');
+            const modal = document.getElementById('messageModal');
+            const modalBox = document.getElementById('modalBox');
+            const modalText = document.getElementById('modalText');
+            const btnClose = document.getElementById('btnCloseModal');
 
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 3.3);
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                const name = document.getElementById('userName').value.trim();
+                const message = document.getElementById('userMessage').value.trim();
 
-                    noteIdx = (noteIdx + Math.floor(Math.random() * 3) + 1) % notes.length;
-                }, 1600);
-            } catch(e) {
-                console.log("Audio API not allowed or supported", e);
+                modalText.innerText = `Terima kasih, ${name}! Doa dan pesan romantis Anda ("${message.substring(0, 60)}...") telah tersampaikan ke Istana Rizal & Aisyah. Semoga berkah cinta menyertai Anda.`;
+
+                // Show Modal
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalBox.classList.remove('scale-90');
+                }, 10);
+
+                form.reset();
+            };
+
+            btnClose.onclick = closeModal;
+            modal.onclick = (e) => {
+                if (e.target === modal) closeModal();
+            };
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalBox.classList.add('scale-90');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
             }
         }
 
-        function stopRomanticSynth() {
-            if (synthInterval) clearInterval(synthInterval);
-        }
-
-        function initSakuraCanvas() {
-            const canvas = document.getElementById('sakura-canvas');
+        // Petal Particles Animation
+        function setupPetalCanvas() {
+            const canvas = document.getElementById('petalCanvas');
             const ctx = canvas.getContext('2d');
 
-            let width = canvas.width = window.innerWidth;
-            let height = canvas.height = window.innerHeight;
+            let width = (canvas.width = window.innerWidth);
+            let height = (canvas.height = window.innerHeight);
 
             window.addEventListener('resize', () => {
                 width = canvas.width = window.innerWidth;
                 height = canvas.height = window.innerHeight;
             });
 
-            // Petal Class
-            class Petal {
-                constructor() {
-                    this.reset();
-                }
+            const petals = [];
+            const petalCount = 35;
 
-                reset() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * -height;
-                    this.size = Math.random() * 8 + 6;
-                    this.speedY = Math.random() * 1.2 + 0.8;
-                    this.speedX = Math.random() * 0.8 - 0.4;
-                    this.angle = Math.random() * Math.PI * 2;
-                    this.spin = (Math.random() - 0.5) * 0.03;
-                    this.opacity = Math.random() * 0.6 + 0.3;
-                    this.color = Math.random() > 0.3 ? '#ffb7c5' : '#ff9ebb';
-                }
-
-                update() {
-                    this.y += this.speedY;
-                    this.x += Math.sin(this.angle) * 0.8 + this.speedX;
-                    this.angle += this.spin;
-
-                    if (this.y > height + 20 || this.x < -20 || this.x > width + 20) {
-                        this.reset();
-                        this.y = -10;
-                    }
-                }
-
-                draw() {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.angle);
-                    ctx.globalAlpha = this.opacity;
-                    ctx.fillStyle = this.color;
-
-                    // Sakura Petal SVG-like Curve
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.bezierCurveTo(-this.size, -this.size / 2, -this.size, this.size, 0, this.size * 1.5);
-                    ctx.bezierCurveTo(this.size, this.size, this.size, -this.size / 2, 0, 0);
-                    ctx.fill();
-
-                    ctx.restore();
-                }
-            }
-
-            const petals = Array.from({ length: 45 }, () => new Petal());
-
-            function animateSakura() {
-                ctx.clearRect(0, 0, width, height);
-                petals.forEach(p => {
-                    p.update();
-                    p.draw();
+            for (let i = 0; i < petalCount; i++) {
+                petals.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 8 + 6,
+                    speedY: Math.random() * 1.2 + 0.5,
+                    speedX: Math.random() * 0.8 - 0.4,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.03,
+                    color: Math.random() > 0.3 ? '#881337' : '#e11d48', // Rose Burgundy / Pink Petals
+                    opacity: Math.random() * 0.6 + 0.3
                 });
-                requestAnimationFrame(animateSakura);
             }
 
-            animateSakura();
+            function drawPetal(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.globalAlpha = p.opacity;
+                ctx.fillStyle = p.color;
+
+                // Simple curved petal shape
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-p.size, -p.size, -p.size, p.size, 0, p.size * 1.5);
+                ctx.bezierCurveTo(p.size, p.size, p.size, -p.size, 0, 0);
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            function animatePetals() {
+                ctx.clearRect(0, 0, width, height);
+
+                petals.forEach((p) => {
+                    p.y += p.speedY;
+                    p.x += p.speedX + Math.sin(p.y * 0.01) * 0.5;
+                    p.angle += p.spin;
+
+                    if (p.y > height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.x < -20) p.x = width + 20;
+
+                    drawPetal(p);
+                });
+
+                requestAnimationFrame(animatePetals);
+            }
+
+            animatePetals();
         }
     </script>
 </body>
