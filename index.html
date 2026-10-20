@@ -1,501 +1,636 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinta Rizal dan Aisyah — Cinta yang Tak Pernah Usai</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Novel Mobile Legends: Arlott & Mila - Pedang Takdir, Cinta yang Abadi</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
                     colors: {
-                        roseGold: {
-                            50: '#fdf8f6',
-                            100: '#fbeee9',
-                            200: '#f5dcd2',
-                            300: '#eebfae',
-                            400: '#e2957b',
-                            500: '#d56b49',
-                            600: '#c25230',
-                            700: '#a34123',
-                            800: '#843721',
-                            900: '#6d301f',
+                        brand: {
+                            red: '#e63946',
+                            crimson: '#9d0208',
+                            dark: '#0b0c10',
+                            card: '#1f2833',
+                            accent: '#ffb703',
+                            blue: '#00b4d8'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Georgia', 'serif']
                     }
                 }
             }
         }
     </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #e2957b;
-            border-radius: 3px;
-        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .glow-red { text-shadow: 0 0 12px rgba(230, 57, 70, 0.6); }
+        .glow-blue { text-shadow: 0 0 12px rgba(0, 180, 216, 0.6); }
+        .glow-box-red { box-shadow: 0 0 20px rgba(157, 2, 8, 0.3); }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0c10; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #e63946; }
     </style>
 </head>
-<body class="bg-roseGold-50 text-stone-800 font-sans antialiased min-h-screen flex flex-col selection:bg-roseGold-200 selection:text-roseGold-900">
+<body class="bg-gray-100 dark:bg-[#090a0f] text-gray-800 dark:text-gray-200 min-h-screen transition-colors duration-300 font-sans flex flex-col selection:bg-red-600 selection:text-white">
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-roseGold-200 shadow-sm transition-all duration-300">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-            <!-- Logo & Title -->
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0f111a]/90 backdrop-blur-md border-b border-gray-200 dark:border-red-900/40 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-roseGold-500 to-roseGold-300 flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid fa-heart text-lg"></i>
-                </div>
+                <i class="fa-solid fa-wand-magic-sparkles text-red-600 dark:text-red-500 text-2xl animate-pulse"></i>
                 <div>
-                    <h1 class="font-serif font-bold text-lg text-stone-900 tracking-tight leading-none">Cinta Rizal & Aisyah</h1>
-                    <span class="text-xs text-roseGold-600 font-medium">Jalon Starboy Villains</span>
+                    <h1 class="font-cinzel font-bold text-lg sm:text-xl text-gray-900 dark:text-white tracking-wide">
+                        ARLOTT <span class="text-red-600 dark:text-red-500">&</span> MILA
+                    </h1>
+                    <p class="text-[10px] text-gray-500 dark:text-gray-400 font-sans tracking-widest uppercase hidden sm:block">Mobile Legends Fanfiction</p>
                 </div>
             </div>
 
-            <!-- Reading Controls & Actions -->
+            <!-- Top Actions -->
             <div class="flex items-center space-x-2 sm:space-x-4">
-                <!-- Font Resizer -->
-                <div class="flex items-center bg-roseGold-100/70 rounded-full p-1 border border-roseGold-200 shadow-inner">
-                    <button onclick="changeFontSize(-1)" class="px-2.5 py-1 text-xs font-semibold text-stone-700 hover:bg-white rounded-full transition" title="Kecilkan Font">A-</button>
-                    <span id="font-size-indicator" class="px-2 text-xs font-bold text-roseGold-700">100%</span>
-                    <button onclick="changeFontSize(1)" class="px-2.5 py-1 text-sm font-semibold text-stone-700 hover:bg-white rounded-full transition" title="Besarkan Font">A+</button>
-                </div>
+                <!-- TikTok Link -->
+                <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" 
+                   class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-md transition transform hover:scale-105">
+                    <i class="fa-brands fa-tiktok"></i>
+                    <span>TikTok Resmi</span>
+                </a>
 
-                <!-- Toggle All Chapters -->
-                <button onclick="toggleAllChapters()" id="btn-toggle-all" class="hidden sm:flex items-center space-x-1.5 px-3.5 py-1.5 text-xs font-semibold bg-roseGold-100 hover:bg-roseGold-200 text-roseGold-800 rounded-full transition shadow-sm">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span id="toggle-all-text">Buka Semua Bab</span>
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="p-2 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition" title="Ganti Mode Terang/Gelap">
+                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-lg text-yellow-400"></i>
                 </button>
 
-                <!-- Download Novel Button -->
-                <button onclick="downloadNovel()" class="flex items-center space-x-1.5 px-4 py-1.5 text-xs font-semibold bg-roseGold-600 hover:bg-roseGold-700 text-white rounded-full shadow-md transition transform active:scale-95">
-                    <i class="fa-solid fa-download"></i>
-                    <span>Unduh Novel</span>
+                <!-- Sidebar Mobile Toggle -->
+                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-red-500">
+                    <i class="fa-solid fa-bars text-lg"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
-
-        <!-- Hero Card / Book Cover Info -->
-        <section class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-roseGold-200 mb-10 relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-roseGold-100 rounded-full blur-2xl opacity-60 pointer-events-none"></div>
-            <div class="absolute -left-10 -top-10 w-48 h-48 bg-roseGold-200 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
-            
-            <div class="relative z-10 text-center max-w-2xl mx-auto">
-                <span class="inline-block px-3.5 py-1 text-xs font-bold tracking-widest text-roseGold-700 uppercase bg-roseGold-100 rounded-full mb-4">Novel Digital Eksklusif</span>
-                <h2 class="font-serif text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight mb-3">
-                    Cinta yang Tak Pernah Usai
-                </h2>
-                <p class="text-stone-600 font-medium mb-6">Karya: <span class="text-roseGold-700 font-semibold">Jalon Starboy Villains</span></p>
-
-                <!-- Genre Badges -->
-                <div class="flex flex-wrap justify-center gap-2 mb-8">
-                    <span class="px-3 py-1 bg-stone-100 text-stone-700 text-xs font-medium rounded-full">Romantis</span>
-                    <span class="px-3 py-1 bg-stone-100 text-stone-700 text-xs font-medium rounded-full">Persahabatan</span>
-                    <span class="px-3 py-1 bg-stone-100 text-stone-700 text-xs font-medium rounded-full">Perjuangan</span>
-                    <span class="px-3 py-1 bg-stone-100 text-stone-700 text-xs font-medium rounded-full">Air Mata</span>
-                    <span class="px-3 py-1 bg-stone-100 text-stone-700 text-xs font-medium rounded-full">Kesetiaan</span>
-                </div>
-
-                <!-- Quote Box -->
-                <blockquote class="bg-roseGold-50/80 border-l-4 border-roseGold-500 p-4 sm:p-6 rounded-r-2xl text-stone-700 italic text-sm sm:text-base mb-6 text-left shadow-sm">
-                    “Ada seseorang yang datang tanpa direncanakan, lalu menjadi alasan kita tersenyum setiap hari. Bagi Rizal, seseorang itu adalah Aisyah.”
-                </blockquote>
-
-                <p class="text-xs text-stone-500 italic">Pilih bab dari daftar di bawah atau gulir ke bawah untuk menikmati kisah secara utuh.</p>
-            </div>
-        </section>
-
-        <!-- Chapter Navigation Quick Select -->
-        <section class="bg-white/80 backdrop-blur rounded-2xl p-4 sm:p-6 shadow-md border border-roseGold-200 mb-8">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-serif font-bold text-stone-900 text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-list-ul text-roseGold-600"></i> Daftar Bab (1 - 20 & Epilog)
-                </h3>
-                <button onclick="toggleAllChapters()" class="sm:hidden text-xs text-roseGold-700 font-semibold underline">
-                    Buka Semua
+    <!-- Main Container -->
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Sidebar Navigation (Desktop & Mobile Drawer) -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0f111a] border-r border-gray-200 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 lg:static lg:z-auto lg:w-80 lg:border-none lg:bg-transparent lg:dark:bg-transparent transition-transform duration-300 ease-in-out flex flex-col h-full lg:h-auto overflow-y-auto p-4 lg:p-0">
+            <div class="flex items-center justify-between lg:hidden mb-4 pb-2 border-b dark:border-gray-800">
+                <span class="font-cinzel font-bold text-lg text-red-600">Daftar Isi</span>
+                <button id="closeSidebarBtn" class="p-2 text-gray-500 hover:text-red-500">
+                    <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 max-h-48 overflow-y-auto custom-scrollbar p-1">
-                <a href="#bab-1" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 1</a>
-                <a href="#bab-2" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 2</a>
-                <a href="#bab-3" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 3</a>
-                <a href="#bab-4" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 4</a>
-                <a href="#bab-5" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 5</a>
-                <a href="#bab-6" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 6</a>
-                <a href="#bab-7" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 7</a>
-                <a href="#bab-8" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 8</a>
-                <a href="#bab-9" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 9</a>
-                <a href="#bab-10" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 10</a>
-                <a href="#bab-11" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 11</a>
-                <a href="#bab-12" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 12</a>
-                <a href="#bab-13" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 13</a>
-                <a href="#bab-14" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 14</a>
-                <a href="#bab-15" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 15</a>
-                <a href="#bab-16" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 16</a>
-                <a href="#bab-17" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 17</a>
-                <a href="#bab-18" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 18</a>
-                <a href="#bab-19" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 19</a>
-                <a href="#bab-20" class="p-2 text-xs text-center bg-roseGold-50 hover:bg-roseGold-100 text-stone-700 rounded-lg border border-roseGold-100 transition truncate">Bab 20</a>
-                <a href="#tamat" class="p-2 text-xs text-center bg-roseGold-100 hover:bg-roseGold-200 text-roseGold-900 font-semibold rounded-lg border border-roseGold-200 transition truncate">Tamat</a>
-                <a href="#epilog" class="p-2 text-xs text-center bg-roseGold-100 hover:bg-roseGold-200 text-roseGold-900 font-semibold rounded-lg border border-roseGold-200 transition truncate">Epilog</a>
+
+            <!-- Author Card -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-[#151824] dark:to-[#0b0c10] p-5 rounded-2xl border border-gray-200 dark:border-red-900/30 text-white shadow-xl mb-6">
+                <div class="flex items-center space-x-3 mb-3">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-red-600 to-blue-600 flex items-center justify-center font-bold text-lg shadow-lg">
+                        JS
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-gray-100">Jalon Starboy Villains</h3>
+                        <p class="text-xs text-red-400 font-medium">Penulis / Creator</p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-300 leading-relaxed italic mb-3">
+                    "Pedang Takdir, Cinta yang Abadi — Kisah pengorbanan pejuang setengah manusia dan ketulusan gadis pemberani."
+                </p>
+                <div class="flex flex-wrap gap-1.5 text-[10px]">
+                    <span class="px-2 py-0.5 rounded bg-red-950/80 text-red-300 border border-red-800/40">Fantasi</span>
+                    <span class="px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-800/40">Petualangan</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/40">Aksi</span>
+                    <span class="px-2 py-0.5 rounded bg-pink-950/80 text-pink-300 border border-pink-800/40">Romansa</span>
+                </div>
             </div>
-        </section>
 
-        <!-- Novel Chapters Container -->
-        <div id="novel-content" class="space-y-8 text-stone-800 leading-relaxed">
-
-            <!-- Bab 1 -->
-            <article id="bab-1" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 1</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Pertemuan yang Tak Terduga</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Pagi itu, udara kampus terasa begitu sejuk setelah semalam diguyur hujan ringan. Rizal berjalan dengan langkah malas menuju gedung perpustakaan, membawa setumpuk buku tebal di pelukannya. Hidupnya monoton, berputar antara kuliah, kos, dan perpustakaan.</p>
-                    <p>Namun, takdir punya cara sendiri untuk mengejutkan manusia. Di tikungan koridor lantai dua, sebuah tabrakan kecil terjadi. Buku-buku di tangan seorang gadis berseragam rapi melayang jatuh ke lantai, berhamburan ke berbagai arah.</p>
-                    <p>"Maaf, maafkan aku! Aku tidak sengaja," ucap suara lembut yang langsung mencuri perhatian Rizal.</p>
-                    <p>Saat Rizal berlutut untuk membantu memungut buku-buku tersebut dan mendongakkan kepalanya, matanya beradu pandang dengan sepasang mata jernih milik seorang gadis. Gadis itu tersenyum tipis, malu-malu. Namanya Aisyah. Saat itulah, detik demi detik terasa berhenti berputar untuk sesaat.</p>
+            <!-- Chapters List Accordion/Nav -->
+            <div class="bg-white dark:bg-[#12141f] rounded-2xl p-4 border border-gray-200 dark:border-gray-800/80 shadow-md flex-1">
+                <div class="flex items-center justify-between mb-3 px-2">
+                    <h2 class="font-cinzel font-bold text-base text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark text-red-500"></i> Daftar Bab (1-20)
+                    </h2>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400">20 Bab</span>
                 </div>
-            </article>
 
-            <!-- Bab 2 -->
-            <article id="bab-2" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 2</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Gadis di Bangku Depan</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Satu minggu setelah insiden koridor, Rizal mendapati dirinya selalu mencari-cari sosok Aisyah di setiap sudut kampus. Siapa sangka, dalam mata kuliah Pengantar Sastra yang membosankan, dosen meminta seluruh mahasiswa memilih tempat duduk permanen.</p>
-                    <p>Aisyah memilih duduk di bangku paling depan, dekat jendela besar yang memperlihatkan taman kampus. Dan tanpa disangka, kursi kosong tepat di sebelah kirinya adalah satu-satunya yang tersisa ketika Rizal masuk terlambat.</p>
-                    <p>Sepanjang perkuliahan, aroma lembut bunga melati dari rambut Aisyah mengusik konsentrasi Rizal. Namun lebih dari itu, senyum kecil Aisyah saat mencatat materi kuliah membuat hari-hari Rizal yang abu-abu mendadak berwarna cerah.</p>
+                <div id="chapterListNav" class="space-y-1 max-h-[450px] lg:max-h-[500px] overflow-y-auto pr-1">
+                    <!-- Chapter buttons will be injected here dynamically -->
                 </div>
-            </article>
+            </div>
 
-            <!-- Bab 3 -->
-            <article id="bab-3" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 3</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Pesan Pertama</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Nomor WhatsApp itu didapat Rizal dari grup tugas kelompok. Malam itu, ponselnya bergetar di atas meja belajar. Notifikasi dari nama 'Aisyah' terpampang nyata.</p>
-                    <p><em>"Halo Rizal, ini Aisyah dari kelas sastra. Boleh minta ringkasan materi kemarin? Aku sempat izin keluar tadi."</em></p>
-                    <p>Jantung Rizal berdegup kencang melebihi batas normal. Ia mengetik dan menghapus pesannya berulang kali sebelum akhirnya mengirimkan catatan lengkap beserta sedikit kalimat penyemangat. Dari percakapan singkat malam itu, obrolan mereka berlanjut hingga larut malam, membahas mimpi, hobi, dan ketakutan masa kecil.</p>
-                </div>
-            </article>
+            <!-- Download Quick Buttons in Sidebar -->
+            <div class="mt-6 space-y-2">
+                <button onclick="downloadNovelTxt()" class="w-full py-2.5 px-4 bg-gray-900 hover:bg-black dark:bg-red-700 dark:hover:bg-red-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-md">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    <span>Unduh Novel (TXT / Cetak PDF)</span>
+                </button>
+                <button onclick="downloadWebsiteHtml()" class="w-full py-2.5 px-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Unduh Web Offline (HTML)</span>
+                </button>
+            </div>
+        </aside>
 
-            <!-- Bab 4 -->
-            <article id="bab-4" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 4</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Hujan dan Sebuah Payung</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Langit sore mendadak kelam begitu jam perkuliahan berakhir. Hujan deras turun tanpa ampun, menjebak ratusan mahasiswa di lobi utama. Aisyah berdiri gelisah, menatap rintik air hujan karena ia lupa membawa payung.</p>
-                    <p>Dari kejauhan, Rizal berlari kecil menghampirinya dengan napas tersengal, membawa sebuah payung biru tua yang cukup lebar.</p>
-                    <p>"Belum pulang?" tanya Rizal basa-basi meski ia sudah menunggu sejak tadi.</p>
-                    <p>"Iya, hujannya deras sekali," jawab Aisyah.</p>
-                    <p>"Kalau begitu, mari pulang bersama. Payung ini cukup untuk kita berdua." Di bawah lindungan satu payung yang sama, langkah kaki mereka berjalan beriringan. Jarak fisik yang begitu dekat membuat degup jantung mereka saling bersahutan dengan suara tetesan hujan.</p>
-                </div>
-            </article>
+        <!-- Overlay Mobile -->
+        <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
 
-            <!-- Bab 5 -->
-            <article id="bab-5" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 5</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Rasa yang Mulai Tumbuh</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Kedekatan Rizal dan Aisyah menjadi rahasia umum di kalangan teman seangkatan. Mereka sering menghabiskan sore di kedai kopi kecil dekat kampus, berdiskusi tentang buku atau sekadar menertawakan hal-hal kecil.</p>
-                    <p>Bagi Rizal, Aisyah bukan lagi sekadar teman kuliah. Gadis itu adalah tempatnya pulang dari lelahnya dunia. Setiap tawa Aisyah menyembuhkan luka-luka tak terlihat di hati Rizal.</p>
-                </div>
-            </article>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col gap-6 min-w-0">
+            
+            <!-- Hero Banner / Synopsis Card -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gray-900 via-red-950 to-gray-900 text-white p-6 sm:p-8 shadow-2xl border border-red-900/30">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-            <!-- Bab 6 -->
-            <article id="bab-6" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 6</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Cemburu yang Pertama</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Ujian kesetiaan pertama hadir ketika seorang mahasiswa senior Fakultas Ekonomi, Dimas, kerap mendekati Aisyah dengan dalih urusan organisasi kemahasiswaan. Rizal yang melihat kedekatan mereka di kantin merasakan gejolak aneh di dadanya—sebuah rasa panas yang belum pernah ia kenal.</p>
-                    <p>Malam itu, nada bicara Rizal sedikit ketus saat membalas pesan Aisyah. Aisyah yang peka langsung menyadari perubahan sikap tersebut dan menelepon Rizal untuk meluruskan semuanya.</p>
-                </div>
-            </article>
+                <div class="relative z-10 space-y-4">
+                    <div class="inline-flex items-center space-x-2 bg-red-500/20 border border-red-500/40 px-3 py-1 rounded-full text-xs font-semibold text-red-300">
+                        <i class="fa-solid fa-fire text-amber-400"></i>
+                        <span>Novel Mobile Legends Official Fanfiction</span>
+                    </div>
 
-            <!-- Bab 7 -->
-            <article id="bab-7" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 7</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Surat yang Tak Pernah Diberikan</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Rizal sempat menuliskan isi hatinya di selembar kertas bergaris rapi—sebuah pengakuan tulus tentang perasaannya. Namun, keraguan menghentikannya. Ia melipat kertas itu, menyimpannya di dalam laci meja terdalam, merasa dirinya belum cukup pantas untuk bersanding dengan Aisyah yang begitu sempurna di matanya.</p>
-                </div>
-            </article>
-
-            <!-- Bab 8 -->
-            <article id="bab-8" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 8</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Hari Ulang Tahun Aisyah</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Tepat di hari ulang tahun Aisyah yang ke-21, Rizal menyiapkan kejutan sederhana: sebuah buku novel langka yang sudah lama diincar Aisyah dan sepucuk kue cokelat kecil dengan lilin menyala.</p>
-                    <p>Mata Aisyah berkaca-kaca karena terharu. Di bawah temaram lampu taman kota, Aisyah meniup lilin sambil memanjatkan doa yang melibatkan nama Rizal di dalamnya.</p>
-                </div>
-            </article>
-
-            <!-- Bab 9 -->
-            <article id="bab-9" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 9</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Janji di Bawah Pohon</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Duduk di bawah rindangnya pohon ketapang kencana di taman kampus, Rizal dan Aisyah berjanji untuk saling mendukung dalam keadaan apapun. "Apapun yang terjadi di masa depan, berjanjilah kita tidak akan menyerah pada keadaan," bisik Aisyah sungguh-sungguh.</p>
-                </div>
-            </article>
-
-            <!-- Bab 10 -->
-            <article id="bab-10" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 10</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Pengakuan di Senja Hari</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Langit jingga melukis cakrawala sore itu. Mengetahui bahwa Aisyah akan pergi ke luar kota untuk program pertukaran pelajar, Rizal tahu ia tidak boleh lagi menyembunyikan perasaannya.</p>
-                    <p>"Aisyah, jangan pergi sebelum tahu satu hal," kata Rizal dengan suara bergetar. "Aku mencintaimu, bukan sebagai sahabat, tapi sebagai pelabuhan terakhir hatiku." Aisyah tersenyum hangat, air mata bahagianya tumpah. "Aku sudah menunggu kata-kata itu sejak lama, Rizal."</p>
-                </div>
-            </article>
-
-            <!-- Bab 11 -->
-            <article id="bab-11" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 11</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Jarak yang Mulai Memisahkan</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Kebahagiaan mereka diuji oleh jarak. Aisyah harus terbang ke Yogyakarta demi menyelesaikan tugas akademiknya selama enam bulan. Zona waktu yang berbeda serta kesibukan kuliah membuat frekuensi komunikasi mereka berkurang drastis.</p>
-                </div>
-            </article>
-
-            <!-- Bab 12 -->
-            <article id="bab-12" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 12</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Rindu yang Tak Terucap</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Malam-malam sunyi menjadi saksi bisu kerinduan Rizal. Menatap layar ponsel yang senyap, ia sering menuliskan pesan panjang namun kemudian menghapusnya lagi, tak ingin menjadi beban bagi Aisyah yang sedang berjuang dengan ujian akhirnya.</p>
-                </div>
-            </article>
-
-            <!-- Bab 13 -->
-            <article id="bab-13" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 13</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Kesalahpahaman</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Sebuah foto di media sosial memperlihatkan Aisyah sedang tersenyum bersama seorang pria lokal di Malioboro. Rizal yang lelah diterpa cemburu buta langsung menelepon dengan nada tinggi. Aisyah, yang merasa lelah disalahkan tanpa bukti, memutuskan panggilan dengan isak tangis.</p>
-                </div>
-            </article>
-
-            <!-- Bab 14 -->
-            <article id="bab-14" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 14</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Ketika Rizal Hampir Menyerah</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Hari-hari setelah pertengkaran itu terasa sangat dingin. Hubungan mereka berada di ambang kehancuran. Rizal hampir menyerah pada ego dan rasa sakitnya sendiri, merasa bahwa dunia memang takdirkan mereka untuk berpisah.</p>
-                </div>
-            </article>
-
-            <!-- Bab 15 -->
-            <article id="bab-15" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 15</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Surat dari Masa Lalu</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Di tengah keputusasaannya, Rizal merapikan kamarnya dan menemukan kembali surat lama yang ia tulis di Bab 7. Membaca kembali kata-kata tulus itu menyadarkannya bahwa cinta sejati menuntut kesabaran, bukan keegoisan.</p>
-                </div>
-            </article>
-
-            <!-- Bab 16 -->
-            <article id="bab-16" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 16</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Pertemuan Setelah Sekian Lama</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Tanpa memberi tahu Aisyah, Rizal menaiki kereta malam menuju Yogyakarta. Pagi-pagibuta, ia berdiri di depan kos Aisyah membawa setangkai bunga mawar putih. Saat pintu terbuka dan Aisyah melihat sosok Rizal, air mata mereka tumpah bersamaan dalam pelukan erat.</p>
-                </div>
-            </article>
-
-            <!-- Bab 17 -->
-            <article id="bab-17" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 17</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Pertanyaan yang Belum Terjawab</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Duduk berdua di pinggiran Malioboro, mereka meluruskan segala kesalahpahaman. Pria dalam foto itu ternyata adalah sepupu Aisyah yang baru datang dari luar negeri. Keduanya saling memaafkan dan berjanji untuk tidak pernah meragukan kepercayaan lagi.</p>
-                </div>
-            </article>
-
-            <!-- Bab 18 -->
-            <article id="bab-18" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 18</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Pilihan Hati</h3>
-                    <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Kembalinya Aisyah ke kota asal disambut dengan senyuman penuh kelegaan. Mereka tahu bahwa ujian kemarin bukanlah akhir, melainkan tempaan agar akar cinta mereka semakin menghujam dalam ke dasar hati.</p>
-                </div>
-            </article>
-
-            <!-- Bab 19 -->
-            <article id="bab-19" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 19</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Jawaban di Bawah Langit Senja</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Tepat di tempat pertama kali Rizal menyatakan cintanya, di bawah langit senja yang sama, Rizal berlutut membawa sebuah cincin sederhana bermata perak. "Maukah kamu berjalan menempuh sisa hidup ini bersamaku, Aisyah?" tanya Rizal mantap.</p>
-                </div>
-            </article>
-
-            <!-- Bab 20 -->
-            <article id="bab-20" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Bab 20</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Cinta yang Tak Pernah Usai</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <p>Dengan senyum termanis dan air mata kebahagiaan, Aisyah mengangguk pelan. "Ya, Rizal. Aku mau." Ikatan suci menyatukan dua jiwa yang sempat teruji oleh badai jarak dan waktu. Bukti nyata bahwa cinta sejati tidak pernah benar-benar usai.</p>
-                </div>
-            </article>
-
-            <!-- Tamat -->
-            <article id="tamat" class="chapter-card bg-gradient-to-br from-roseGold-600 to-roseGold-800 text-white rounded-3xl p-6 sm:p-10 shadow-lg text-center">
-                <span class="text-xs font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">Selesai</span>
-                <h3 class="font-serif text-3xl sm:text-4xl font-extrabold mt-3 mb-2">Tamat</h3>
-                <p class="text-roseGold-100 font-serif italic text-lg mb-4">Rizal & Aisyah: Cinta yang Tak Pernah Usai</p>
-                <div class="w-16 h-1 bg-white/40 mx-auto rounded-full"></div>
-            </article>
-
-            <!-- Epilog -->
-            <article id="epilog" class="chapter-card bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-roseGold-200 transition-all">
-                <span class="text-xs font-bold text-roseGold-600 uppercase tracking-wider">Epilog</span>
-                <h3 class="font-serif text-2xl font-bold text-stone-900 mt-1 mb-4">Sebuah Pesan untuk Pembaca</h3>
-                <div class="chapter-text space-y-4 text-stone-700">
-                    <blockquote class="bg-roseGold-50 p-5 rounded-2xl border-l-4 border-roseGold-600 italic text-stone-800 my-4 shadow-sm">
-                        “Jika seseorang benar-benar berarti dalam hidupmu, jangan hanya mengatakan bahwa kamu mencintainya. Tunjukkan melalui kejujuran, rasa hormat, dan dukungan terhadap impiannya. Sebab cinta yang baik bukan hanya membuat hati bahagia, tetapi juga membantu dua orang tumbuh menjadi pribadi yang lebih baik.”
-                    </blockquote>
-                    <p class="text-sm text-stone-600 text-center font-medium pt-2">Novel romantis Rizal dan Aisyah — ditulis oleh <span class="text-roseGold-700 font-bold">Jalon Starboy Villains</span>.</p>
-                </div>
-            </article>
-
-        </div>
-
-        <!-- TikTok Promotion Section -->
-        <section class="mt-12 bg-gradient-to-r from-stone-900 to-stone-800 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
-            <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-40 h-40 bg-roseGold-500 rounded-full blur-3xl opacity-30 pointer-events-none"></div>
-            <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-                <div>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-roseGold-300 text-xs font-semibold rounded-full mb-3">
-                        <i class="fa-brands fa-tiktok"></i> Akun Resmi TikTok
-                    </span>
-                    <h3 class="font-serif text-2xl sm:text-3xl font-bold mb-2">Ikuti Update & Kutipan Romantis</h3>
-                    <p class="text-stone-300 text-sm max-w-xl">
-                        Saksikan klip video sinematik, kutipan romantis, serta update kisah terbaru Rizal & Aisyah langsung dari pencipta.
+                    <h1 class="font-cinzel text-2xl sm:text-4xl font-extrabold tracking-tight glow-red text-transparent bg-clip-text bg-gradient-to-r from-white via-red-100 to-amber-200">
+                        Mobile Legends: Arlott & Mila
+                    </h1>
+                    <p class="text-sm sm:text-base font-cinzel text-amber-400 font-semibold tracking-wide">
+                        "Pedang Takdir, Cinta yang Abadi"
                     </p>
-                </div>
-                <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" class="flex-shrink-0 inline-flex items-center space-x-2 bg-roseGold-600 hover:bg-roseGold-500 text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg transition transform hover:-translate-y-0.5">
-                    <i class="fa-brands fa-tiktok text-lg"></i>
-                    <span>Kunjungi TikTok</span>
-                </a>
-            </div>
-        </section>
 
-    </main>
+                    <div class="bg-black/40 backdrop-blur-sm p-4 rounded-xl border border-white/10 text-xs sm:text-sm text-gray-300 leading-relaxed">
+                        <span class="font-bold text-amber-300">Ringkasan Sinopsis:</span> 
+                        Di dunia yang dipenuhi peperangan dan pengkhianatan, seorang pejuang bernama <strong class="text-white">Arlott</strong> bertemu dengan <strong class="text-white">Mila</strong>, gadis yang mengubah pandangannya tentang kehidupan. Arlott terbiasa menghadapi musuh dengan pedangnya, tetapi kali ini ia harus berjuang melawan takdir demi seseorang yang dicintainya.
+                    </div>
+
+                    <!-- Action Quick Bar -->
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <a href="#readerArea" onclick="scrollToReader()" class="px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-2">
+                            <i class="fa-solid fa-book-open"></i> Mulai Baca
+                        </a>
+                        <button onclick="downloadNovelTxt()" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs rounded-xl backdrop-blur-md border border-white/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> Unduh Lengkap
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reading Control Toolbar -->
+            <div id="readerArea" class="bg-white dark:bg-[#12141f] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-md flex flex-wrap items-center justify-between gap-4 sticky top-20 z-30 transition-colors">
+                
+                <!-- Font Controls -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-bold text-gray-500 dark:text-gray-400 mr-1 hidden sm:inline">Ukuran Teks:</span>
+                    <button id="btnFontDec" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg border border-gray-300 dark:border-gray-700 transition" title="Kecilkan Teks">
+                        A-
+                    </button>
+                    <button id="btnFontReset" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg border border-gray-300 dark:border-gray-700 transition" title="Reset 100%">
+                        100%
+                    </button>
+                    <button id="btnFontInc" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg border border-gray-300 dark:border-gray-700 transition" title="Besarkan Teks">
+                        A+
+                    </button>
+                </div>
+
+                <!-- Chapter Selector Dropdown -->
+                <div class="flex items-center space-x-2 flex-1 sm:flex-none">
+                    <label for="chapterSelect" class="text-xs font-bold text-gray-500 dark:text-gray-400 hidden md:inline">Lompat ke:</label>
+                    <select id="chapterSelect" class="w-full sm:w-auto bg-gray-50 dark:bg-[#181a27] text-gray-800 dark:text-gray-200 text-xs font-semibold px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <!-- Select options dynamically inserted -->
+                    </select>
+                </div>
+
+                <!-- Navigation Previous / Next -->
+                <div class="flex items-center space-x-2">
+                    <button id="btnPrevChapter" class="px-3 py-1.5 bg-red-50 dark:bg-red-950/50 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 font-bold text-xs rounded-lg border border-red-200 dark:border-red-900/50 transition flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left"></i> Bab Sebelum
+                    </button>
+                    <button id="btnNextChapter" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        Bab Berikut <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reading Display Area -->
+            <article class="bg-white dark:bg-[#12141f] p-6 sm:p-10 rounded-3xl border border-gray-200 dark:border-gray-800/80 shadow-xl min-h-[500px] flex flex-col justify-between transition-all duration-300">
+                
+                <div>
+                    <!-- Chapter Header -->
+                    <div class="border-b border-gray-200 dark:border-gray-800/80 pb-6 mb-8 text-center">
+                        <span id="displayChapterNumber" class="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60 px-3 py-1 rounded-full border border-red-200 dark:border-red-900/40">
+                            Bab 1
+                        </span>
+                        <h2 id="displayChapterTitle" class="font-cinzel text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-4 tracking-wide">
+                            Judul Bab
+                        </h2>
+                        <div class="flex items-center justify-center space-x-4 text-xs text-gray-400 mt-2">
+                            <span><i class="fa-solid fa-pen-nib text-amber-500 mr-1"></i> Jalon Starboy Villains</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-clock mr-1"></i> ~5 min baca</span>
+                        </div>
+                    </div>
+
+                    <!-- Chapter Content Box -->
+                    <div id="textContent" class="text-gray-700 dark:text-gray-300 leading-relaxed font-serif text-base sm:text-lg space-y-6 transition-all duration-200">
+                        <!-- Dynamic text content injected here -->
+                    </div>
+                </div>
+
+                <!-- Bottom Reader Navigation -->
+                <div class="pt-8 mt-10 border-t border-gray-200 dark:border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <button id="btnPrevChapterBottom" class="w-full sm:w-auto px-5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Bab Sebelumnya
+                    </button>
+                    <span id="bottomChapterTracker" class="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                        Bab 1 dari 20
+                    </span>
+                    <button id="btnNextChapterBottom" class="w-full sm:w-auto px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                        Bab Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- TikTok Official Promo Card Banner -->
+            <div class="rounded-3xl bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 p-6 sm:p-8 text-white border border-purple-800/40 shadow-2xl relative overflow-hidden my-4">
+                <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-40 h-40 bg-pink-500/10 rounded-full blur-2xl"></div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                    <div class="flex items-center space-x-4 text-left">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 flex items-center justify-center text-3xl shadow-lg shrink-0">
+                            <i class="fa-brands fa-tiktok text-white"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="inline-block px-2.5 py-0.5 rounded-md bg-pink-500/20 text-pink-300 text-[11px] font-bold uppercase tracking-wider">
+                                Akun Resmi TikTok
+                            </div>
+                            <h3 class="font-cinzel text-lg sm:text-xl font-bold text-white">Saksikan Konten Sinematik & Updates</h3>
+                            <p class="text-xs sm:text-sm text-gray-300 max-w-xl">
+                                Saksikan klip video sinematik, kutipan romantis, serta update kisah terbaru Arlott dan Mila langsung dari pencipta.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" 
+                       class="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 shrink-0">
+                        <i class="fa-brands fa-tiktok text-base"></i>
+                        <span>Kunjungi TikTok Creator</span>
+                    </a>
+                </div>
+            </div>
+
+        </main>
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-roseGold-200 py-8 mt-16 text-center text-xs text-stone-500">
-        <div class="max-w-4xl mx-auto px-4 space-y-2">
-            <p>&copy; 2026 Novel Digital Rizal & Aisyah. Dibuat dengan cinta oleh <span class="font-semibold text-roseGold-700">Jalon Starboy Villains</span>.</p>
-            <p>Semua hak cipta dilindungi undang-undang.</p>
+    <footer class="bg-white dark:bg-[#0b0c10] border-t border-gray-200 dark:border-gray-800/80 py-8 transition-colors mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="font-cinzel text-sm font-bold text-gray-800 dark:text-gray-200">
+                Novel Mobile Legends: Arlott & Mila
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+                Karya Asli & Ditulis Oleh <span class="text-red-500 font-semibold">Jalon Starboy Villains</span>
+            </p>
+            <p class="text-[11px] text-gray-400 dark:text-gray-600">
+                Mobile Legends: Bang Bang Fanfiction. Hak Cipta Karakter Asli milik Moonton. Storyline & Fan-novel oleh Penulis.
+            </p>
         </div>
     </footer>
 
-    <!-- JavaScript Interactive Logic -->
+    <!-- JavaScript Application Logic -->
     <script>
-        // Font Size Controller State
-        const fontSizes = [
-            { label: '80%', class: 'text-sm' },
-            { label: '100%', class: 'text-base' },
-            { label: '125%', class: 'text-lg' },
-            { label: '150%', class: 'text-xl' }
+        // --- NOVEL DATA (Bab 1 sampai Bab 20 Complete) ---
+        const novelData = [
+            {
+                number: 1,
+                title: "Pertemuan di Antara Reruntuhan",
+                content: `Hujan darah seakan pernah mengguyur Lembah Moniyan. Arlott, seorang ksatria yang terbuang dan membawa separuh darah iblis dalam tubuhnya, berjalan gontai di antara puing-puing medan perang. Pedang ganda bermata merah miliknya bergetar pelan, memantulkan rasa haus akan keadilan dan dendam terhadap mereka yang telah mengkhianatinya.\n\nDi tengah keheningan yang mencekam, suara rintihan halus menarik perhatiannya. Di bawah reruntuhan pilar batu yang hancur, terbaring seorang gadis muda berambut kecokelatan. Mila. Pakaian cantiknya telah tercemar debu dan darah, namun matanya memancarkan ketabahan yang luar biasa saat menatap sosok Arlott yang menakutkan.\n\n"Apakah kau... utusan maut?" bisik Mila dengan suara bergetar. Arlott mengangkat pedangnya, bermaksud mengakhiri hidup siapapun yang bisa menjadi ancaman. Namun saat tatapan mereka bertemu, pedang itu terhenti di udara. Ada kehangatan ajaib di mata Mila yang melumpuhkan naluri membunuh Arlott.`
+            },
+            {
+                number: 2,
+                title: "Luka Sang Pejuang",
+                content: `Arlott memutuskan untuk tidak membunuh gadis itu. Sebaliknya, ia membawanya ke sebuah gua tersembunyi di lereng bukit. Tubuh Arlott sendiri dipenuhi luka bekas sabetan tombak dan sihir kegelapan dari pertempuran sebelumnya.\n\nTanpa rasa takut, Mila mendekati Arlott. Gadis itu mengambil kain bersih dan air jernih untuk membersihkan luka-luka di punggung sang iblis. "Mengapa kau menolongku?" tanya Arlott dengan suara berat dan dingin.\n\n"Karena di balik wujud yang mengerikan ini, aku melihat jiwa yang terluka dan merindukan kedamaian," jawab Mila lembut. Untuk pertama kalinya dalam tahun-tahun yang panjang, Arlott merasakan desiran aneh di dadanya. Sebuah benih harapan mulai tumbuh di hatinya yang telah mati.`
+            },
+            {
+                number: 3,
+                title: "Bayangan Masa Lalu",
+                content: `Saat malam makin larut, Arlott menceritakan masa lalunya yang kelam kepada Mila. Ia adalah pejuang yang pernah dipercaya oleh fraksinya, namun dibuang dan dikhianati karena darah manusia dan iblis yang menyatu dalam dirinya. Manusia menganggapnya monster, sementara kaum iblis menganggapnya penghianat.\n\nMila mendengarkan dengan penuh empati. Ia sendiri adalah seorang putri dari desa terpencil yang hancur akibat invasi faksi kegelapan. Keduanya menyadari bahwa mereka adalah dua jiwa terbuang yang dipertemukan oleh benang merah takdir.\n\n"Kau bukan monster, Arlott. Kau adalah pejuang yang kehilangan tempat pulang," bisik Mila pelan seraya memegang tangan Arlott yang kasar.`
+            },
+            {
+                number: 4,
+                title: "Ancaman Pasukan Bayangan",
+                content: `Kedamaian singkat mereka terganggu ketika keesokan paginya, aura kegelapan menyeruak masuk ke dalam gua. Pasukan Pemburu Bayangan yang diutus oleh Lord of the Abyss telah melacak keberadaan Arlott.\n\n"Serahkan gadis itu dan berlututlah, Arlott!" teriak pemimpin pemburu dengan tawa mengejek.\n\nArlott melangkah ke depan, berdiri kokoh sebagai perisai di depan Mila. Matanya menyala merah terang, dan pedang gigihnya mulai memancarkan energi mematikan. "Selama aku masih bernapas, tak seorang pun boleh menyentuhnya!" geram Arlott.`
+            },
+            {
+                number: 5,
+                title: "Tarian Pedang Takdir",
+                content: `Pertempuran sengit pecah di luar gua. Arlott bergerak cepat bagaikan kilat, menebas setiap musuh yang mendekat dengan teknik tarian pedangnya yang legendaris. Kilatan cahaya merah dan kehitaman membelah udara pagi.\n\nMila menyaksikan pertempuran itu dari jauh dengan jantung berdebar. Ia melihat betapa Arlott bertarung bukan lagi karena rasa benci atau dendam, melainkan untuk melindungi kehidupan seseorang. Cinta telah mengubah pedang pembunuh itu menjadi pedang pelindung.`
+            },
+            {
+                number: 6,
+                title: "Darah dan Janji",
+                content: `Meski berhasil membasmi seluruh pasukan musuh, Arlott terkena tebasan pisau beracun di bahunya. Ia terhuyung dan jatuh berlutut. Mila segera berlari merangkulnya, air mata menetes di pipinya yang lembut.\n\n"Jangan tinggalkan aku, Arlott..." tangis Mila.\n\nArlott menggenggam erat jemari Mila. "Aku berjanji, Mila... Di dunia yang penuh pengkhianatan ini, aku akan menjadi pedangmu, dan kau adalah satu-satunya alasan bagiku untuk tetap hidup."`
+            },
+            {
+                number: 7,
+                title: "Perjalanan Menuju Kota Terlarang",
+                content: `Untuk menyembuhkan racun mistis yang menggerogoti tubuh Arlott, Mila harus membawanya ke Kota Terlarang, tempat tanaman obat suci berada. Perjalanan mereka dipenuhi rintangan melintasi hutan terlarang dan jurang terjal.\n\nSepanjang perjalanan, Mila menjadi tumpuan Arlott. Peran mereka kini berbalik; Mila yang biasanya lemah, kini menunjukkan keberanian luar biasa untuk menyelamatkan pria yang dicintainya.`
+            },
+            {
+                number: 8,
+                title: "Bisikan Sihir Hitam",
+                content: `Di dalam Hutan Kelam, suara-suara gaib mencoba memanipulasi pikiran Arlott. Bisikan itu menyuruhnya membunuh Mila dan menyerap jiwanya untuk mendapatkan kekuatan tak terbatas. Mata Arlott berubah menjadi gelap total, dan ia menatap Mila dengan tatapan kosong.\n\nNafsu membunuh yang amat sangat mulai menguasai kesadaran Arlott kembali.`
+            },
+            {
+                number: 9,
+                title: "Pelukan Pendamai Jiwa",
+                content: `Mila tidak berlari atau menarik pedangnya. Sebaliknya, ia berjalan mendekati Arlott yang sedang mengamuk dan memeluknya erat-erat. "Arlott, ini aku... Kembalilah padaku," bisiknya penuh kasih di telinga sang pejuang.\n\nHangatnya pelukan Mila dan ketulusan cintanya mampu menembus kegelapan sihir hitam. Kebencian di mata Arlott perlahan surut, digantikan oleh kesadaran dan keharuan yang mendalam.`
+            },
+            {
+                number: 10,
+                title: "Rahasia Gelang Ajaib",
+                content: `Di perjalanan, Mila mengungkapkan rahasia keluarga yang selama ini disimpannya. Ia memiliki sebuah peninggalan kuno berupa gelang kristal yang sanggup menekan aura kegelapan. Gelang tersebut ia pasangkan di pergelangan tangan Arlott.\n\nSeketika, gejolak darah iblis dalam tubuh Arlott menjadi tenang dan stabil. Keduanya menyadari bahwa pertemuan mereka bukanlah kebetulan, melainkan takdir yang telah tertulis sejak zaman purba.`
+            },
+            {
+                number: 11,
+                title: "Pengepungan Gerbang Benteng",
+                content: `Tiba di pinggiran Kota Terlarang, mereka mendapati bahwa kota tersebut telah dikuasai oleh Komandan Valerius, jenderal bengis yang dulu mengkhianati Arlott. Valerius telah menunggu kedatangan Arlott untuk merebut kekuatan iblisnya.\n\n"Selamat datang di tempat kematianmu, Arlott!" seru Valerius dari atas tembok benteng bersama ratusan prajurit panah.`
+            },
+            {
+                number: 12,
+                title: "Pilihan Sang Putri",
+                content: `Valerius menawarkan kesepakatan zalim: jika Mila menyerahkan diri untuk dijadikan tawanan, Arlott akan dibiarkan pergi hidup-hidup. Namun jika menolak, seluruh kota akan dibakar.\n\nMila melangkah maju, hendak mengorbankan dirinya demi Arlott. Namun Arlott menahan tangannya dengan mantap.`
+            },
+            {
+                number: 13,
+                title: "Demi Seseorang yang Dicintai",
+                content: `"Aku tidak akan pernah lagi membiarkan siapapun merebut apa yang paling berharga dalam hidupku!" tegas Arlott. Dengan keyakinan baru, Arlott membangkitkan kekuatan sejati dari kombinasi darah manusia, iblis, dan cinta Mila.\n\nPedangnya kini bercahaya keemasan berpadu dengan crimson yang membara.`
+            },
+            {
+                number: 14,
+                title: "Pertempuran Besar di Alun-Alun",
+                content: `Arlott menerjang barisan musuh bagaikan badai. Setiap tebasan pedangnya membelah musuh dan menghancurkan pertahanan Valerius. Mila menggunakan kemampuan sihir penyembuhnya dari jarak jauh untuk terus menopang energi Arlott.\n\nKerjasama dan ikatan batin mereka menciptakan sinergi bertarung yang tak tertandingi.`
+            },
+            {
+                number: 15,
+                title: "Duel Pengakhiran Dendam",
+                content: `Arlott akhirnya berhadapan satu lawan satu dengan Valerius di puncak alun-alun kota. Valerius mengayunkan pedang raksasanya dengan brutal, namun Arlott bertarung dengan ketenangan dan keputusasaan yang anggun.\n\n"Kekuatanmu berasal dari kebencian, Valerius! Tapi kekuatanku berasal dari cinta yang abadi!" teriak Arlott saat mendaratkan tebasan pamungkasnya.`
+            },
+            {
+                number: 16,
+                title: "Kemenangan yang Berharga",
+                content: `Valerius jatuh tersungkur dan kekuasaan zalimnya berakhir. Rakyat Kota Terlarang bersorak melihat kebebasan mereka. Namun Arlott tidak memedulikan kejayaan itu; ia langsung berlari mencari Mila yang terkulai lemas karena kehabisan energi sihir.`
+            },
+            {
+                number: 17,
+                title: "Di Bawah Pohon Kehidupan",
+                content: `Arlott membawa Mila ke dasar Pohon Kehidupan yang berada di pusat kota. Di sana, energi suci menyembuhkan Mila secara perlahan. Saat Mila membuka matanya, Arlott menggenggam jemarinya dan berlutut di hadapannya.\n\n"Dulu aku berpikir dunia ini hanya berisi kegelapan. Tapi kau adalah cahayaku, Mila," ucap Arlott tulus.`
+            },
+            {
+                number: 18,
+                title: "Sumpah Setia di Atas Pedang",
+                content: `Di hadapan saksi bisu Pohon Kehidupan, Arlott menancapkan pedangnya ke tanah dan mengucapkan sumpah setia abadi. Ia berjanji akan menggunakan kekuatannya hanya untuk melindungi kedamaian dan wanita yang teramat dicintainya itu.`
+            },
+            {
+                number: 19,
+                title: "Fajar Baru Moniyan",
+                content: `Kedamaian akhirnya kembali ke wilayah tersebut. Arlott dan Mila memutuskan untuk meninggalkan pertempuran masa lalu dan membangun kehidupan baru bersama di sebuah lembah hijau yang tenang, jauh dari konflik perebutan kekuasaan.`
+            },
+            {
+                number: 20,
+                title: "Cinta yang Abadi (Epilog)",
+                content: `Bertahun-tahun berlalu, kisah tentang sang pejuang iblis dan gadis berhati murni menjadi legenda yang diceritakan turun-temurun. Pedang Arlott kini bersanding dengan bunga-bunga abadi yang ditanam Mila.\n\nMereka membuktikan bahwa takdir sekelam apapun bisa diubah oleh kekuatan cinta yang sejati dan pengorbanan yang tanpa batas. Cinta mereka hidup selamanya, melampaui waktu dan takdir.`
+            }
         ];
-        let currentFontIndex = 1; // Default 100% (text-base)
 
-        function changeFontSize(direction) {
-            currentFontIndex += direction;
-            if (currentFontIndex < 0) currentFontIndex = 0;
-            if (currentFontIndex >= fontSizes.length) currentFontIndex = fontSizes.length - 1;
+        // --- STATE MANAGEMENT ---
+        let currentChapterIndex = 0;
+        let fontSizePercent = 100; // 100% default
 
-            const indicator = document.getElementById('font-size-indicator');
-            indicator.innerText = fontSizes[currentFontIndex].label;
+        // --- DOM ELEMENTS ---
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        const mobileOverlay = document.getElementById('mobileOverlay');
 
-            // Apply font size to all chapter paragraphs
-            const paragraphs = document.querySelectorAll('.chapter-text');
-            paragraphs.forEach(p => {
-                // Remove previous text size classes
-                p.classList.remove('text-sm', 'text-base', 'text-lg', 'text-xl');
-                // Add new size class
-                p.classList.add(fontSizes[currentFontIndex].class);
-            });
+        const chapterListNav = document.getElementById('chapterListNav');
+        const chapterSelect = document.getElementById('chapterSelect');
+
+        const displayChapterNumber = document.getElementById('displayChapterNumber');
+        const displayChapterTitle = document.getElementById('displayChapterTitle');
+        const textContent = document.getElementById('textContent');
+        const bottomChapterTracker = document.getElementById('bottomChapterTracker');
+
+        const btnPrevChapter = document.getElementById('btnPrevChapter');
+        const btnNextChapter = document.getElementById('btnNextChapter');
+        const btnPrevChapterBottom = document.getElementById('btnPrevChapterBottom');
+        const btnNextChapterBottom = document.getElementById('btnNextChapterBottom');
+
+        const btnFontDec = document.getElementById('btnFontDec');
+        const btnFontReset = document.getElementById('btnFontReset');
+        const btnFontInc = document.getElementById('btnFontInc');
+
+        // --- INIT APP ---
+        function initApp() {
+            renderChapterNavigation();
+            loadChapter(0);
+            setupTheme();
         }
 
-        // Toggle All Chapters (Collapse / Expand view simulation or highlighting)
-        let allExpanded = true;
-        function toggleAllChapters() {
-            const cards = document.querySelectorAll('.chapter-card');
-            const btnText = document.getElementById('toggle-all-text');
-            allExpanded = !allExpanded;
-
-            cards.forEach(card => {
-                const textContainer = card.querySelector('.chapter-text');
-                const titleElem = card.querySelector('h3');
-                if (textContainer) {
-                    textContainer.style.display = allExpanded ? 'block' : 'none';
-                }
-            });
-
-            if (btnText) {
-                btnText.innerText = allExpanded ? 'Ringkas Semua' : 'Buka Semua Bab';
+        // --- THEME SETUP ---
+        function setupTheme() {
+            if (localStorage.getItem('theme') === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
             }
         }
 
-        // Download Novel Functionality (Generates a clean HTML file for offline reading)
-        function downloadNovel() {
-            const htmlContent = `<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Cinta Rizal dan Aisyah — Cinta yang Tak Pernah Usai</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background: #fdf8f6; }
-        h1, h2, h3 { font-family: serif; color: #843721; }
-        .chapter { background: white; padding: 30px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        blockquote { border-left: 4px solid #d56b49; padding-left: 15px; margin: 15px 0; color: #555; font-style: italic; background: #fbeee9; padding: 10px 15px; border-radius: 0 8px 8px 0; }
-    </style>
-</head>
-<body>
-    <h1>Cinta Rizal dan Aisyah</h1>
-    <p><strong>Cinta yang Tak Pernah Usai</strong></p>
-    <p>Karya: Jalon Starboy Villains</p>
-    <hr/>
-    <blockquote>“Ada seseorang yang datang tanpa direncanakan, lalu menjadi alasan kita tersenyum setiap hari. Bagi Rizal, seseorang itu adalah Aisyah”</blockquote>
-    ${document.getElementById('novel-content').innerHTML}
-    <hr/>
-    <p style="text-align: center; font-size: 12px; color: #666;">&copy; 2026 Jalon Starboy Villains. Diunduh dari Web Resmi Novel Rizal & Aisyah.</p>
-</body>
-</html>`;
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
 
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        // --- MOBILE SIDEBAR DRAWER ---
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            mobileOverlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            mobileOverlay.classList.add('hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        mobileOverlay.addEventListener('click', closeSidebar);
+
+        // --- RENDER CHAPTER LISTS & DROPDOWN ---
+        function renderChapterNavigation() {
+            chapterListNav.innerHTML = '';
+            chapterSelect.innerHTML = '';
+
+            novelData.forEach((ch, idx) => {
+                // Sidebar List Item
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between ${
+                    idx === currentChapterIndex
+                        ? 'bg-red-600 text-white shadow-md'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                }`;
+                btn.innerHTML = `
+                    <span class="truncate">Bab ${ch.number}: ${ch.title}</span>
+                    <i class="fa-solid fa-chevron-right text-[10px] opacity-70"></i>
+                `;
+                btn.onclick = () => {
+                    loadChapter(idx);
+                    closeSidebar();
+                    scrollToReader();
+                };
+                chapterListNav.appendChild(btn);
+
+                // Dropdown Option
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `Bab ${ch.number}: ${ch.title}`;
+                chapterSelect.appendChild(opt);
+            });
+        }
+
+        // --- LOAD CHAPTER CONTENT ---
+        function loadChapter(index) {
+            if (index < 0 || index >= novelData.length) return;
+
+            currentChapterIndex = index;
+            const chapter = novelData[index];
+
+            // Update Header Display
+            displayChapterNumber.textContent = `Bab ${chapter.number} Dari 20`;
+            displayChapterTitle.textContent = chapter.title;
+
+            // Format Paragraphs
+            const paragraphs = chapter.content.split('\n\n');
+            textContent.innerHTML = paragraphs
+                .map(p => `<p class="indent-6 leading-relaxed text-justify">${p.trim()}</p>`)
+                .join('');
+
+            // Update Navigation Status
+            bottomChapterTracker.textContent = `Bab ${chapter.number} dari ${novelData.length}`;
+            chapterSelect.value = index;
+
+            // Update Disabled States
+            const isFirst = currentChapterIndex === 0;
+            const isLast = currentChapterIndex === novelData.length - 1;
+
+            btnPrevChapter.disabled = isFirst;
+            btnPrevChapterBottom.disabled = isFirst;
+            btnNextChapter.disabled = isLast;
+            btnNextChapterBottom.disabled = isLast;
+
+            // Re-render Sidebar Active State
+            renderChapterNavigation();
+        }
+
+        // --- EVENT LISTENERS FOR NAV ---
+        chapterSelect.addEventListener('change', (e) => {
+            loadChapter(parseInt(e.target.value));
+            scrollToReader();
+        });
+
+        btnPrevChapter.addEventListener('click', () => { loadChapter(currentChapterIndex - 1); scrollToReader(); });
+        btnPrevChapterBottom.addEventListener('click', () => { loadChapter(currentChapterIndex - 1); scrollToReader(); });
+        btnNextChapter.addEventListener('click', () => { loadChapter(currentChapterIndex + 1); scrollToReader(); });
+        btnNextChapterBottom.addEventListener('click', () => { loadChapter(currentChapterIndex + 1); scrollToReader(); });
+
+        // --- FONT SIZE CONTROLS (A-, 100%, A+) ---
+        btnFontDec.addEventListener('click', () => {
+            if (fontSizePercent > 80) {
+                fontSizePercent -= 10;
+                applyFontSize();
+            }
+        });
+
+        btnFontReset.addEventListener('click', () => {
+            fontSizePercent = 100;
+            applyFontSize();
+        });
+
+        btnFontInc.addEventListener('click', () => {
+            if (fontSizePercent < 150) {
+                fontSizePercent += 10;
+                applyFontSize();
+            }
+        });
+
+        function applyFontSize() {
+            textContent.style.fontSize = `${fontSizePercent}%`;
+            btnFontReset.textContent = `${fontSizePercent}%`;
+        }
+
+        function scrollToReader() {
+            document.getElementById('readerArea').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- FEATURE: DOWNLOAD NOVEL AS TXT / PRINT PDF ---
+        function downloadNovelTxt() {
+            let fullText = `===================================================\n`;
+            fullText += `NOVEL MOBILE LEGENDS: ARLOTT & MILA\n`;
+            fullText += `Sub-judul: Pedang Takdir, Cinta yang Abadi\n`;
+            fullText += `Genre: Fantasi, Petualangan, Aksi, Romansa\n`;
+            fullText += `Penulis: Jalon Starboy Villains\n`;
+            fullText += `===================================================\n\n`;
+            fullText += `RINGKASAN SINOPSIS:\n`;
+            fullText += `Di dunia yang dipenuhi peperangan dan pengkhianatan, seorang pejuang bernama Arlott bertemu dengan Mila, gadis yang mengubah pandangannya tentang kehidupan. Arlott terbiasa menghadapi musuh dengan pedangnya, tetapi kali ini ia harus berjuang melawan takdir demi seseorang yang dicintainya.\n\n`;
+            fullText += `===================================================\n\n`;
+
+            novelData.forEach(ch => {
+                fullText += `BAB ${ch.number}: ${ch.title.toUpperCase()}\n`;
+                fullText += `---------------------------------------------------\n`;
+                fullText += `${ch.content}\n\n\n`;
+            });
+
+            // Create download link
+            const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'Novel-Cinta-Rizal-Dan-Aisyah-Jalon-Starboy-Villains.html';
+            a.download = `Novel_Mobile_Legends_Arlott_Mila_Full_Bab_1-20.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
+
+        // --- FEATURE: DOWNLOAD WEBSITE AS HTML FILE ---
+        function downloadWebsiteHtml() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Novel_Arlott_Mila_Website_Offline.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Run on Page Load
+        window.onload = initApp;
     </script>
 </body>
 </html>
