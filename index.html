@@ -3,634 +3,921 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novel Mobile Legends: Arlott & Mila - Pedang Takdir, Cinta yang Abadi</title>
-    <!-- Tailwind CSS -->
+    <title>Mobile Legends: Arlott & Mila - Novel Interaktif</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cinzel & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            red: '#e63946',
-                            crimson: '#9d0208',
-                            dark: '#0b0c10',
-                            card: '#1f2833',
-                            accent: '#ffb703',
-                            blue: '#00b4d8'
+                        ml: {
+                            gold: '#d4af37',
+                            goldLight: '#f3e5ab',
+                            dark: '#0a090d',
+                            card: '#14121a',
+                            crimson: '#8b0000',
+                            redGlow: '#ff2a2a',
+                            accent: '#2a1a3a'
                         }
                     },
                     fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Georgia', 'serif']
+                        serif: ['Merriweather', 'serif']
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        .font-cinzel { font-family: 'Cinzel', serif; }
-        .glow-red { text-shadow: 0 0 12px rgba(230, 57, 70, 0.6); }
-        .glow-blue { text-shadow: 0 0 12px rgba(0, 180, 216, 0.6); }
-        .glow-box-red { box-shadow: 0 0 20px rgba(157, 2, 8, 0.3); }
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0b0c10; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #e63946; }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a090d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a2a4a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        /* Reading Themes */
+        .theme-dark-fantasy {
+            background-color: #0c0a10;
+            color: #e2e8f0;
+        }
+        .theme-dark {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .theme-light {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .theme-sepia {
+            background-color: #f4ebd0;
+            color: #433422;
+        }
+
+        /* Glowing Effects */
+        .glow-gold {
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        .glow-red {
+            text-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
+        }
+        .box-glow {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+        }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-[#090a0f] text-gray-800 dark:text-gray-200 min-h-screen transition-colors duration-300 font-sans flex flex-col selection:bg-red-600 selection:text-white">
+<body class="theme-dark-fantasy font-sans antialiased min-h-screen flex flex-col transition-colors duration-300">
 
-    <!-- Header / Navigation -->
-    <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0f111a]/90 backdrop-blur-md border-b border-gray-200 dark:border-red-900/40 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Reading Progress Bar Top -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-gray-800 z-50">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-red-600 via-amber-500 to-yellow-300 w-0 transition-all duration-150"></div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-opacity-95 backdrop-blur border-b border-amber-900/40 bg-slate-950/90 text-amber-100 px-4 py-3 shadow-lg">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Left: Sidebar Toggle & Title -->
             <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-wand-magic-sparkles text-red-600 dark:text-red-500 text-2xl animate-pulse"></i>
+                <button id="toggleSidebarBtn" class="p-2 rounded-lg bg-amber-950/50 hover:bg-amber-900/80 border border-amber-600/40 text-amber-300 transition-all focus:outline-none" title="Daftar Bab">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
                 <div>
-                    <h1 class="font-cinzel font-bold text-lg sm:text-xl text-gray-900 dark:text-white tracking-wide">
-                        ARLOTT <span class="text-red-600 dark:text-red-500">&</span> MILA
-                    </h1>
-                    <p class="text-[10px] text-gray-500 dark:text-gray-400 font-sans tracking-widest uppercase hidden sm:block">Mobile Legends Fanfiction</p>
+                    <h1 class="font-cinzel font-bold text-base md:text-lg text-amber-400 tracking-wide leading-tight">Mobile Legends</h1>
+                    <p class="text-xs text-amber-200/70 font-serif italic">Arlott & Mila: Pedang Takdir, Cinta Abadi</p>
                 </div>
             </div>
 
-            <!-- Top Actions -->
-            <div class="flex items-center space-x-2 sm:space-x-4">
-                <!-- TikTok Link -->
-                <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" 
-                   class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-md transition transform hover:scale-105">
-                    <i class="fa-brands fa-tiktok"></i>
-                    <span>TikTok Resmi</span>
-                </a>
+            <!-- Middle: Font Controls & Theme Selection -->
+            <div class="flex items-center space-x-2 bg-black/40 p-1.5 rounded-xl border border-amber-900/30">
+                <!-- Text Size Controls -->
+                <div class="flex items-center border-r border-amber-800/40 pr-2 mr-1 space-x-1">
+                    <button id="btnFontDec" class="px-2.5 py-1 text-xs font-bold rounded bg-amber-950/60 hover:bg-amber-800/80 text-amber-200 border border-amber-700/50 transition">A-</button>
+                    <span id="fontPercent" class="text-xs font-mono font-semibold px-1 text-amber-300 min-w-[42px] text-center">100%</span>
+                    <button id="btnFontInc" class="px-2.5 py-1 text-xs font-bold rounded bg-amber-950/60 hover:bg-amber-800/80 text-amber-200 border border-amber-700/50 transition">A+</button>
+                    <button id="btnFontReset" class="p-1 text-xs rounded hover:bg-amber-900/50 text-amber-400/80 hover:text-amber-200" title="Reset Ukuran Font"><i class="fa-solid fa-rotate-left"></i></button>
+                </div>
 
-                <!-- Theme Toggle -->
-                <button id="themeToggle" class="p-2 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition" title="Ganti Mode Terang/Gelap">
-                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
-                    <i class="fa-solid fa-sun hidden dark:block text-lg text-yellow-400"></i>
-                </button>
+                <!-- Reading Theme Selector -->
+                <div class="flex items-center space-x-1">
+                    <button data-theme="theme-dark-fantasy" class="theme-btn w-6 h-6 rounded-full bg-slate-950 border border-amber-500 flex items-center justify-center text-[10px] text-amber-400" title="Dark Fantasy"></button>
+                    <button data-theme="theme-dark" class="theme-btn w-6 h-6 rounded-full bg-neutral-900 border border-neutral-600" title="Dark Standard"></button>
+                    <button data-theme="theme-sepia" class="theme-btn w-6 h-6 rounded-full bg-[#f4ebd0] border border-amber-800 text-amber-950" title="Sepia"></button>
+                    <button data-theme="theme-light" class="theme-btn w-6 h-6 rounded-full bg-slate-100 border border-slate-400" title="Light"></button>
+                </div>
+            </div>
 
-                <!-- Sidebar Mobile Toggle -->
-                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-red-500">
-                    <i class="fa-solid fa-bars text-lg"></i>
+            <!-- Right: Download Action Modal Trigger -->
+            <div class="flex items-center space-x-2">
+                <button id="openDownloadModalBtn" class="flex items-center space-x-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-bold px-3.5 py-1.5 rounded-lg text-xs md:text-sm shadow-md hover:shadow-amber-500/20 transition-all border border-amber-400/50">
+                    <i class="fa-solid fa-download"></i>
+                    <span class="hidden sm:inline">Unduh Novel</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-8">
+    <div class="flex-1 flex relative max-w-7xl w-full mx-auto">
         
-        <!-- Sidebar Navigation (Desktop & Mobile Drawer) -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0f111a] border-r border-gray-200 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 lg:static lg:z-auto lg:w-80 lg:border-none lg:bg-transparent lg:dark:bg-transparent transition-transform duration-300 ease-in-out flex flex-col h-full lg:h-auto overflow-y-auto p-4 lg:p-0">
-            <div class="flex items-center justify-between lg:hidden mb-4 pb-2 border-b dark:border-gray-800">
-                <span class="font-cinzel font-bold text-lg text-red-600">Daftar Isi</span>
-                <button id="closeSidebarBtn" class="p-2 text-gray-500 hover:text-red-500">
+        <!-- Sidebar Navigation (Drawer) -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-80 bg-slate-950/95 border-r border-amber-900/50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col pt-16 shadow-2xl backdrop-blur-md">
+            <div class="p-4 border-b border-amber-900/40 flex justify-between items-center">
+                <div>
+                    <h2 class="font-cinzel text-amber-400 font-bold text-lg">Daftar Bab</h2>
+                    <p class="text-xs text-slate-400">20 Bab Lengkap</p>
+                </div>
+                <button id="closeSidebarBtn" class="p-2 text-slate-400 hover:text-amber-400">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
-
-            <!-- Author Card -->
-            <div class="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-[#151824] dark:to-[#0b0c10] p-5 rounded-2xl border border-gray-200 dark:border-red-900/30 text-white shadow-xl mb-6">
-                <div class="flex items-center space-x-3 mb-3">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-red-600 to-blue-600 flex items-center justify-center font-bold text-lg shadow-lg">
-                        JS
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm text-gray-100">Jalon Starboy Villains</h3>
-                        <p class="text-xs text-red-400 font-medium">Penulis / Creator</p>
-                    </div>
-                </div>
-                <p class="text-xs text-gray-300 leading-relaxed italic mb-3">
-                    "Pedang Takdir, Cinta yang Abadi — Kisah pengorbanan pejuang setengah manusia dan ketulusan gadis pemberani."
-                </p>
-                <div class="flex flex-wrap gap-1.5 text-[10px]">
-                    <span class="px-2 py-0.5 rounded bg-red-950/80 text-red-300 border border-red-800/40">Fantasi</span>
-                    <span class="px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-800/40">Petualangan</span>
-                    <span class="px-2 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/40">Aksi</span>
-                    <span class="px-2 py-0.5 rounded bg-pink-950/80 text-pink-300 border border-pink-800/40">Romansa</span>
+            
+            <!-- Quick Chapter Search -->
+            <div class="p-3 border-b border-slate-800">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                    <input type="text" id="chapterSearch" placeholder="Cari bab atau kata kunci..." class="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500">
                 </div>
             </div>
 
-            <!-- Chapters List Accordion/Nav -->
-            <div class="bg-white dark:bg-[#12141f] rounded-2xl p-4 border border-gray-200 dark:border-gray-800/80 shadow-md flex-1">
-                <div class="flex items-center justify-between mb-3 px-2">
-                    <h2 class="font-cinzel font-bold text-base text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                        <i class="fa-solid fa-book-bookmark text-red-500"></i> Daftar Bab (1-20)
-                    </h2>
-                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400">20 Bab</span>
-                </div>
-
-                <div id="chapterListNav" class="space-y-1 max-h-[450px] lg:max-h-[500px] overflow-y-auto pr-1">
-                    <!-- Chapter buttons will be injected here dynamically -->
-                </div>
+            <!-- Chapter List Links -->
+            <div id="chapterListNav" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+                <!-- Javascript will render chapter links here -->
             </div>
 
-            <!-- Download Quick Buttons in Sidebar -->
-            <div class="mt-6 space-y-2">
-                <button onclick="downloadNovelTxt()" class="w-full py-2.5 px-4 bg-gray-900 hover:bg-black dark:bg-red-700 dark:hover:bg-red-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-md">
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                    <span>Unduh Novel (TXT / Cetak PDF)</span>
-                </button>
-                <button onclick="downloadWebsiteHtml()" class="w-full py-2.5 px-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-code"></i>
-                    <span>Unduh Web Offline (HTML)</span>
-                </button>
+            <div class="p-3 border-t border-slate-800/80 bg-slate-900/50 text-center text-xs text-amber-200/60 font-serif">
+                Penulis: <span class="text-amber-400 font-semibold">Jalon Starboy Villains</span>
             </div>
         </aside>
 
-        <!-- Overlay Mobile -->
-        <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+        <!-- Sidebar Overlay -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm"></div>
 
-        <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col gap-6 min-w-0">
+        <!-- Main Novel Content Area -->
+        <main class="flex-1 max-w-4xl mx-auto px-4 py-6 md:py-10">
             
-            <!-- Hero Banner / Synopsis Card -->
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-gray-900 via-red-950 to-gray-900 text-white p-6 sm:p-8 shadow-2xl border border-red-900/30">
-                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-10 -top-10 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <!-- Hero Banner / Novel Intro Header -->
+            <div id="novelHeader" class="mb-10 text-center border-b border-amber-900/40 pb-8 relative overflow-hidden rounded-2xl p-6 md:p-10 bg-gradient-to-b from-amber-950/30 via-slate-900/50 to-transparent box-glow">
+                <span class="inline-block px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-xs font-semibold tracking-wider uppercase mb-3">Mobile Legends FanFiction Novel</span>
+                <h1 class="font-cinzel text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 mb-3 tracking-wide glow-gold">
+                    ARLOTT & MILA
+                </h1>
+                <h2 class="font-cinzel text-base md:text-xl text-amber-200/90 font-medium mb-4 italic">"Pedang Takdir, Cinta yang Abadi"</h2>
+                
+                <div class="flex items-center justify-center space-x-4 text-xs md:text-sm text-slate-400 mb-6 flex-wrap gap-y-2">
+                    <span class="flex items-center gap-1.5 text-amber-300"><i class="fa-solid fa-pen-nib text-amber-500"></i> Karya: <strong class="text-amber-200">Jalon Starboy Villains</strong></span>
+                    <span>•</span>
+                    <span class="flex items-center gap-1.5 text-amber-300"><i class="fa-solid fa-tags text-amber-500"></i> Fantasi, Aksia, Romansa</span>
+                    <span>•</span>
+                    <span class="flex items-center gap-1.5 text-amber-300"><i class="fa-solid fa-book-open text-amber-500"></i> 20 Bab Tamat</span>
+                </div>
 
-                <div class="relative z-10 space-y-4">
-                    <div class="inline-flex items-center space-x-2 bg-red-500/20 border border-red-500/40 px-3 py-1 rounded-full text-xs font-semibold text-red-300">
-                        <i class="fa-solid fa-fire text-amber-400"></i>
-                        <span>Novel Mobile Legends Official Fanfiction</span>
-                    </div>
-
-                    <h1 class="font-cinzel text-2xl sm:text-4xl font-extrabold tracking-tight glow-red text-transparent bg-clip-text bg-gradient-to-r from-white via-red-100 to-amber-200">
-                        Mobile Legends: Arlott & Mila
-                    </h1>
-                    <p class="text-sm sm:text-base font-cinzel text-amber-400 font-semibold tracking-wide">
-                        "Pedang Takdir, Cinta yang Abadi"
+                <!-- Synopsis Box -->
+                <div class="max-w-2xl mx-auto bg-slate-950/60 p-4 md:p-5 rounded-xl border border-amber-900/30 text-left text-xs md:text-sm text-slate-300 leading-relaxed font-serif shadow-inner">
+                    <h3 class="font-cinzel font-bold text-amber-400 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-scroll text-xs"></i> Sinopsis Novel
+                    </h3>
+                    <p class="italic text-slate-300/90">
+                        "Di dunia yang dipenuhi peperangan dan pengkhianatan, seorang pejuang setengah iblis bernama Arlott bertemu dengan Mila, gadis suci yang mengubah pandangannya tentang kehidupan. Arlott terbiasa menghadapi musuh dengan pedangnya, tetapi kali ini ia harus berjuang melawan takdir, kegelapan batin, dan tirani demi seseorang yang dicintainya."
                     </p>
-
-                    <div class="bg-black/40 backdrop-blur-sm p-4 rounded-xl border border-white/10 text-xs sm:text-sm text-gray-300 leading-relaxed">
-                        <span class="font-bold text-amber-300">Ringkasan Sinopsis:</span> 
-                        Di dunia yang dipenuhi peperangan dan pengkhianatan, seorang pejuang bernama <strong class="text-white">Arlott</strong> bertemu dengan <strong class="text-white">Mila</strong>, gadis yang mengubah pandangannya tentang kehidupan. Arlott terbiasa menghadapi musuh dengan pedangnya, tetapi kali ini ia harus berjuang melawan takdir demi seseorang yang dicintainya.
-                    </div>
-
-                    <!-- Action Quick Bar -->
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <a href="#readerArea" onclick="scrollToReader()" class="px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-2">
-                            <i class="fa-solid fa-book-open"></i> Mulai Baca
-                        </a>
-                        <button onclick="downloadNovelTxt()" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs rounded-xl backdrop-blur-md border border-white/20 transition flex items-center gap-2">
-                            <i class="fa-solid fa-download"></i> Unduh Lengkap
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <!-- Reading Control Toolbar -->
-            <div id="readerArea" class="bg-white dark:bg-[#12141f] p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-md flex flex-wrap items-center justify-between gap-4 sticky top-20 z-30 transition-colors">
-                
-                <!-- Font Controls -->
-                <div class="flex items-center space-x-2">
-                    <span class="text-xs font-bold text-gray-500 dark:text-gray-400 mr-1 hidden sm:inline">Ukuran Teks:</span>
-                    <button id="btnFontDec" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg border border-gray-300 dark:border-gray-700 transition" title="Kecilkan Teks">
-                        A-
-                    </button>
-                    <button id="btnFontReset" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg border border-gray-300 dark:border-gray-700 transition" title="Reset 100%">
-                        100%
-                    </button>
-                    <button id="btnFontInc" class="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-bold rounded-lg border border-gray-300 dark:border-gray-700 transition" title="Besarkan Teks">
-                        A+
-                    </button>
-                </div>
+            <!-- Chapter Top Navigation & Selector Bar -->
+            <div class="flex items-center justify-between bg-slate-900/80 p-3 rounded-xl border border-amber-900/30 mb-8 backdrop-blur shadow-md">
+                <button id="btnPrevChapterTop" class="px-3 py-1.5 bg-amber-950/60 hover:bg-amber-800 text-amber-300 text-xs md:text-sm rounded-lg border border-amber-700/50 flex items-center gap-1.5 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-chevron-left"></i> <span class="hidden sm:inline">Bab Sebelum</span>
+                </button>
 
-                <!-- Chapter Selector Dropdown -->
-                <div class="flex items-center space-x-2 flex-1 sm:flex-none">
-                    <label for="chapterSelect" class="text-xs font-bold text-gray-500 dark:text-gray-400 hidden md:inline">Lompat ke:</label>
-                    <select id="chapterSelect" class="w-full sm:w-auto bg-gray-50 dark:bg-[#181a27] text-gray-800 dark:text-gray-200 text-xs font-semibold px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500">
-                        <!-- Select options dynamically inserted -->
+                <div class="flex items-center space-x-2">
+                    <select id="chapterSelectDropdown" class="bg-slate-950 text-amber-300 border border-amber-700/60 rounded-lg px-3 py-1.5 text-xs md:text-sm font-cinzel font-semibold focus:outline-none focus:border-amber-400 max-w-[180px] sm:max-w-xs">
+                        <!-- Options generated dynamically -->
                     </select>
                 </div>
 
-                <!-- Navigation Previous / Next -->
-                <div class="flex items-center space-x-2">
-                    <button id="btnPrevChapter" class="px-3 py-1.5 bg-red-50 dark:bg-red-950/50 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 font-bold text-xs rounded-lg border border-red-200 dark:border-red-900/50 transition flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
-                        <i class="fa-solid fa-chevron-left"></i> Bab Sebelum
-                    </button>
-                    <button id="btnNextChapter" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
-                        Bab Berikut <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
+                <button id="btnNextChapterTop" class="px-3 py-1.5 bg-amber-950/60 hover:bg-amber-800 text-amber-300 text-xs md:text-sm rounded-lg border border-amber-700/50 flex items-center gap-1.5 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    <span class="hidden sm:inline">Bab Selanjutnya</span> <i class="fa-solid fa-chevron-right"></i>
+                </button>
             </div>
 
-            <!-- Reading Display Area -->
-            <article class="bg-white dark:bg-[#12141f] p-6 sm:p-10 rounded-3xl border border-gray-200 dark:border-gray-800/80 shadow-xl min-h-[500px] flex flex-col justify-between transition-all duration-300">
-                
-                <div>
-                    <!-- Chapter Header -->
-                    <div class="border-b border-gray-200 dark:border-gray-800/80 pb-6 mb-8 text-center">
-                        <span id="displayChapterNumber" class="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60 px-3 py-1 rounded-full border border-red-200 dark:border-red-900/40">
-                            Bab 1
-                        </span>
-                        <h2 id="displayChapterTitle" class="font-cinzel text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-4 tracking-wide">
-                            Judul Bab
-                        </h2>
-                        <div class="flex items-center justify-center space-x-4 text-xs text-gray-400 mt-2">
-                            <span><i class="fa-solid fa-pen-nib text-amber-500 mr-1"></i> Jalon Starboy Villains</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-clock mr-1"></i> ~5 min baca</span>
-                        </div>
-                    </div>
+            <!-- Novel Content Reader Container -->
+            <article id="readerContainer" class="bg-slate-950/40 p-6 md:p-10 rounded-2xl border border-amber-900/20 shadow-xl min-h-[500px]">
+                <!-- Chapter Header inside reader -->
+                <header class="mb-8 border-b border-amber-900/30 pb-4 text-center">
+                    <span id="chapterNumberBadge" class="text-xs font-bold text-amber-500 uppercase tracking-widest font-mono">BAB 1</span>
+                    <h2 id="chapterTitleDisplay" class="font-cinzel text-2xl md:text-3xl font-bold text-amber-300 mt-1 mb-2"></h2>
+                    <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto"></div>
+                </header>
 
-                    <!-- Chapter Content Box -->
-                    <div id="textContent" class="text-gray-700 dark:text-gray-300 leading-relaxed font-serif text-base sm:text-lg space-y-6 transition-all duration-200">
-                        <!-- Dynamic text content injected here -->
-                    </div>
-                </div>
-
-                <!-- Bottom Reader Navigation -->
-                <div class="pt-8 mt-10 border-t border-gray-200 dark:border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <button id="btnPrevChapterBottom" class="w-full sm:w-auto px-5 py-2.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-arrow-left"></i> Bab Sebelumnya
-                    </button>
-                    <span id="bottomChapterTracker" class="text-xs font-semibold text-gray-500 dark:text-gray-400">
-                        Bab 1 dari 20
-                    </span>
-                    <button id="btnNextChapterBottom" class="w-full sm:w-auto px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
-                        Bab Selanjutnya <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                <!-- Chapter Narrative Content -->
+                <div id="chapterTextContent" class="font-serif leading-relaxed text-slate-200 space-y-5 text-base md:text-lg transition-all duration-200">
+                    <!-- Text paragraphs dynamically inserted here -->
                 </div>
             </article>
 
-            <!-- TikTok Official Promo Card Banner -->
-            <div class="rounded-3xl bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 p-6 sm:p-8 text-white border border-purple-800/40 shadow-2xl relative overflow-hidden my-4">
-                <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-40 h-40 bg-pink-500/10 rounded-full blur-2xl"></div>
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-                    <div class="flex items-center space-x-4 text-left">
-                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 flex items-center justify-center text-3xl shadow-lg shrink-0">
-                            <i class="fa-brands fa-tiktok text-white"></i>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="inline-block px-2.5 py-0.5 rounded-md bg-pink-500/20 text-pink-300 text-[11px] font-bold uppercase tracking-wider">
-                                Akun Resmi TikTok
-                            </div>
-                            <h3 class="font-cinzel text-lg sm:text-xl font-bold text-white">Saksikan Konten Sinematik & Updates</h3>
-                            <p class="text-xs sm:text-sm text-gray-300 max-w-xl">
-                                Saksikan klip video sinematik, kutipan romantis, serta update kisah terbaru Arlott dan Mila langsung dari pencipta.
-                            </p>
-                        </div>
-                    </div>
-                    <a href="https://www.tiktok.com/@villains_starboy?" target="_blank" rel="noopener noreferrer" 
-                       class="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 shrink-0">
-                        <i class="fa-brands fa-tiktok text-base"></i>
-                        <span>Kunjungi TikTok Creator</span>
-                    </a>
-                </div>
+            <!-- Bottom Chapter Navigation -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-amber-900/30">
+                <button id="btnPrevChapterBottom" class="w-full sm:w-auto px-5 py-2.5 bg-amber-950/70 hover:bg-amber-800 text-amber-200 rounded-xl border border-amber-700/50 flex items-center justify-center gap-2 transition disabled:opacity-40">
+                    <i class="fa-solid fa-arrow-left"></i> Bab Sebelumnya
+                </button>
+
+                <button id="btnBookmark" class="w-full sm:w-auto px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-amber-400 rounded-xl border border-amber-900/50 flex items-center justify-center gap-2 text-xs font-semibold transition">
+                    <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i> Simpan Penanda Baca
+                </button>
+
+                <button id="btnNextChapterBottom" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-slate-950 font-bold rounded-xl border border-amber-400/50 flex items-center justify-center gap-2 transition shadow-lg disabled:opacity-40">
+                    Bab Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
 
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-[#0b0c10] border-t border-gray-200 dark:border-gray-800/80 py-8 transition-colors mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
-            <p class="font-cinzel text-sm font-bold text-gray-800 dark:text-gray-200">
-                Novel Mobile Legends: Arlott & Mila
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">
-                Karya Asli & Ditulis Oleh <span class="text-red-500 font-semibold">Jalon Starboy Villains</span>
-            </p>
-            <p class="text-[11px] text-gray-400 dark:text-gray-600">
-                Mobile Legends: Bang Bang Fanfiction. Hak Cipta Karakter Asli milik Moonton. Storyline & Fan-novel oleh Penulis.
-            </p>
+    <!-- Modal Download Novel options -->
+    <div id="downloadModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+        <div class="bg-slate-950 border border-amber-600/50 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-slate-200">
+            <button id="closeDownloadModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-amber-400">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center text-amber-400 text-2xl mx-auto mb-3 border border-amber-500/40">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                </div>
+                <h3 class="font-cinzel text-xl font-bold text-amber-300">Unduh Novel Mobile Legends</h3>
+                <p class="text-xs text-slate-400 mt-1">Pilih format unduhan yang Anda inginkan</p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Download TXT Full Novel -->
+                <button id="downloadTxtBtn" class="w-full p-3.5 bg-slate-900 hover:bg-slate-800 border border-amber-900/60 rounded-xl flex items-center justify-between group transition">
+                    <div class="flex items-center space-x-3 text-left">
+                        <i class="fa-solid fa-file-lines text-amber-400 text-xl group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-amber-200">Unduh Novel Teks (.TXT)</div>
+                            <div class="text-xs text-slate-400">Seluruh 20 Bab dalam satu file teks dokumen</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-download text-xs text-amber-400"></i>
+                </button>
+
+                <!-- Download Offline HTML Web Page -->
+                <button id="downloadHtmlBtn" class="w-full p-3.5 bg-slate-900 hover:bg-slate-800 border border-amber-900/60 rounded-xl flex items-center justify-between group transition">
+                    <div class="flex items-center space-x-3 text-left">
+                        <i class="fa-solid fa-globe text-amber-400 text-xl group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-amber-200">Unduh Website Offline (.HTML)</div>
+                            <div class="text-xs text-slate-400">Simpan aplikasi web ini secara utuh untuk dibaca offline</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-download text-xs text-amber-400"></i>
+                </button>
+
+                <!-- Download Current Chapter Text -->
+                <button id="downloadCurrentChapterBtn" class="w-full p-3.5 bg-slate-900 hover:bg-slate-800 border border-amber-900/60 rounded-xl flex items-center justify-between group transition">
+                    <div class="flex items-center space-x-3 text-left">
+                        <i class="fa-solid fa-book-bookmark text-amber-400 text-xl group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-amber-200">Unduh Bab Ini Saja (.TXT)</div>
+                            <div class="text-xs text-slate-400">Hanya bab yang saat ini sedang dibuka</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-download text-xs text-amber-400"></i>
+                </button>
+            </div>
+
+            <div class="mt-6 text-center text-xs text-slate-500 border-t border-slate-800 pt-4">
+                Mobile Legends FanFiction • Penulis: Jalon Starboy Villains
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-amber-900 text-amber-100 border border-amber-500/50 px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 text-sm">
+        <i class="fa-solid fa-circle-check text-amber-400"></i>
+        <span id="toastMessage">Pesan Notifikasi</span>
+    </div>
+
+    <!-- Footer Area -->
+    <footer class="mt-16 border-t border-amber-900/40 bg-slate-950 py-8 text-center text-slate-500 text-xs">
+        <div class="max-w-4xl mx-auto px-4 space-y-2">
+            <p class="font-cinzel text-amber-400 text-sm font-bold">Mobile Legends: Arlott & Mila</p>
+            <p>Ditulis oleh: <strong class="text-slate-300">Jalon Starboy Villains</strong></p>
+            <p class="text-slate-600">Tema: Pedang Takdir, Cinta yang Abadi • FanFiction World of Mobile Legends: Bang Bang</p>
         </div>
     </footer>
 
-    <!-- JavaScript Application Logic -->
+    <!-- Novel Chapters Data Script -->
     <script>
-        // --- NOVEL DATA (Bab 1 sampai Bab 20 Complete) ---
-        const novelData = [
-            {
-                number: 1,
-                title: "Pertemuan di Antara Reruntuhan",
-                content: `Hujan darah seakan pernah mengguyur Lembah Moniyan. Arlott, seorang ksatria yang terbuang dan membawa separuh darah iblis dalam tubuhnya, berjalan gontai di antara puing-puing medan perang. Pedang ganda bermata merah miliknya bergetar pelan, memantulkan rasa haus akan keadilan dan dendam terhadap mereka yang telah mengkhianatinya.\n\nDi tengah keheningan yang mencekam, suara rintihan halus menarik perhatiannya. Di bawah reruntuhan pilar batu yang hancur, terbaring seorang gadis muda berambut kecokelatan. Mila. Pakaian cantiknya telah tercemar debu dan darah, namun matanya memancarkan ketabahan yang luar biasa saat menatap sosok Arlott yang menakutkan.\n\n"Apakah kau... utusan maut?" bisik Mila dengan suara bergetar. Arlott mengangkat pedangnya, bermaksud mengakhiri hidup siapapun yang bisa menjadi ancaman. Namun saat tatapan mereka bertemu, pedang itu terhenti di udara. Ada kehangatan ajaib di mata Mila yang melumpuhkan naluri membunuh Arlott.`
-            },
-            {
-                number: 2,
-                title: "Luka Sang Pejuang",
-                content: `Arlott memutuskan untuk tidak membunuh gadis itu. Sebaliknya, ia membawanya ke sebuah gua tersembunyi di lereng bukit. Tubuh Arlott sendiri dipenuhi luka bekas sabetan tombak dan sihir kegelapan dari pertempuran sebelumnya.\n\nTanpa rasa takut, Mila mendekati Arlott. Gadis itu mengambil kain bersih dan air jernih untuk membersihkan luka-luka di punggung sang iblis. "Mengapa kau menolongku?" tanya Arlott dengan suara berat dan dingin.\n\n"Karena di balik wujud yang mengerikan ini, aku melihat jiwa yang terluka dan merindukan kedamaian," jawab Mila lembut. Untuk pertama kalinya dalam tahun-tahun yang panjang, Arlott merasakan desiran aneh di dadanya. Sebuah benih harapan mulai tumbuh di hatinya yang telah mati.`
-            },
-            {
-                number: 3,
-                title: "Bayangan Masa Lalu",
-                content: `Saat malam makin larut, Arlott menceritakan masa lalunya yang kelam kepada Mila. Ia adalah pejuang yang pernah dipercaya oleh fraksinya, namun dibuang dan dikhianati karena darah manusia dan iblis yang menyatu dalam dirinya. Manusia menganggapnya monster, sementara kaum iblis menganggapnya penghianat.\n\nMila mendengarkan dengan penuh empati. Ia sendiri adalah seorang putri dari desa terpencil yang hancur akibat invasi faksi kegelapan. Keduanya menyadari bahwa mereka adalah dua jiwa terbuang yang dipertemukan oleh benang merah takdir.\n\n"Kau bukan monster, Arlott. Kau adalah pejuang yang kehilangan tempat pulang," bisik Mila pelan seraya memegang tangan Arlott yang kasar.`
-            },
-            {
-                number: 4,
-                title: "Ancaman Pasukan Bayangan",
-                content: `Kedamaian singkat mereka terganggu ketika keesokan paginya, aura kegelapan menyeruak masuk ke dalam gua. Pasukan Pemburu Bayangan yang diutus oleh Lord of the Abyss telah melacak keberadaan Arlott.\n\n"Serahkan gadis itu dan berlututlah, Arlott!" teriak pemimpin pemburu dengan tawa mengejek.\n\nArlott melangkah ke depan, berdiri kokoh sebagai perisai di depan Mila. Matanya menyala merah terang, dan pedang gigihnya mulai memancarkan energi mematikan. "Selama aku masih bernapas, tak seorang pun boleh menyentuhnya!" geram Arlott.`
-            },
-            {
-                number: 5,
-                title: "Tarian Pedang Takdir",
-                content: `Pertempuran sengit pecah di luar gua. Arlott bergerak cepat bagaikan kilat, menebas setiap musuh yang mendekat dengan teknik tarian pedangnya yang legendaris. Kilatan cahaya merah dan kehitaman membelah udara pagi.\n\nMila menyaksikan pertempuran itu dari jauh dengan jantung berdebar. Ia melihat betapa Arlott bertarung bukan lagi karena rasa benci atau dendam, melainkan untuk melindungi kehidupan seseorang. Cinta telah mengubah pedang pembunuh itu menjadi pedang pelindung.`
-            },
-            {
-                number: 6,
-                title: "Darah dan Janji",
-                content: `Meski berhasil membasmi seluruh pasukan musuh, Arlott terkena tebasan pisau beracun di bahunya. Ia terhuyung dan jatuh berlutut. Mila segera berlari merangkulnya, air mata menetes di pipinya yang lembut.\n\n"Jangan tinggalkan aku, Arlott..." tangis Mila.\n\nArlott menggenggam erat jemari Mila. "Aku berjanji, Mila... Di dunia yang penuh pengkhianatan ini, aku akan menjadi pedangmu, dan kau adalah satu-satunya alasan bagiku untuk tetap hidup."`
-            },
-            {
-                number: 7,
-                title: "Perjalanan Menuju Kota Terlarang",
-                content: `Untuk menyembuhkan racun mistis yang menggerogoti tubuh Arlott, Mila harus membawanya ke Kota Terlarang, tempat tanaman obat suci berada. Perjalanan mereka dipenuhi rintangan melintasi hutan terlarang dan jurang terjal.\n\nSepanjang perjalanan, Mila menjadi tumpuan Arlott. Peran mereka kini berbalik; Mila yang biasanya lemah, kini menunjukkan keberanian luar biasa untuk menyelamatkan pria yang dicintainya.`
-            },
-            {
-                number: 8,
-                title: "Bisikan Sihir Hitam",
-                content: `Di dalam Hutan Kelam, suara-suara gaib mencoba memanipulasi pikiran Arlott. Bisikan itu menyuruhnya membunuh Mila dan menyerap jiwanya untuk mendapatkan kekuatan tak terbatas. Mata Arlott berubah menjadi gelap total, dan ia menatap Mila dengan tatapan kosong.\n\nNafsu membunuh yang amat sangat mulai menguasai kesadaran Arlott kembali.`
-            },
-            {
-                number: 9,
-                title: "Pelukan Pendamai Jiwa",
-                content: `Mila tidak berlari atau menarik pedangnya. Sebaliknya, ia berjalan mendekati Arlott yang sedang mengamuk dan memeluknya erat-erat. "Arlott, ini aku... Kembalilah padaku," bisiknya penuh kasih di telinga sang pejuang.\n\nHangatnya pelukan Mila dan ketulusan cintanya mampu menembus kegelapan sihir hitam. Kebencian di mata Arlott perlahan surut, digantikan oleh kesadaran dan keharuan yang mendalam.`
-            },
-            {
-                number: 10,
-                title: "Rahasia Gelang Ajaib",
-                content: `Di perjalanan, Mila mengungkapkan rahasia keluarga yang selama ini disimpannya. Ia memiliki sebuah peninggalan kuno berupa gelang kristal yang sanggup menekan aura kegelapan. Gelang tersebut ia pasangkan di pergelangan tangan Arlott.\n\nSeketika, gejolak darah iblis dalam tubuh Arlott menjadi tenang dan stabil. Keduanya menyadari bahwa pertemuan mereka bukanlah kebetulan, melainkan takdir yang telah tertulis sejak zaman purba.`
-            },
-            {
-                number: 11,
-                title: "Pengepungan Gerbang Benteng",
-                content: `Tiba di pinggiran Kota Terlarang, mereka mendapati bahwa kota tersebut telah dikuasai oleh Komandan Valerius, jenderal bengis yang dulu mengkhianati Arlott. Valerius telah menunggu kedatangan Arlott untuk merebut kekuatan iblisnya.\n\n"Selamat datang di tempat kematianmu, Arlott!" seru Valerius dari atas tembok benteng bersama ratusan prajurit panah.`
-            },
-            {
-                number: 12,
-                title: "Pilihan Sang Putri",
-                content: `Valerius menawarkan kesepakatan zalim: jika Mila menyerahkan diri untuk dijadikan tawanan, Arlott akan dibiarkan pergi hidup-hidup. Namun jika menolak, seluruh kota akan dibakar.\n\nMila melangkah maju, hendak mengorbankan dirinya demi Arlott. Namun Arlott menahan tangannya dengan mantap.`
-            },
-            {
-                number: 13,
-                title: "Demi Seseorang yang Dicintai",
-                content: `"Aku tidak akan pernah lagi membiarkan siapapun merebut apa yang paling berharga dalam hidupku!" tegas Arlott. Dengan keyakinan baru, Arlott membangkitkan kekuatan sejati dari kombinasi darah manusia, iblis, dan cinta Mila.\n\nPedangnya kini bercahaya keemasan berpadu dengan crimson yang membara.`
-            },
-            {
-                number: 14,
-                title: "Pertempuran Besar di Alun-Alun",
-                content: `Arlott menerjang barisan musuh bagaikan badai. Setiap tebasan pedangnya membelah musuh dan menghancurkan pertahanan Valerius. Mila menggunakan kemampuan sihir penyembuhnya dari jarak jauh untuk terus menopang energi Arlott.\n\nKerjasama dan ikatan batin mereka menciptakan sinergi bertarung yang tak tertandingi.`
-            },
-            {
-                number: 15,
-                title: "Duel Pengakhiran Dendam",
-                content: `Arlott akhirnya berhadapan satu lawan satu dengan Valerius di puncak alun-alun kota. Valerius mengayunkan pedang raksasanya dengan brutal, namun Arlott bertarung dengan ketenangan dan keputusasaan yang anggun.\n\n"Kekuatanmu berasal dari kebencian, Valerius! Tapi kekuatanku berasal dari cinta yang abadi!" teriak Arlott saat mendaratkan tebasan pamungkasnya.`
-            },
-            {
-                number: 16,
-                title: "Kemenangan yang Berharga",
-                content: `Valerius jatuh tersungkur dan kekuasaan zalimnya berakhir. Rakyat Kota Terlarang bersorak melihat kebebasan mereka. Namun Arlott tidak memedulikan kejayaan itu; ia langsung berlari mencari Mila yang terkulai lemas karena kehabisan energi sihir.`
-            },
-            {
-                number: 17,
-                title: "Di Bawah Pohon Kehidupan",
-                content: `Arlott membawa Mila ke dasar Pohon Kehidupan yang berada di pusat kota. Di sana, energi suci menyembuhkan Mila secara perlahan. Saat Mila membuka matanya, Arlott menggenggam jemarinya dan berlutut di hadapannya.\n\n"Dulu aku berpikir dunia ini hanya berisi kegelapan. Tapi kau adalah cahayaku, Mila," ucap Arlott tulus.`
-            },
-            {
-                number: 18,
-                title: "Sumpah Setia di Atas Pedang",
-                content: `Di hadapan saksi bisu Pohon Kehidupan, Arlott menancapkan pedangnya ke tanah dan mengucapkan sumpah setia abadi. Ia berjanji akan menggunakan kekuatannya hanya untuk melindungi kedamaian dan wanita yang teramat dicintainya itu.`
-            },
-            {
-                number: 19,
-                title: "Fajar Baru Moniyan",
-                content: `Kedamaian akhirnya kembali ke wilayah tersebut. Arlott dan Mila memutuskan untuk meninggalkan pertempuran masa lalu dan membangun kehidupan baru bersama di sebuah lembah hijau yang tenang, jauh dari konflik perebutan kekuasaan.`
-            },
-            {
-                number: 20,
-                title: "Cinta yang Abadi (Epilog)",
-                content: `Bertahun-tahun berlalu, kisah tentang sang pejuang iblis dan gadis berhati murni menjadi legenda yang diceritakan turun-temurun. Pedang Arlott kini bersanding dengan bunga-bunga abadi yang ditanam Mila.\n\nMereka membuktikan bahwa takdir sekelam apapun bisa diubah oleh kekuatan cinta yang sejati dan pengorbanan yang tanpa batas. Cinta mereka hidup selamanya, melampaui waktu dan takdir.`
-            }
-        ];
+        // Full Novel Chapters Data (Bab 1 - Bab 20)
+        const novelData = {
+            title: "Mobile Legends: Arlott & Mila",
+            subtitle: "Pedang Takdir, Cinta yang Abadi",
+            author: "Jalon Starboy Villains",
+            genre: "Fantasi, Petualangan, Aksi, Romansa",
+            chapters: [
+                {
+                    number: 1,
+                    title: "Bayangan Setengah Iblis",
+                    content: [
+                        "Darah dan salju menyatu di padang gurun gersang batas Moniyan Empire. Arlott berdiri tegak dengan mata merah menyala, memegang erat dua bilah pedang tombaknya yang haus akan darah. Sebagai makhluk keturunan campuran manusia dan iblis, hidupnya tidak pernah mengenal belas kasihan. Bagi manusia ia adalah monster, dan bagi bangsa iblis Abyss ia adalah pengkhianat.",
+                        "Di tengah tumpukan jasad tentara pengawal kerajaan yang telah habis dibantai oleh kawanan Demon Hunter jahat, Arlott menyapukan pandangannya. Angin malam meniup rambut keabu-abuannya. Pembantaian baru saja usai, tetapi dadanya terasa makin hampa.",
+                        "Tiba-tiba, suara kepakan sayap kegelapan dan jeritan rintihan lembut terdengar dari balik reruntuhan kereta kencana yang hancur. Arlott melangkah pelan, memutar pedangnya dengan refleks bertarung yang tajam. Ia mengira masih ada musuh yang tersisa.",
+                        "Namun, begitu ia menyibak tirai kereta yang terkoyak, yang ia temukan bukanlah prajurit bersenjata. Di sana terbaring seorang gadis muda berambut panjang keemasan dengan gaun putih yang ternoda debu dan darah. Matanya jernih memancarkan ketakutan sekaligus kejujuran yang belum pernah Arlott lihat sebelumnya.",
+                        "Gadis itu bernama Mila. Dalam tatapan pertama mereka, takdir yang mengikat pedang dan jiwa mereka mulai berputar."
+                    ]
+                },
+                {
+                    number: 2,
+                    title: "Pertemuan di Reruntuhan",
+                    content: [
+                        "Mila merapatkan tubuhnya ke dinding kayu kereta yang hancur. Di hadapannya berdiri Sesosok pejuang bertubuh tinggi besar dengan tanduk iblis misterius di kepalanya. Pedang tombak Arlott masih meneteskan darah musuh.",
+                        "\"Bunuh aku jika kau memang utusan Abyss...\" bisik Mila dengan suara bergetar namun matanya menatap langsung ke dalam mata merah Arlott.",
+                        "Arlott menurunkan senjatanya. Daging iblis di dalam tubuhnya mendesis, namun naluri manusianya menahan tangannya. \"Aku tidak membunuh orang yang tidak memegang senjata,\" jawab Arlott dingin. Suaranya serak bagaikan gesekan batu tajam.",
+                        "Arlott berbalik untuk pergi meninggalkan tempat pembantaian itu. Namun, Mila yang lemah mencoba berdiri dan tersandung. Tanpa ragu, Mila meraih ujung jubah hitam Arlott.",
+                        "\"Tolong... tempat ini tidak aman. Kaum monster lain akan segera datang,\" pintanya. Arlott menatap tangan lembut gadis itu yang memegang kain lusuhnya. Untuk pertama kalinya, ada manusia yang tidak menjerit ketakutan melihat wujud iblisnya."
+                    ]
+                },
+                {
+                    number: 3,
+                    title: "Luka Batin dan Belas Kasihan",
+                    content: [
+                        "Mereka berlindung di sebuah gua batu di kaki tebing. Api unggun kecil menyala, memancarkan cahaya hangat di antara kegelapan malam yang mencekam.",
+                        "Mila mengobati lukanya sendiri dengan ramuan herbal sederhana yang dibawanya. Ia kemudian memperhatikan luka sabetan di pundak Arlott yang terus mengeluarkan darah kehitaman—darah iblis.",
+                        "\"Biarkan aku membantumu,\" kata Mila pelan seraya mendekat membawa kain bersih.",
+                        "\"Jauh-jauh dariku, Manusia!\" bentak Arlott reflek. \"Darahku beracun dan tubuhku diciptakan untuk membunuh.\"",
+                        "Mila tidak mundur. Dengan senyuman lembut yang memancarkan ketenangan ajaib, ia menyentuh luka Arlott. Cahaya putih lembut keluar dari jemari Mila. Mila ternyata memiliki kemampuan penyembuhan sihir cahaya suci murni.",
+                        "Rasa sakit bakar di pundak Arlott perlahan menghilang. Lebih dari itu, kegelapan di dalam hati Arlott yang selalu bergejolak mendadak terasa damai saat tangan Mila menyentuhnya."
+                    ]
+                },
+                {
+                    number: 4,
+                    title: "Awal Perjalanan Bersama",
+                    content: [
+                        "Keesokan harinya, matahari terbit menyinari bentang alam Barren Lands yang gersang. Mila menjelaskan bahwa ia adalah seorang biarawati muda dari biara perbatasan yang sedang melarikan diri dari kejaran pasukan kegelapan Abyss.",
+                        "\"Aku harus mencapai Kota Lumina untuk menyampaikan surat peringatan ini kepada para Knight of Light,\" ujar Mila menunjukkan sebuah gulungan segel emas.",
+                        "Arlott menyilangkan dadanya. \"Kota Lumina adalah wilayah ksatria manusia. Mereka akan langsung menggantungku jika aku melangkahkan kaki ke sana.\"",
+                        "\"Kalau begitu, lindungi aku sampai di perbatasan sungai,\" mohon Mila. \"Sebagai imbalannya, aku akan mendoakan jiwamu dan mengobati setiap luka yang kau dapatkan.\"",
+                        "Arlott mendengus. Ia sebenarnya tidak peduli pada urusan Moniyan Empire atau Abyss. Namun memikirkan gadis polos ini berjalan sendirian di padang monster membuat hatinya tergerak secara aneh. Perjalanan bersama mereka pun dimulai."
+                    ]
+                },
+                {
+                    number: 5,
+                    title: "Ancaman di Lembah Kelam",
+                    content: [
+                        "Saat melintasi Lembah Kelam, tanah gemetar hebat. Sekelompok makhluk ciptaan Abyss, Demon Stalkers, muncul dari bawah tanah gersang menargetkan Mila.",
+                        "Arlott melompat maju dalam sekejap. Pedang ganda bermata dua di tangannya berputar membentuk tarian maut yang mematikan. 'Final Slash!' Arlott menebas ke depan dengan kecepatan seperti kilat merah.",
+                        "Setiap kali menebas musuh yang terikat pasif mark, gerakannya berulang tanpa henti dengan kelincahan mematikan. Monster-monster itu tumbang satu per satu menjadi abu kegelapan.",
+                        "Di akhir pertarungan, Arlott berdiri terengah-engah dengan hawa iblis bergejolak di matanya. Ia hampir kehilangan kendali atas nafsu haus darahnya.",
+                        "Mila berlari mendekatinya dan memeluk Arlott dari belakang tanpa rasa takut. \"Arlott, tenanglah... Aku di sini.\" Ketenangan dari pelukan Mila perlahan meredam amarah iblis dalam jiwa Arlott."
+                    ]
+                },
+                {
+                    number: 6,
+                    title: "Bayang-bayang Masa Lalu",
+                    content: [
+                        "Di malam berikutnya di bawah naungan bintang, Arlott akhirnya menceritakan masa lalunya yang kelam kepada Mila.",
+                        "Dahulu, Arlott dibesarkan di lingkungan keras di mana ia dimanfaatkan oleh kaum iblis sebagai senjata perang karena kekuatannya. Namun ketika ia menolak membantai wanita dan anak-anak desa manusia, kaum iblis menyiksanya dan membuangnya.",
+                        "\"Manusia membenciku karena wajah iblisku, dan Iblis membenciku karena kelembutan hatiku. Aku tidak memiliki tempat tinggal di dunia ini,\" tutur Arlott menatap telapak tangannya.",
+                        "Mila menangkup kedua tangan Arlott dengan tangannya yang hangat. \"Dunia mungkin menolakmu, Arlott. Tapi bagiku, kau adalah pahlawanku. Kau memiliki jiwa yang lebih murni daripada banyak manusia yang pernah kukenal.\"",
+                        "Mata Arlott bergetar. Untuk pertama kalinya dalam hidupnya, ia merasa diterima."
+                    ]
+                },
+                {
+                    number: 7,
+                    title: "Cahaya di Tengah Kegelapan",
+                    content: [
+                        "Hubungan Arlott dan Mila tumbuh makin erat seiring perjalanan mereka. Mila mengajarkan Arlott tentang keindahan bunga liar, arti lagu-lagu pujian, dan rasa hangat dari sebuah senyuman.",
+                        "Arlott yang tadinya dingin dan pendiam mulai belajar tersenyum meski tipis. Ia selalu memastikan Mila tidur di tempat paling nyaman dan melindunginya dari bahaya apa pun.",
+                        "Suatu sore dekat telaga jernih, Mila memetik kuntum bunga biru dan menyematkannya di baju zirah hitam Arlott.",
+                        "\"Bunga ini melambangkan harapan yang tak pernah padam,\" kata Mila tersenyum manis.",
+                        "Arlott menatap mata Mila yang berbinar. Pedang di tangannya yang biasanya digunakan untuk mencabut nyawa, kini ia sumbahkan untuk menjaga senyuman gadis di hadapannya ini."
+                    ]
+                },
+                {
+                    number: 8,
+                    title: "Serangan Pasukan Abyss",
+                    content: [
+                        "Kedamaian singkat mereka hancur ketika Komandan Helcurt dan pasukan bayangan menemukan keberadaan mereka. Abyss menginginkan isi gulungan rahasia yang dibawa Mila.",
+                        "Langit mendadak gelap gulita dipenuhi asap hitam tebal. Ketakutan menyelimuti area sekitar.",
+                        "\"Serahkan gadis itu, hai Pengkhianat!\" seru suara gaib bergema dari kegelapan.",
+                        "Arlott menancapkan pedangnya ke tanah, berdiri kokoh di depan Mila. \"Melompati mayatku dulu sebelum kau menyentuhnya!\"",
+                        "Pertempuran sengit meletus dalam kegelapan mutlak. Arlott bertarung mengandalkan instink dan dorongan untuk melindungi Mila."
+                    ]
+                },
+                {
+                    number: 9,
+                    title: "Janji Di Bawah Bintang",
+                    content: [
+                        "Dengan tebasan kombinasi 'Dauntless Strike' dan 'Vengeance', Arlott berhasil memukul mundur pasukan bayangan meski tubuhnya menderita luka-luka berat.",
+                        "Mila menangis sambil menyalurkan seluruh energi sihir cahayanya untuk menyembuhkan luka Arlott hingga Mila sendiri hampir pingsan karena kelelahan.",
+                        "\"Jangan memaksakan dirimu, Mila...\" bisik Arlott menahan tangan Mila.",
+                        "\"Aku tidak akan membiarkanmu mati!\" jawab Mila tegas dengan air mata membasahi pipinya.",
+                        "Di bawah langit malam yang kembali cerah bertabur bintang, Arlott memeluk Mila dengan erat. Beliau berjanji akan selalu berada di samping Mila, tidak peduli apa pun takdir yang harus mereka hadapi."
+                    ]
+                },
+                {
+                    number: 10,
+                    title: "Pengkhianatan di Perbatasan",
+                    content: [
+                        "Akhirnya mereka tiba di benteng perbatasan Moniyan Empire. Namun, bukannya sambutan hangat yang mereka terima, para prajurit ksatria Empire langsung mengarahkan panah dan tombak ke arah Arlott begitu melihat wujud setengah iblisnya.",
+                        "\"Mila! Menjauhlah dari monster itu!\" teriak Komandan Penjaga Benteng.",
+                        "Mila berdiri di depan Arlott, merentangkan kedua tangannya. \"Dia bukan monster! Dia pelindungku! Dia menyelamatkan nyawaku!\"",
+                        "Namun para prajurit bersikap buta oleh prasangka. Mereka menganggap Mila telah dihipnotis oleh ilmu hitam iblis dan mulai melepaskan tembakan panah sihir."
+                    ]
+                },
+                {
+                    number: 11,
+                    title: "Dilema Pedang Takdir",
+                    content: [
+                        "Arlott menangkis panah-panah yang mengincar Mila dengan pedangnya. Hatinya dipenuhi kepahitan. Manusia yang ingin dibantu Mila justru menyerang mereka.",
+                        "\"Arlott, jangan bunuh mereka! Mereka hanya takut!\" pinta Mila.",
+                        "Arlott menahan amarahnya. Demi Mila, ia tidak membalas dengan tebasan mematikan. Ia hanya merusak senjata para prajurit dan membawa Mila berlari menjauh dari benteng.",
+                        "Arlott menyadari bahwa takdirnya adalah berjalan di garis tipis antara dua dunia yang saling membenci. Dan Mila adalah satu-satunya jembatan hatinya."
+                    ]
+                },
+                {
+                    number: 12,
+                    title: "Pelarian dalam Badai",
+                    content: [
+                        "Badai salju mendadak menerjang Pegunungan Lantis. Arlott dan Mila berlindung di sebuah gubuk tua pemburu.",
+                        "Mila menggigil hebat karena dingin ekstrem. Arlott mendekap Mila erat-erat, menggunakan kehangatan hawa api iblis di dalam tubuhnya yang terkontrol untuk menjaga tubuh Mila agar tidak membeku.",
+                        "Inilah keajaiban dari kekuatan Arlott—api yang biasanya menghancurkan, kini ia gunakan untuk memberi kehidupan dan kehangatan bagi wanita yang dicintainya.",
+                        "Mila menyandarkan kepalanya di dada Arlott, mendengarkan detak jantung pejuang itu yang tenang."
+                    ]
+                },
+                {
+                    number: 13,
+                    title: "Rahasia Rahasia Kerajaan",
+                    content: [
+                        "Di dalam gubuk, Mila akhirnya membuka isi gulungan segel yang dibawanya. Ternyata gulungan itu berisi dokumen konspirasi pejabat tinggi kerajaan Moniyan yang bekerja sama dengan petinggi Abyss untuk mengorbankan desa-desa perbatasan demi imbalan kekuatan.",
+                        "Itulah alasan mengapa pihak Abyss maupun oknum prajurit benteng begitu bernafsu membunuh Mila.",
+                        "\"Dunia ini sangat rumit dan penuh kepalsuan...\" bisik Mila sedih.",
+                        "Arlott menggenggam jemari Mila. \"Maka kita akan buat kebenaran kita sendiri, Mila. Aku tidak peduli pada kerajaan atau Abyss. Aku hanya peduli padamu.\""
+                    ]
+                },
+                {
+                    number: 14,
+                    title: "Pertarungan di Lembah Maut",
+                    content: [
+                        "Pengejar utama mereka akhirnya muncul—seorang Jenderal Penghianat bernama Varos yang memimpin pasukan gabungan manusia pemuja kegelapan dan monster Abyss.",
+                        "Varos mengepung lembah tempat Arlott dan Mila berada. \"Gadis itu harus mati bersama rahasianya, dan kau makhluk haram akan kembali ke neraka!\" seru Varos.",
+                        "Arlott melangkah maju dengan ketenangan luar biasa. Pedangnya bergetar memancarkan aura aura aura merah membara dan keemasan bersamaan.",
+                        "\"Siapa pun yang mencoba menyentuhnya... tidak akan melihat matahari esok hari!\""
+                    ]
+                },
+                {
+                    number: 15,
+                    title: "Kekuatan Cinta Abadi",
+                    content: [
+                        "Pertempuran terdahsyat pecah. Arlott melancarkan combo 'Demon Strike' secara beruntun mengoyak barisan musuh. Namun jumlah musuh terlalu banyak.",
+                        "Saat satu sabetan tombak Varos hampir mengenai dada Arlott, Mila berlari dan melepaskan sihir pelindung 'Aegis of Light'. Perisai cahaya itu menahan serangan, tetapi dorongannya membuat Mila terlempar dan terluka.",
+                        "Melihat darah Mila menetes, amarah Arlott meluap hingga tingkat puncak. Namun alih-alih menjadi iblis liar tanpa akal, kekuatan iblis dan cinta manusianya menyatu harmonis dalam jiwanya.",
+                        "Mata Arlott menyala terang dengan warna merah keemasan sempurna—wujud sejati 'Blade of Destiny'."
+                    ]
+                },
+                {
+                    number: 16,
+                    title: "Pengorbanan yang Suci",
+                    content: [
+                        "Dengan kecepatan yang tak tertandingi, Arlott menebas Varos dan menghancurkan seluruh pasukan kegelapan hanya dalam hitungan detik. Tebasan pedangnya membelah tanah lembah.",
+                        "Setelah pertarungan selesai, Arlott berlutut di samping Mila yang terbaring lemah. Sihir Mila telah terkuras habis demi melindunginya.",
+                        "\"Mila! Buka matamu... Tolong!\" panggil Arlott dengan suara bergetar panik.",
+                        "Mila menyentuh pipi Arlott dengan sisa tenaganya. \"Aku tidak apa-apa, Arlott... Aku berjanji akan selalu ada bersamamu...\""
+                    ]
+                },
+                {
+                    number: 17,
+                    title: "Fajar Keheningan",
+                    content: [
+                        "Matahari fajar mulai terbit memancarkan sinar keemasan mengusir kegelapan badai. Arlott memangku Mila dan membawanya menuju mata air suci kuno yang tersembunyi di puncak gunung.",
+                        "Arlott merebahkan Mila di tepi mata air. Air suci misterius itu meresapi tubuh Mila, menyembuhkan energi sihirnya dan mengembalikan kesadarannya.",
+                        "Ketika Mila membuka matanya, hal pertama yang ia lihat adalah wajah Arlott yang menatapnya dengan rasa lega yang mendalam dan tulus.",
+                        "Di tempat yang jauh dari perang dan kebencian dunia itu, mereka merasakan kedamaian sejati."
+                    ]
+                },
+                {
+                    number: 18,
+                    title: "Takdir yang Terpilih",
+                    content: [
+                        "Mereka memutuskan untuk tidak menyerahkan gulungan rahasia itu kepada pejabat korup, melainkan mengirimkannya langsung kepada Silvanna, sang Putri Moniyan yang adil melalui burung utusan sihir.",
+                        "Dengan terungkapnya kebenaran, nama Mila dibersihkan dan para pengkhianat ditangkap.",
+                        "Namun bagi Arlott dan Mila, kemewahan kota atau gelar kehormatan tak lagi penting. Mereka telah memilih jalan hidup mereka sendiri—jalan bebas di luar belenggu takdir."
+                    ]
+                },
+                {
+                    number: 19,
+                    title: "Puncak Ketenangan",
+                    content: [
+                        "Arlott dan Mila membangun sebuah pondok kecil yang indah di perbatasan padang rumput hijau yang dipenuhi bunga-bunga liar. Tempat itu menjadi rumah bagi mereka berdua.",
+                        "Arlott menggunakan pedangnya bukan lagi untuk membalas dendam, melainkan untuk mengolah tanah, memotong kayu, dan menjaga rumah tempat Mila tersenyum setiap pagi.",
+                        "Warga desa sekitar yang awalnya takut perlahan mulai menerima Arlott setelah melihat kebaikan hatinya dan bagaimana ia mencintai Mila.",
+                        "Dua jiwa yang dahulu terluka kini saling menyembuhkan satu sama lain."
+                    ]
+                },
+                {
+                    number: 20,
+                    title: "Cinta Abadi Tak Teroyak",
+                    content: [
+                        "Tahun demi tahun berlalu. Legenda tentang Pejuang Setengah Iblis berpedang merah dan Gadis Cahaya Suci menyebar di seluruh pelosok Land of Dawn.",
+                        "Orang-orang menceritakan bagaimana cinta mereka mampu mengalahkan takdir kelam, mengatasi tembok kebencian antara manusia dan iblis.",
+                        "Sore itu, Arlott dan Mila duduk berdua di bukit menyaksikan matahari terbenam. Mila menyandarkan kepalanya di bahu kokoh Arlott, sementara Arlott menggenggam erat tangan Mila.",
+                        "\"Pedangku dahulu adalah takdir kematian,\" bisik Arlott lembut ke telinga Mila.",
+                        "Mila tersenyum manis dan menatap mata Arlott. \"Dan kini pedangmu adalah takdir perlindungan... bagi cinta kita yang abadi.\"",
+                        "Di bawah naungan langit senja yang indah, Arlott dan Mila mengecup kening satu sama lain, mengikat janji suci yang takkan pernah terhapus oleh waktu."
+                    ]
+                }
+            ]
+        };
 
-        // --- STATE MANAGEMENT ---
-        let currentChapterIndex = 0;
-        let fontSizePercent = 100; // 100% default
+        // Application State Variables
+        let currentChapterIndex = 0; // 0 = Bab 1
+        let currentFontSizePercent = 100; // default font size
+        let currentTheme = 'theme-dark-fantasy';
 
-        // --- DOM ELEMENTS ---
-        const themeToggleBtn = document.getElementById('themeToggle');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
-        const sidebar = document.getElementById('sidebar');
-        const mobileOverlay = document.getElementById('mobileOverlay');
-
+        // DOM Elements
+        const readerContainer = document.getElementById('readerContainer');
+        const chapterTitleDisplay = document.getElementById('chapterTitleDisplay');
+        const chapterNumberBadge = document.getElementById('chapterNumberBadge');
+        const chapterTextContent = document.getElementById('chapterTextContent');
+        const chapterSelectDropdown = document.getElementById('chapterSelectDropdown');
         const chapterListNav = document.getElementById('chapterListNav');
-        const chapterSelect = document.getElementById('chapterSelect');
-
-        const displayChapterNumber = document.getElementById('displayChapterNumber');
-        const displayChapterTitle = document.getElementById('displayChapterTitle');
-        const textContent = document.getElementById('textContent');
-        const bottomChapterTracker = document.getElementById('bottomChapterTracker');
-
-        const btnPrevChapter = document.getElementById('btnPrevChapter');
-        const btnNextChapter = document.getElementById('btnNextChapter');
+        const progressBar = document.getElementById('progressBar');
+        const fontPercentSpan = document.getElementById('fontPercent');
+        
+        const btnPrevChapterTop = document.getElementById('btnPrevChapterTop');
+        const btnNextChapterTop = document.getElementById('btnNextChapterTop');
         const btnPrevChapterBottom = document.getElementById('btnPrevChapterBottom');
         const btnNextChapterBottom = document.getElementById('btnNextChapterBottom');
+        const btnBookmark = document.getElementById('btnBookmark');
 
-        const btnFontDec = document.getElementById('btnFontDec');
-        const btnFontReset = document.getElementById('btnFontReset');
-        const btnFontInc = document.getElementById('btnFontInc');
+        // Sidebar elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const chapterSearch = document.getElementById('chapterSearch');
 
-        // --- INIT APP ---
+        // Modal Download elements
+        const downloadModal = document.getElementById('downloadModal');
+        const openDownloadModalBtn = document.getElementById('openDownloadModalBtn');
+        const closeDownloadModalBtn = document.getElementById('closeDownloadModalBtn');
+        const downloadTxtBtn = document.getElementById('downloadTxtBtn');
+        const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
+        const downloadCurrentChapterBtn = document.getElementById('downloadCurrentChapterBtn');
+
+        // Toast element
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Initialize App
         function initApp() {
-            renderChapterNavigation();
-            loadChapter(0);
-            setupTheme();
+            renderChapterDropdown();
+            renderSidebarChapterList(novelData.chapters);
+            loadSavedProgress();
+            renderChapter(currentChapterIndex);
+            setupEventListeners();
+            updateProgressBar();
         }
 
-        // --- THEME SETUP ---
-        function setupTheme() {
-            if (localStorage.getItem('theme') === 'light') {
-                document.documentElement.classList.remove('dark');
-            } else {
-                document.documentElement.classList.add('dark');
-            }
+        // Render Dropdown options
+        function renderChapterDropdown() {
+            chapterSelectDropdown.innerHTML = '';
+            novelData.chapters.forEach((chap, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `Bab ${chap.number}: ${chap.title}`;
+                chapterSelectDropdown.appendChild(opt);
+            });
         }
 
-        themeToggleBtn.addEventListener('click', () => {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
+        // Render Sidebar Links
+        function renderSidebarChapterList(chapters) {
+            chapterListNav.innerHTML = '';
+            if (chapters.length === 0) {
+                chapterListNav.innerHTML = `<div class="text-xs text-slate-500 text-center py-4">Bab tidak ditemukan.</div>`;
+                return;
             }
-        });
 
-        // --- MOBILE SIDEBAR DRAWER ---
+            chapters.forEach((chap) => {
+                const realIndex = novelData.chapters.findIndex(c => c.number === chap.number);
+                const isCurrent = realIndex === currentChapterIndex;
+                
+                const a = document.createElement('a');
+                a.href = '#';
+                a.className = `block p-2.5 rounded-lg text-xs transition border ${
+                    isCurrent 
+                    ? 'bg-amber-950/80 border-amber-500 text-amber-300 font-bold' 
+                    : 'bg-slate-900/60 border-slate-800/80 text-slate-300 hover:border-amber-700/50 hover:bg-slate-800'
+                }`;
+                
+                a.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-amber-500 font-semibold">BAB ${chap.number}</span>
+                        ${isCurrent ? '<i class="fa-solid fa-book-open text-amber-400 text-[10px]"></i>' : ''}
+                    </div>
+                    <div class="font-cinzel text-sm mt-0.5 truncate">${chap.title}</div>
+                `;
+
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    goToChapter(realIndex);
+                    closeSidebar();
+                });
+
+                chapterListNav.appendChild(a);
+            });
+        }
+
+        // Display Chapter Content
+        function renderChapter(index) {
+            if (index < 0 || index >= novelData.chapters.length) return;
+
+            currentChapterIndex = index;
+            const chapter = novelData.chapters[index];
+
+            chapterNumberBadge.textContent = `BAB ${chapter.number} DARI 20`;
+            chapterTitleDisplay.textContent = chapter.title;
+            
+            // Build Paragraphs
+            chapterTextContent.innerHTML = chapter.content.map(p => `<p class="indent-6 leading-relaxed mb-4 text-justify">${p}</p>`).join('');
+
+            // Synchronize Dropdown
+            chapterSelectDropdown.value = index;
+
+            // Re-render Sidebar Active State
+            renderSidebarChapterList(novelData.chapters);
+
+            // Update Navigation Buttons State
+            btnPrevChapterTop.disabled = index === 0;
+            btnPrevChapterBottom.disabled = index === 0;
+            btnNextChapterTop.disabled = index === novelData.chapters.length - 1;
+            btnNextChapterBottom.disabled = index === novelData.chapters.length - 1;
+
+            // Save Progress to localStorage
+            localStorage.setItem('arlott_mila_chapter', index);
+
+            // Scroll to top of reading area smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            updateProgressBar();
+            checkBookmarkStatus();
+        }
+
+        // Change Font Size Function
+        function setFontSize(percent) {
+            currentFontSizePercent = Math.min(Math.max(percent, 70), 160); // min 70%, max 160%
+            fontPercentSpan.textContent = `${currentFontSizePercent}%`;
+            chapterTextContent.style.fontSize = `${currentFontSizePercent}%`;
+            localStorage.setItem('arlott_mila_fontSize', currentFontSizePercent);
+        }
+
+        // Change Reading Theme
+        function setTheme(themeClass) {
+            currentTheme = themeClass;
+            document.body.className = `${themeClass} font-sans antialiased min-h-screen flex flex-col transition-colors duration-300`;
+            localStorage.setItem('arlott_mila_theme', themeClass);
+        }
+
+        // Toast Notification Helper
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Update Top Reading Progress Bar
+        function updateProgressBar() {
+            const progress = ((currentChapterIndex + 1) / novelData.chapters.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Sidebar Actions
         function openSidebar() {
             sidebar.classList.remove('-translate-x-full');
-            mobileOverlay.classList.remove('hidden');
+            sidebarOverlay.classList.remove('hidden');
         }
 
         function closeSidebar() {
             sidebar.classList.add('-translate-x-full');
-            mobileOverlay.classList.add('hidden');
+            sidebarOverlay.classList.add('hidden');
         }
 
-        mobileMenuBtn.addEventListener('click', openSidebar);
-        closeSidebarBtn.addEventListener('click', closeSidebar);
-        mobileOverlay.addEventListener('click', closeSidebar);
-
-        // --- RENDER CHAPTER LISTS & DROPDOWN ---
-        function renderChapterNavigation() {
-            chapterListNav.innerHTML = '';
-            chapterSelect.innerHTML = '';
-
-            novelData.forEach((ch, idx) => {
-                // Sidebar List Item
-                const btn = document.createElement('button');
-                btn.className = `w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between ${
-                    idx === currentChapterIndex
-                        ? 'bg-red-600 text-white shadow-md'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-                }`;
-                btn.innerHTML = `
-                    <span class="truncate">Bab ${ch.number}: ${ch.title}</span>
-                    <i class="fa-solid fa-chevron-right text-[10px] opacity-70"></i>
-                `;
-                btn.onclick = () => {
-                    loadChapter(idx);
-                    closeSidebar();
-                    scrollToReader();
-                };
-                chapterListNav.appendChild(btn);
-
-                // Dropdown Option
-                const opt = document.createElement('option');
-                opt.value = idx;
-                opt.textContent = `Bab ${ch.number}: ${ch.title}`;
-                chapterSelect.appendChild(opt);
-            });
-        }
-
-        // --- LOAD CHAPTER CONTENT ---
-        function loadChapter(index) {
-            if (index < 0 || index >= novelData.length) return;
-
-            currentChapterIndex = index;
-            const chapter = novelData[index];
-
-            // Update Header Display
-            displayChapterNumber.textContent = `Bab ${chapter.number} Dari 20`;
-            displayChapterTitle.textContent = chapter.title;
-
-            // Format Paragraphs
-            const paragraphs = chapter.content.split('\n\n');
-            textContent.innerHTML = paragraphs
-                .map(p => `<p class="indent-6 leading-relaxed text-justify">${p.trim()}</p>`)
-                .join('');
-
-            // Update Navigation Status
-            bottomChapterTracker.textContent = `Bab ${chapter.number} dari ${novelData.length}`;
-            chapterSelect.value = index;
-
-            // Update Disabled States
-            const isFirst = currentChapterIndex === 0;
-            const isLast = currentChapterIndex === novelData.length - 1;
-
-            btnPrevChapter.disabled = isFirst;
-            btnPrevChapterBottom.disabled = isFirst;
-            btnNextChapter.disabled = isLast;
-            btnNextChapterBottom.disabled = isLast;
-
-            // Re-render Sidebar Active State
-            renderChapterNavigation();
-        }
-
-        // --- EVENT LISTENERS FOR NAV ---
-        chapterSelect.addEventListener('change', (e) => {
-            loadChapter(parseInt(e.target.value));
-            scrollToReader();
-        });
-
-        btnPrevChapter.addEventListener('click', () => { loadChapter(currentChapterIndex - 1); scrollToReader(); });
-        btnPrevChapterBottom.addEventListener('click', () => { loadChapter(currentChapterIndex - 1); scrollToReader(); });
-        btnNextChapter.addEventListener('click', () => { loadChapter(currentChapterIndex + 1); scrollToReader(); });
-        btnNextChapterBottom.addEventListener('click', () => { loadChapter(currentChapterIndex + 1); scrollToReader(); });
-
-        // --- FONT SIZE CONTROLS (A-, 100%, A+) ---
-        btnFontDec.addEventListener('click', () => {
-            if (fontSizePercent > 80) {
-                fontSizePercent -= 10;
-                applyFontSize();
+        // Bookmark Logic
+        function checkBookmarkStatus() {
+            const savedBm = localStorage.getItem('arlott_mila_bookmark');
+            const icon = document.getElementById('bookmarkIcon');
+            if (savedBm && parseInt(savedBm) === currentChapterIndex) {
+                btnBookmark.classList.add('bg-amber-900/60', 'text-amber-300', 'border-amber-500');
+                icon.className = 'fa-solid fa-bookmark text-amber-400';
+            } else {
+                btnBookmark.classList.remove('bg-amber-900/60', 'text-amber-300', 'border-amber-500');
+                icon.className = 'fa-regular fa-bookmark';
             }
-        });
+        }
 
-        btnFontReset.addEventListener('click', () => {
-            fontSizePercent = 100;
-            applyFontSize();
-        });
-
-        btnFontInc.addEventListener('click', () => {
-            if (fontSizePercent < 150) {
-                fontSizePercent += 10;
-                applyFontSize();
+        function toggleBookmark() {
+            const savedBm = localStorage.getItem('arlott_mila_bookmark');
+            if (savedBm && parseInt(savedBm) === currentChapterIndex) {
+                localStorage.removeItem('arlott_mila_bookmark');
+                showToast(`Penanda bab ${currentChapterIndex + 1} dihapus.`);
+            } else {
+                localStorage.setItem('arlott_mila_bookmark', currentChapterIndex);
+                showToast(`Bab ${currentChapterIndex + 1}: ${novelData.chapters[currentChapterIndex].title} ditandai!`);
             }
-        });
-
-        function applyFontSize() {
-            textContent.style.fontSize = `${fontSizePercent}%`;
-            btnFontReset.textContent = `${fontSizePercent}%`;
+            checkBookmarkStatus();
         }
 
-        function scrollToReader() {
-            document.getElementById('readerArea').scrollIntoView({ behavior: 'smooth' });
+        // Load Saved State
+        function loadSavedProgress() {
+            const savedChapter = localStorage.getItem('arlott_mila_chapter');
+            if (savedChapter !== null) {
+                currentChapterIndex = parseInt(savedChapter) || 0;
+            }
+
+            const savedFont = localStorage.getItem('arlott_mila_fontSize');
+            if (savedFont) {
+                setFontSize(parseInt(savedFont));
+            }
+
+            const savedTheme = localStorage.getItem('arlott_mila_theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            }
         }
 
-        // --- FEATURE: DOWNLOAD NOVEL AS TXT / PRINT PDF ---
-        function downloadNovelTxt() {
-            let fullText = `===================================================\n`;
-            fullText += `NOVEL MOBILE LEGENDS: ARLOTT & MILA\n`;
-            fullText += `Sub-judul: Pedang Takdir, Cinta yang Abadi\n`;
-            fullText += `Genre: Fantasi, Petualangan, Aksi, Romansa\n`;
-            fullText += `Penulis: Jalon Starboy Villains\n`;
-            fullText += `===================================================\n\n`;
-            fullText += `RINGKASAN SINOPSIS:\n`;
-            fullText += `Di dunia yang dipenuhi peperangan dan pengkhianatan, seorang pejuang bernama Arlott bertemu dengan Mila, gadis yang mengubah pandangannya tentang kehidupan. Arlott terbiasa menghadapi musuh dengan pedangnya, tetapi kali ini ia harus berjuang melawan takdir demi seseorang yang dicintainya.\n\n`;
-            fullText += `===================================================\n\n`;
+        function goToChapter(index) {
+            if (index >= 0 && index < novelData.chapters.length) {
+                renderChapter(index);
+            }
+        }
 
-            novelData.forEach(ch => {
-                fullText += `BAB ${ch.number}: ${ch.title.toUpperCase()}\n`;
-                fullText += `---------------------------------------------------\n`;
-                fullText += `${ch.content}\n\n\n`;
+        // ================= DOWNLOAD NOVEL FUNCTIONS ================= //
+
+        // 1. Download Full Novel as TXT
+        function downloadFullNovelTxt() {
+            let fullText = `==================================================\n`;
+            fullText += `${novelData.title.toUpperCase()}\n`;
+            fullText += `Sub-Judul: ${novelData.subtitle}\n`;
+            fullText += `Penulis: ${novelData.author}\n`;
+            fullText += `Genre: ${novelData.genre}\n`;
+            fullText += `==================================================\n\n`;
+            fullText += `SINOPSIS:\nDi dunia yang dipenuhi peperangan dan pengkhianatan, seorang pejuang bernama Arlott bertemu dengan Mila, gadis yang mengubah pandangannya tentang kehidupan. Arlott terbiasa menghadapi musuh dengan pedangnya, tetapi kali ini ia harus berjuang melawan takdir demi seseorang yang dicintainya.\n\n`;
+            fullText += `==================================================\n\n`;
+
+            novelData.chapters.forEach(chap => {
+                fullText += `BAB ${chap.number}: ${chap.title.toUpperCase()}\n`;
+                fullText += `--------------------------------------------------\n`;
+                chap.content.forEach(p => {
+                    fullText += `${p}\n\n`;
+                });
+                fullText += `\n`;
             });
 
-            // Create download link
-            const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Novel_Mobile_Legends_Arlott_Mila_Full_Bab_1-20.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            downloadBlob(fullText, 'Novel_Mobile_Legends_Arlott_dan_Mila_Lengkap.txt', 'text/plain;charset=utf-8');
+            showToast('Mengunduh seluruh isi novel format TXT...');
         }
 
-        // --- FEATURE: DOWNLOAD WEBSITE AS HTML FILE ---
-        function downloadWebsiteHtml() {
+        // 2. Download Current Chapter as TXT
+        function downloadCurrentChapterTxt() {
+            const chap = novelData.chapters[currentChapterIndex];
+            let text = `NOVEL MOBILE LEGENDS: ARLOTT & MILA\n`;
+            text += `Penulis: ${novelData.author}\n\n`;
+            text += `BAB ${chap.number}: ${chap.title.toUpperCase()}\n`;
+            text += `--------------------------------------------------\n\n`;
+            chap.content.forEach(p => {
+                text += `${p}\n\n`;
+            });
+
+            downloadBlob(text, `Arlott_Mila_Bab_${chap.number}_${chap.title.replace(/\s+/g, '_')}.txt`, 'text/plain;charset=utf-8');
+            showToast(`Mengunduh Bab ${chap.number} format TXT...`);
+        }
+
+        // 3. Download Full HTML Offline File
+        function downloadFullWebsiteHtml() {
             const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            downloadBlob(htmlContent, 'Novel_Mobile_Legends_Arlott_Mila_Offline.html', 'text/html;charset=utf-8');
+            showToast('Mengunduh halaman Web Offline (.HTML)...');
+        }
+
+        // Utility to trigger file download in browser
+        function downloadBlob(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Novel_Arlott_Mila_Website_Offline.html`;
+            a.download = filename;
             document.body.appendChild(a);
             a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
         }
 
-        // Run on Page Load
-        window.onload = initApp;
+        // Event Listeners Setup
+        function setupEventListeners() {
+            // Next / Prev Buttons
+            btnPrevChapterTop.addEventListener('click', () => goToChapter(currentChapterIndex - 1));
+            btnNextChapterTop.addEventListener('click', () => goToChapter(currentChapterIndex + 1));
+            btnPrevChapterBottom.addEventListener('click', () => goToChapter(currentChapterIndex - 1));
+            btnNextChapterBottom.addEventListener('click', () => goToChapter(currentChapterIndex + 1));
+
+            // Dropdown change
+            chapterSelectDropdown.addEventListener('change', (e) => {
+                goToChapter(parseInt(e.target.value));
+            });
+
+            // Font Controls
+            document.getElementById('btnFontInc').addEventListener('click', () => setFontSize(currentFontSizePercent + 10));
+            document.getElementById('btnFontDec').addEventListener('click', () => setFontSize(currentFontSizePercent - 10));
+            document.getElementById('btnFontReset').addEventListener('click', () => setFontSize(100));
+
+            // Theme Switcher Buttons
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const theme = e.currentTarget.getAttribute('data-theme');
+                    setTheme(theme);
+                });
+            });
+
+            // Sidebar Events
+            toggleSidebarBtn.addEventListener('click', openSidebar);
+            closeSidebarBtn.addEventListener('click', closeSidebar);
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Search Bab
+            chapterSearch.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filtered = novelData.chapters.filter(c => 
+                    c.title.toLowerCase().includes(query) || 
+                    `bab ${c.number}`.includes(query) ||
+                    c.content.some(p => p.toLowerCase().includes(query))
+                );
+                renderSidebarChapterList(filtered);
+            });
+
+            // Bookmark Button
+            btnBookmark.addEventListener('click', toggleBookmark);
+
+            // Modal Download Events
+            openDownloadModalBtn.addEventListener('click', () => downloadModal.classList.remove('hidden'));
+            closeDownloadModalBtn.addEventListener('click', () => downloadModal.classList.add('hidden'));
+            downloadModal.addEventListener('click', (e) => {
+                if (e.target === downloadModal) downloadModal.classList.add('hidden');
+            });
+
+            // Download Trigger Buttons
+            downloadTxtBtn.addEventListener('click', () => {
+                downloadFullNovelTxt();
+                downloadModal.classList.add('hidden');
+            });
+            downloadHtmlBtn.addEventListener('click', () => {
+                downloadFullWebsiteHtml();
+                downloadModal.classList.add('hidden');
+            });
+            downloadCurrentChapterBtn.addEventListener('click', () => {
+                downloadCurrentChapterTxt();
+                downloadModal.classList.add('hidden');
+            });
+
+            // Keyboard Shortcuts for Navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+                if (e.key === 'ArrowRight') {
+                    goToChapter(currentChapterIndex + 1);
+                } else if (e.key === 'ArrowLeft') {
+                    goToChapter(currentChapterIndex - 1);
+                }
+            });
+        }
+
+        // Run App on Load
+        window.onload = function() {
+            initApp();
+        };
     </script>
 </body>
 </html>
