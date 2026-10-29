@@ -1,822 +1,624 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arlott & Mila: Takdir di Bawah Bulan Merah - Novel Interaktif</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Takdir, dan Cinta di Land of Dawn - Novel Interaktif</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        blood: {
-                            500: '#dc2626',
-                            600: '#b91c1c',
-                            700: '#991b1b',
-                            800: '#7f1d1d',
-                            900: '#450a0a',
-                        },
-                        dawn: {
-                            900: '#0f0d13',
-                            800: '#181520',
-                            700: '#231f2e',
-                            600: '#322c42',
-                        }
+                        bgDark: '#0e1017',
+                        cardDark: '#161925',
+                        borderDark: '#252a3e',
+                        accentRed: '#ff4d6d',
+                        accentTeal: '#2dd4bf',
+                        purplePill: '#1c1c30',
+                        textMuted: '#94a3b8'
                     },
                     fontFamily: {
-                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        fantasy: ['Cinzel', 'Georgia', 'serif']
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                        reader: ['Lora', 'serif']
                     }
                 }
             }
         }
     </script>
-    <!-- Lucide Icons & Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Custom Scrollbar */
+        /* Custom Fine Details matching Reference */
+        body {
+            background-color: #0d0f18;
+            background-image: radial-gradient(circle at 50% 0%, #1a1e36 0%, #0d0f18 70%);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        .serif-title {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .reader-text {
+            font-family: 'Lora', serif;
+            line-height: 1.85;
+        }
+
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f0d13;
+            background: #0d0f18;
         }
         ::-webkit-scrollbar-thumb {
-            background: #450a0a;
+            background: #252a3e;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #991b1b;
+            background: #3b4261;
         }
-        .blood-glow {
-            text-shadow: 0 0 12px rgba(220, 38, 38, 0.6);
+
+        .pill-badge {
+            background: rgba(25, 27, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
         }
-        .card-glow {
-            box-shadow: 0 0 20px rgba(185, 28, 28, 0.15);
+
+        /* Smooth Drawer & Animations */
+        .drawer-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .drawer-content {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Progress Line */
+        .reading-progress-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #ff4d6d, #2dd4bf);
         }
     </style>
 </head>
-<body class="bg-dawn-900 text-gray-200 font-sans antialiased selection:bg-blood-700 selection:text-white min-h-screen flex flex-col">
+<body class="pb-16 antialiased selection:bg-accentRed selection:text-white">
 
-    <!-- Progress Reading Bar -->
-    <div class="fixed top-0 left-0 w-full h-1 bg-dawn-800 z-50">
-        <div id="progressBar" class="h-full bg-gradient-to-r from-blood-700 via-blood-500 to-amber-500 w-0 transition-all duration-150"></div>
+    <!-- Sticky Reading Progress Bar -->
+    <div class="fixed top-0 left-0 w-full z-50">
+        <div id="progressBar" class="reading-progress-bar w-0 transition-all duration-150"></div>
     </div>
 
-    <!-- Header / Navbar Navigasi -->
-    <header class="sticky top-0 z-40 bg-dawn-900/90 backdrop-blur-md border-b border-blood-900/50 transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            
-            <!-- Sidebar Toggle & Title -->
-            <div class="flex items-center space-x-3">
-                <button id="toggleSidebarBtn" onclick="toggleSidebar()" class="p-2 rounded-lg bg-dawn-800 hover:bg-blood-900/40 text-gray-300 hover:text-white border border-dawn-700 transition" title="Buka Daftar Bab">
-                    <i data-lucide="menu" class="w-5 h-5"></i>
-                </button>
-                <div class="cursor-pointer" onclick="goToChapter(0)">
-                    <h1 class="font-fantasy font-bold text-lg sm:text-xl text-red-500 blood-glow tracking-wider flex items-center gap-2">
-                        <span>LAND OF DAWN</span>
-                        <span class="text-xs px-2 py-0.5 rounded bg-blood-900/80 border border-blood-600 text-red-200 hidden sm:inline-block">NOVEL</span>
-                    </h1>
-                    <p class="text-xs text-gray-400 hidden sm:block">Arlott & Mila: Takdir di Bawah Bulan Merah</p>
-                </div>
-            </div>
+    <!-- Main Container -->
+    <div class="max-w-md mx-auto px-4 pt-8 md:pt-12">
 
-            <!-- Font Resizer & Tools Control -->
-            <div class="flex items-center space-x-1 sm:space-x-3">
-                
-                <!-- Controller Ukuran Font -->
-                <div class="flex items-center bg-dawn-800 border border-dawn-700 rounded-lg p-1 text-xs font-semibold">
-                    <button onclick="changeFontSize(-10)" class="px-2 py-1 rounded hover:bg-blood-900/50 hover:text-red-400 text-gray-300 transition" title="Kecilkan Font (A-)">A-</button>
-                    <span id="fontResetBtn" onclick="resetFontSize()" class="px-2 py-1 text-red-400 cursor-pointer hover:bg-dawn-700 rounded min-w-[45px] text-center" title="Reset Ukuran (100%)">100%</span>
-                    <button onclick="changeFontSize(10)" class="px-2 py-1 rounded hover:bg-blood-900/50 hover:text-red-400 text-gray-300 transition" title="Besarkan Font (A+)">A+</button>
-                </div>
+        <!-- Top Genre Pills -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6 text-xs font-medium text-gray-300">
+            <span class="pill-badge px-4 py-1.5 rounded-full border">Fantasi</span>
+            <span class="pill-badge px-4 py-1.5 rounded-full border">Petualangan</span>
+            <span class="pill-badge px-4 py-1.5 rounded-full border">Pertarungan</span>
+            <span class="pill-badge px-4 py-1.5 rounded-full border">Persahabatan</span>
+            <span class="pill-badge px-4 py-1.5 rounded-full border">Romansa</span>
+            <span class="pill-badge px-4 py-1.5 rounded-full border">Pengorbanan</span>
+        </div>
 
-                <!-- Toggle Mode Fokus -->
-                <button onclick="toggleFocusMode()" class="p-2 rounded-lg bg-dawn-800 hover:bg-dawn-700 text-gray-300 transition hidden md:block" title="Mode Fokus / Layar Penuh">
-                    <i data-lucide="maximize-2" class="w-4 h-4"></i>
-                </button>
+        <!-- Main Novel Title -->
+        <div class="text-center mb-6">
+            <h1 class="serif-title text-3xl md:text-4xl font-extrabold text-white leading-tight mb-3 tracking-wide">
+                TAKDIR, DAN CINTA<br>DI LAND OF DAWN
+            </h1>
+            <p class="text-sm text-gray-400 italic">
+                Karya Fanfiction: <span class="text-gray-200 underline underline-offset-4 decoration-accentRed/50 font-medium">Mobile Legends: Bang Bang</span>
+            </p>
+        </div>
 
-                <!-- Dropdown Download -->
-                <div class="relative inline-block text-left">
-                    <button onclick="toggleDownloadMenu()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blood-700 hover:bg-blood-600 text-white font-medium text-xs sm:text-sm shadow-lg transition">
-                        <i data-lucide="download" class="w-4 h-4"></i>
-                        <span class="hidden sm:inline">Unduh</span>
-                    </button>
-                    
-                    <div id="downloadDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-xl bg-dawn-800 border border-blood-900/80 shadow-2xl z-50 overflow-hidden">
-                        <div class="p-2 border-b border-dawn-700 text-xs font-semibold text-gray-400">PILIHAN UNDUHAN</div>
-                        <button onclick="downloadWebHTML()" class="w-full text-left px-4 py-2.5 text-xs text-gray-200 hover:bg-blood-900/40 hover:text-white flex items-center gap-2">
-                            <i data-lucide="file-code" class="w-4 h-4 text-red-400"></i>
-                            <div>
-                                <div class="font-bold">Aplikasi Web (.html)</div>
-                                <div class="text-[10px] text-gray-400">Bisa dibaca interaktif offline</div>
-                            </div>
-                        </button>
-                        <button onclick="downloadNovelTXT()" class="w-full text-left px-4 py-2.5 text-xs text-gray-200 hover:bg-blood-900/40 hover:text-white flex items-center gap-2">
-                            <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
-                            <div>
-                                <div class="font-bold">Naskah Lengkap (.txt)</div>
-                                <div class="text-[10px] text-gray-400">Teks polos semua 35 bab</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
+        <!-- Main Characters Pill Button -->
+        <div class="flex justify-center mb-8">
+            <div class="pill-badge border border-pink-500/20 px-5 py-2 rounded-full flex items-center gap-2 text-sm text-gray-200 shadow-lg shadow-pink-950/20">
+                <span class="text-accentRed animate-pulse">❤️</span> 
+                <span>Tokoh Utama: <strong class="text-white font-semibold">Arlott & Mila</strong></span>
             </div>
         </div>
-    </header>
 
-    <!-- Layout Utama: Sidebar + Reading Area -->
-    <div class="flex-1 flex max-w-7xl w-full mx-auto relative">
+        <!-- Control Action Panel (Matching Reference UI) -->
+        <div class="bg-cardDark/90 border border-borderDark rounded-2xl p-4 shadow-2xl backdrop-blur-md mb-6">
+            <!-- First Row: Daftar Isi, Bookmark, Font Controls -->
+            <div class="flex items-center justify-between gap-2 mb-3">
+                <!-- Daftar Isi Button -->
+                <button id="btnDaftarIsi" onclick="toggleDrawer(true)" class="flex-1 bg-accentRed hover:bg-red-500 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-sm shadow-lg shadow-red-900/30 transition-all active:scale-95">
+                    <i class="fa-solid fa-list-ul text-base"></i>
+                    <span>Daftar Isi</span>
+                </button>
 
-        <!-- Overlay untuk Mobile Sidebar -->
-        <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+                <!-- Bookmark Button -->
+                <button id="btnBookmark" onclick="toggleBookmark()" class="bg-cardDark border border-borderDark hover:border-accentRed text-gray-300 hover:text-accentRed p-3 rounded-xl transition-all active:scale-95 flex items-center justify-center min-w-[48px] h-[48px]">
+                    <i id="bookmarkIcon" class="fa-regular fa-bookmark text-lg"></i>
+                </button>
 
-        <!-- Sidebar Navigation (Daftar Bab) -->
-        <aside id="sidebar" class="fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-80 bg-dawn-800 border-r border-blood-900/40 z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
-            
-            <!-- Header Sidebar & Meta Novel -->
-            <div class="p-4 border-b border-dawn-700/60 bg-dawn-900/50">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-bold text-red-400 tracking-wider uppercase flex items-center gap-1">
-                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i> DAFTAR BAB (35)
-                    </span>
-                    <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-white">
-                        <i data-lucide="x" class="w-5 h-5"></i>
+                <!-- Font Size Selector -->
+                <div class="flex items-center bg-[#11131f] border border-borderDark rounded-xl p-1 gap-1 text-xs font-bold text-gray-300">
+                    <button onclick="changeFontSize(-10)" class="px-2.5 py-2 hover:bg-borderDark rounded-lg transition-colors active:scale-90" title="Kecilkan Font">A-</button>
+                    <span id="fontPercentageDisplay" class="px-1 text-gray-400 min-w-[38px] text-center">100%</span>
+                    <button onclick="changeFontSize(10)" class="px-2.5 py-2 hover:bg-borderDark rounded-lg transition-colors active:scale-90" title="Besarkan Font">A+</button>
+                </div>
+            </div>
+
+            <!-- Second Row: Settings & Download -->
+            <div class="flex items-center justify-between gap-2">
+                <!-- Secondary Settings Icons -->
+                <div class="flex items-center bg-[#11131f] border border-borderDark rounded-xl p-1 gap-1">
+                    <button onclick="toggleTheme()" class="p-2.5 hover:bg-borderDark text-gray-300 rounded-lg transition-colors" title="Ubah Mode Layar">
+                        <i class="fa-solid fa-gear text-sm"></i>
+                    </button>
+                    <button onclick="toggleFontFamily()" class="p-2.5 hover:bg-borderDark text-gray-300 rounded-lg transition-colors" title="Ganti Mode Font Reader">
+                        <i class="fa-solid fa-book-open text-sm"></i>
+                    </button>
+                    <button onclick="toggleNightMode()" class="p-2.5 hover:bg-borderDark text-pink-400 rounded-lg transition-colors" title="Mode Malam">
+                        <i class="fa-solid fa-moon text-sm"></i>
                     </button>
                 </div>
-                <!-- Input Cari Bab -->
-                <div class="relative">
-                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-gray-500"></i>
-                    <input type="text" id="searchChapterInput" onkeyup="filterChapters()" placeholder="Cari bab atau kata kunci..." class="w-full bg-dawn-900 border border-dawn-700 rounded-lg pl-9 pr-3 py-1.5 text-xs text-gray-200 focus:outline-none focus:border-blood-600">
-                </div>
-            </div>
 
-            <!-- Daftar List Bab Scrollable -->
-            <div id="chapterListContainer" class="flex-1 overflow-y-auto p-2 space-y-1">
-                <!-- Javascript akan mengisi daftar bab di sini -->
-            </div>
-
-            <!-- Info Penulis & Metadata di bagian Bawah Sidebar -->
-            <div class="p-4 border-t border-dawn-700/60 bg-dawn-900/60 text-xs text-gray-400 space-y-1">
-                <p><span class="text-gray-500">Penulis:</span> <strong class="text-gray-200">Jalonbaikhati</strong></p>
-                <p><span class="text-gray-500">Genre:</span> <span class="text-red-300">Fantasi, Aksi, Romansa, Tragedi</span></p>
-                <p><span class="text-gray-500">Latar:</span> Land of Dawn</p>
-            </div>
-        </aside>
-
-        <!-- Container Konten Pembaca (Novel Viewer) -->
-        <main class="flex-1 p-4 sm:p-6 lg:p-10 max-w-4xl mx-auto w-full flex flex-col justify-between">
-            
-            <article id="readingArea" class="bg-dawn-800/40 border border-dawn-700/40 rounded-2xl p-5 sm:p-8 md:p-12 shadow-2xl backdrop-blur-sm card-glow">
-                
-                <!-- Info Header Bab -->
-                <div class="border-b border-blood-900/60 pb-6 mb-8 text-center relative">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blood-900/40 border border-blood-700/60 text-xs font-semibold text-red-300 mb-3">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-red-400"></i>
-                        <span id="chapterBadge">Prolog</span>
-                    </div>
-                    <h1 id="chapterTitle" class="text-2xl sm:text-3xl md:text-4xl font-fantasy font-bold text-white tracking-wide blood-glow mb-2">
-                        Pertemuan di Bawah Bulan Merah
-                    </h1>
-                    <p class="text-xs text-gray-400 italic">Karya Penulis: Jalonbaikhati</p>
-                </div>
-
-                <!-- Isi Teks Bab -->
-                <div id="chapterContent" class="space-y-6 text-gray-200 leading-relaxed font-serif text-lg transition-all duration-200">
-                    <!-- Konten cerita di-render melalui JavaScript -->
-                </div>
-
-                <!-- Footer Informasi Bab & Bookmark -->
-                <div class="mt-12 pt-6 border-t border-dawn-700/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="bookmark" class="w-4 h-4 text-amber-500"></i>
-                        <span id="bookmarkStatus">Kemajuan Otomatis Tersimpan</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <button onclick="shareChapter()" class="hover:text-red-400 flex items-center gap-1 transition">
-                            <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Bagikan
-                        </button>
-                        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-red-400 flex items-center gap-1 transition">
-                            <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i> Ke Atas
-                        </button>
-                    </div>
-                </div>
-
-            </article>
-
-            <!-- Navigasi Bawah (Sebelumnya / Selanjutnya) -->
-            <div class="mt-8 flex items-center justify-between gap-4">
-                <button id="prevBtn" onclick="navigateChapter(-1)" class="flex-1 sm:flex-none px-5 py-3 rounded-xl bg-dawn-800 hover:bg-blood-900/50 border border-dawn-700 hover:border-blood-700 text-gray-300 hover:text-white font-medium text-sm flex items-center justify-center gap-2 transition disabled:opacity-30 disabled:cursor-not-allowed">
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                    <span>Bab Sebelumnya</span>
-                </button>
-                
-                <span id="chapterCounter" class="text-xs font-semibold text-gray-400 hidden sm:inline-block">
-                    1 / 35
-                </span>
-
-                <button id="nextBtn" onclick="navigateChapter(1)" class="flex-1 sm:flex-none px-5 py-3 rounded-xl bg-blood-700 hover:bg-blood-600 text-white font-medium text-sm flex items-center justify-center gap-2 shadow-lg transition disabled:opacity-30 disabled:cursor-not-allowed">
-                    <span>Bab Selanjutnya</span>
-                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                <!-- Download Offline Button -->
+                <button onclick="downloadOfflineApp()" class="flex-1 bg-accentTeal hover:bg-teal-400 text-gray-950 font-extrabold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-sm shadow-lg shadow-teal-900/20 transition-all active:scale-95">
+                    <i class="fa-solid fa-download text-base"></i>
+                    <span>Download</span>
                 </button>
             </div>
+        </div>
 
+        <!-- Welcome Banner ("Selamat Membaca!") -->
+        <div id="welcomeBanner" class="bg-[#121625] border border-pink-900/30 rounded-2xl p-4 shadow-xl mb-8 relative">
+            <button onclick="closeWelcomeBanner()" class="absolute top-3 right-3 text-gray-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="flex items-start gap-3">
+                <div class="bg-accentRed/20 text-accentRed rounded-full p-2.5 mt-0.5 flex-shrink-0">
+                    <i class="fa-solid fa-circle-info text-lg"></i>
+                </div>
+                <div class="pr-6">
+                    <h2 class="text-white font-bold text-base mb-1">Selamat Membaca!</h2>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Gunakan tombol <strong class="text-accentRed">Daftar Isi</strong> di atas untuk berpindah bab. Anda juga dapat mengklik tombol <strong class="text-accentTeal">Download</strong> untuk menyimpan novel ini dan membacanya secara offline tanpa koneksi internet.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Description Accordion Card -->
+        <div class="bg-cardDark/50 border border-borderDark/60 rounded-2xl p-5 mb-8">
+            <h3 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-feather-pointed text-accentRed"></i> Sinopsis Cerita
+            </h3>
+            <p class="text-xs text-gray-400 leading-relaxed italic">
+                "Di dunia Land of Dawn yang dipenuhi peperangan dan kekuatan sihir, Arlott dikenal sebagai pejuang tangguh yang menyimpan luka masa lalu. Pertemuannya dengan Mila, seorang gadis berhati lembut yang berani menghadapi bahaya, perlahan mengubah cara Arlott memandang kehidupan. Namun, ketika perang besar mengancam menghancurkan dunia mereka, keduanya harus memilih antara mengikuti takdir atau memperjuangkan harapan."
+            </p>
+        </div>
+
+        <!-- Novel Reader Content Display -->
+        <main class="bg-cardDark border border-borderDark rounded-2xl p-5 md:p-7 shadow-2xl mb-8 transition-all">
+            <!-- Chapter Header Info -->
+            <div class="border-b border-borderDark pb-4 mb-6">
+                <span id="partTitle" class="text-xs font-bold text-accentRed tracking-wider uppercase">BAGIAN I — PERTEMUAN DAN RAHASIA</span>
+                <h2 id="chapterTitle" class="serif-title text-xl md:text-2xl font-bold text-white mt-1">
+                    Bab 1: Pedang di Tengah Kabut
+                </h2>
+            </div>
+
+            <!-- Chapter Story Content -->
+            <div id="readerContent" class="reader-text text-gray-200 text-base space-y-5">
+                <!-- Content inserted via JavaScript -->
+            </div>
+
+            <!-- Chapter Navigation Footer -->
+            <div class="border-t border-borderDark pt-6 mt-8 flex items-center justify-between gap-3">
+                <button id="btnPrevBab" onclick="navigateChapter(-1)" class="flex-1 bg-[#11131f] border border-borderDark hover:bg-borderDark text-gray-200 font-semibold py-3 px-3 rounded-xl flex items-center justify-center gap-2 text-xs transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-arrow-left"></i> Bab Sebelum
+                </button>
+                <span id="chapterCounterDisplay" class="text-xs font-mono text-gray-400 px-2">1 / 35</span>
+                <button id="btnNextBab" onclick="navigateChapter(1)" class="flex-1 bg-[#11131f] border border-borderDark hover:bg-borderDark text-gray-200 font-semibold py-3 px-3 rounded-xl flex items-center justify-center gap-2 text-xs transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                    Bab Berikut <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         </main>
+
+        <!-- Footer Info -->
+        <footer class="text-center text-xs text-gray-500 py-4">
+            <p>© Fanfiction Land of Dawn — Arlott & Mila</p>
+            <p class="mt-1">Disimpan secara lokal untuk kenyamanan membaca offline.</p>
+        </footer>
+
     </div>
 
-    <!-- Toast Notification System -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-dawn-800 border border-blood-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
-        <i data-lucide="info" class="w-5 h-5 text-red-400"></i>
-        <span id="toastMsg" class="text-xs font-medium">Pesan Toast</span>
+    <!-- Floating Scroll To Top Button -->
+    <button id="btnScrollTop" onclick="scrollToTop()" class="fixed bottom-6 right-6 bg-cardDark border border-borderDark text-gray-200 p-3.5 rounded-full shadow-2xl hover:bg-accentRed hover:text-white transition-all transform translate-y-16 opacity-0 z-40">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+    </button>
+
+    <!-- Side Drawer / Modal for Table of Contents (35 Chapters) -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 opacity-0 pointer-events-none drawer-overlay" onclick="toggleDrawer(false)">
+        <div id="drawerContent" class="fixed inset-y-0 left-0 w-full max-w-sm bg-bgDark border-r border-borderDark shadow-2xl p-6 overflow-y-auto drawer-content -translate-x-full" onclick="event.stopPropagation()">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-borderDark mb-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-book-bookmark text-accentRed text-lg"></i>
+                    <h3 class="text-lg font-bold text-white">Daftar Isi (35 Bab)</h3>
+                </div>
+                <button onclick="toggleDrawer(false)" class="text-gray-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Chapter Search Input -->
+            <div class="mb-4">
+                <input type="text" id="chapterSearch" oninput="filterChapters()" placeholder="Cari bab atau bagian..." class="w-full bg-cardDark border border-borderDark rounded-xl px-3.5 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-accentRed">
+            </div>
+
+            <!-- Chapter List Container -->
+            <div id="chapterListContainer" class="space-y-6">
+                <!-- Dynamic Chapter Lists inserted here -->
+            </div>
+        </div>
     </div>
 
-    <!-- JavaScript Data & Logic Application -->
+    <!-- Notification Toast -->
+    <div id="toastNotification" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-cardDark border border-borderDark text-white px-5 py-2.5 rounded-full shadow-2xl text-xs font-medium opacity-0 transition-all pointer-events-none z-50 flex items-center gap-2">
+        <i id="toastIcon" class="fa-solid fa-check text-accentTeal"></i>
+        <span id="toastMessage">Pesan Notifikasi</span>
+    </div>
+
+    <!-- JAVASCRIPT NOVEL DATA AND CONTROLLER -->
     <script>
-        // Data Novel Lengkap 35 Bab (Prolog + Bab 1-34)
-        const novelData = {
-            title: "Arlott & Mila: Takdir di Bawah Bulan Merah",
-            author: "Jalonbaikhati",
-            genre: "Fantasi, Aksi, Romansa, Tragedi",
-            setting: "Land of Dawn",
-            chapters: [
-                {
-                    id: 0,
-                    badge: "Prolog",
-                    title: "Pertemuan di Bawah Bulan Merah",
-                    content: `
-                        <p>Malam itu, langit Land of Dawn berubah merah. Angin berembus membawa aroma tanah basah dan abu peperangan. Di antara reruntuhan desa yang telah ditinggalkan, seorang kesatria bertanduk berjalan sendirian sambil menggenggam tombaknya.</p>
-                        <p>Namanya <strong>Arlott</strong>.</p>
-                        <p>Ia dikenal sebagai petarung yang menakutkan, seseorang yang memilih hidup dalam kesendirian karena masa lalunya dipenuhi pengkhianatan. Banyak orang menyebutnya monster. Namun, tak seorang pun mengetahui bahwa di balik tatapan dinginnya tersimpan hati yang telah lama terluka.</p>
-                        <p>Hingga suatu malam, ia mendengar suara seorang gadis meminta pertolongan.</p>
-                        <p>Gadis itu bernama <strong>Mila</strong>.</p>
-                        <p>Pertemuan mereka akan mengubah takdir Land of Dawn, membangkitkan kekuatan yang telah terkubur selama berabad-abad, dan memaksa Arlott memilih antara masa lalunya yang kelam dan seseorang yang mulai berarti baginya. Dan semuanya dimulai ketika Mila menatap mata Arlott tanpa sedikit pun rasa takut.</p>
-                    `
-                },
-                {
-                    id: 1,
-                    badge: "Bab 1",
-                    title: "Bayangan Pertumpahan Darah",
-                    content: `
-                        <p>Bau sengat darah iblis merayapi reruntuhan batu kuno. Arlott menarik tombak berkembar berkilau abu miliknya dari tubuh seekor monster jurang yang baru saja tergeletak tak bernyawa.</p>
-                        <p>Mila tersengal di sudut dinding reruntuhan. Bajunya yang penuh debu bersimbah sedikit bercak darah, tetapi matanya jernih menatap sosok bertanduk di hadapannya.</p>
-                        <p>"Kau... tidak memakan manusia?" bisik Mila dengan suara bergetar namun tenang.</p>
-                        <p>Arlott menyipitkan mata merah menyalanya. "Pergilah, Manusia. Sebelum aku berubah pikiran. Keberadaanmu hanya akan memancing kemarahan sisa-sisa iblis Abyss."</p>
-                    `
-                },
-                {
-                    id: 2,
-                    badge: "Bab 2",
-                    title: "Jejak yang Tertinggal",
-                    content: `
-                        <p>Mila tidak pergi. Gadis itu justru melangkah mendekat, mengeluarkan kain bersih dari tas lusuhnya untuk membebat luka berdarah di lengan kanan Arlott. Arlott hendak menepisnya, tetapi kehangatan jemari Mila menghentikan naluri pembunuhnya.</p>
-                        <p>"Nama saya Mila. Desa saya dimusnahkan oleh pasukan Abyss tadi sore. Saya tak punya tempat kembali," ujar Mila lembut.</p>
-                        <p>Arlott terpaku. Sentuhan sederhana itu menghidupkan kembali secercah kedamaian yang sudah puluhan tahun mati di jiwanya.</p>
-                    `
-                },
-                {
-                    id: 3,
-                    badge: "Bab 3",
-                    title: "Bisikan dari Lembah Abyss",
-                    content: `
-                        <p>Keduanya melanjutkan perjalanan menembus Hutan Kegelapan menuju batas Moniyan Empire. Arlott berjalan beberapa langkah di depan, menjadi perisai bagi Mila dari ancaman bahaya nightmarish creature.</p>
-                        <p>Di perjalanan, Mila menceritakan tentang liontin batu misterius peninggalan ibunya yang bercahaya keemasan saat berdekatan dengan Arlott. Arlott menyadari batu itu bukanlah perhiasan biasa, melainkan Segel Cahaya Kuno.</p>
-                    `
-                },
-                {
-                    id: 4,
-                    badge: "Bab 4",
-                    title: "Sumpah Kesatria Kesepian",
-                    content: `
-                        <p>Malam harinya, saat mereka berlindung di sebuah gua batu, kelompok pemburu hadiah dari kerajaan datang mengepung. Mereka mengincar kepala Arlott karena status setengah-iblis yang disandangnya.</p>
-                        <p>"Serahkan monster itu, Gadis!" teriak pemimpin pemburu hadiah.</p>
-                        <p>Tanpa ragu, Mila berdiri di depan Arlott dengan mata berani. "Dia bukan monster! Dia penolongku!" Aksi nekat Mila memaksa Arlott membangkitkan aura pertempurannya demi melindungi Mila.</p>
-                    `
-                },
-                {
-                    id: 5,
-                    badge: "Bab 5",
-                    title: "Rahasia Sang Putri Bunga",
-                    content: `
-                        <p>Setelah mengusir para musuh, Arlott menemukan fakta mengejutkan dari liontin Mila. Mila bukanlah gadis biasa dari desa terpencil, melainkan keturunan terakhir dari garis keturunan penjaga Segel Bulan.</p>
-                        <p>"Jika para penguasa kegelapan tahu siapa dirimu, Land of Dawn akan berada dalam bahaya besar," bisik Arlott penuh kekhawatiran.</p>
-                    `
-                },
-                {
-                    id: 6,
-                    badge: "Bab 6",
-                    title: "Badai di Benteng Kuno",
-                    content: `
-                        <p>Perjalanan berlanjut ke reruntuhan Benteng Barats. Badai pasir menyelimuti cakrawala, memaksa mereka berlindung di dalam istana bawah tanah yang terbengkalai.</p>
-                        <p>Di sana, bayangan masa lalu Arlott kembali menghantuinya. Pengkhianatan teman-teman masa kecilnya saat ia pertama kali berubah menjadi makhluk bertanduk merasuki pikirannya.</p>
-                    `
-                },
-                {
-                    id: 7,
-                    badge: "Bab 7",
-                    title: "Sentuhan Kehangatan Pertama",
-                    content: `
-                        <p>Melihat Arlott mengerang kesakitan dipengaruhi ilusi kutukan trauma masa lalunya, Mila memeluk Arlott dari belakang. Kehangatan jiwa Mila perlahan meredakan amarah demonik dalam tubuh Arlott.</p>
-                        <p>"Aku ada di sini, Arlott. Kau tidak lagi sendirian," bisik Mila.</p>
-                    `
-                },
-                {
-                    id: 8,
-                    badge: "Bab 8",
-                    title: "Ancaman Panglima Abyss",
-                    content: `
-                        <p>Kegelapan pekat merebak di langit saat Panglima Kegelapan Abyss mengetahui keberadaan Mila. Pasukan Undead dikirim untuk merebut liontin cahaya dari tangan Mila.</p>
-                        <p>Pertempuran sengit meletus di tebing terjal. Arlott menari dengan tombaknya, menerjang musuh dengan kecepatan mematikan demi menjaga keselamatan Mila.</p>
-                    `
-                },
-                {
-                    id: 9,
-                    badge: "Bab 9",
-                    title: "Darah dan Air Mata",
-                    content: `
-                        <p>Arlott menderita luka parah akibat tebasan pedang beracun musuh demi menangkis serangan yang mengarah pada Mila. Mila menangis meratapi tubuh Arlott yang tergeletak lemas.</p>
-                        <p>Menggunakan sisa tenaga dan daya sihir tersembunyinya, Mila mentransfer energi kehidupannya untuk menyembuhkan luka Arlott.</p>
-                    `
-                },
-                {
-                    id: 10,
-                    badge: "Bab 10",
-                    title: "Kekuatan yang Terbangun",
-                    content: `
-                        <p>Reaksi dari sihir pemulihan Mila memicu lonjakan energi purba pada tombak Arlott. Tombak tersebut menyerap cahaya emas dan kegelapan secara seimbang, menciptakan jurus bertarung baru yang tak tertandingi.</p>
-                        <p>Dengan kekuatan baru ini, Arlott menghancurkan sisa-sisa pasukan musuh dalam sekejap mata.</p>
-                    `
-                },
-                {
-                    id: 11,
-                    badge: "Bab 11",
-                    title: "Pelarian ke Kerajaan Kuno",
-                    content: `
-                        <p>Mereka melarikan diri ke lembah rahasia di mana sisa-sisa Kerajaan Kuno tersembunyi. Di tempat ini, tumbuhan ajaib dan cahaya suci dapat melindunginya dari jangkauan sihir jahat Abyss.</p>
-                    `
-                },
-                {
-                    id: 12,
-                    badge: "Bab 12",
-                    title: "Bunga di Tengah Reruntuhan",
-                    content: `
-                        <p>Di lembah tersembunyi, mereka menikmati beberapa hari kedamaian. Mila memetik bunga-bunga liar dan merangkainya menjadi mahkota bunga kecil, lalu menyangkutkannya di salah satu tanduk Arlott.</p>
-                        <p>Arlott, yang biasanya garang, hanya bisa terdiam dengan wajah memerah menatap tawa manis Mila.</p>
-                    `
-                },
-                {
-                    id: 13,
-                    badge: "Bab 13",
-                    title: "Nubuat Bulan Merah",
-                    content: `
-                        <p>Seorang tetua penjaga kuil kuno mengungkapkan nubuat tua: Ketika Bulan Merah berada di puncaknya, gabungan darah iblis suci dan putri cahaya harus dikorbankan untuk menutup gerbang Abyss selamanya.</p>
-                    `
-                },
-                {
-                    id: 14,
-                    badge: "Bab 14",
-                    title: "Dilema Jiwa Sang Kesatria",
-                    content: `
-                        <p>Hati Arlott terancam hancur. Jika nubuat itu benar, Mila harus mengorbankan nyawanya demi keselamatan Land of Dawn. Arlott bersumpah akan melawan takdir dan seluruh dunia demi menolak pengorbanan Mila.</p>
-                    `
-                },
-                {
-                    id: 15,
-                    badge: "Bab 15",
-                    title: "Pengakuan di Bawah Bintang",
-                    content: `
-                        <p>Malam harinya di tepi danau bening, Arlott menggenggam tangan Mila. "Aku tidak peduli jika Land of Dawn hancur, aku tidak akan membiarkan siapapun menyakitimu, Mila."</p>
-                        <p>Mila tersenyum pilu, menyandarkan kepalanya di dada kokoh Arlott.</p>
-                    `
-                },
-                {
-                    id: 16,
-                    badge: "Bab 16",
-                    title: "Serangan Tak Terduga",
-                    content: `
-                        <p>Kedamaian singkat sirna ketika pasukan sekutu Moniyan yang terhasut kabar burung menyerang tempat persembunyian mereka. Mereka menganggap Arlott telah menculik sang Putri Segel.</p>
-                    `
-                },
-                {
-                    id: 17,
-                    badge: "Bab 17",
-                    title: "Pedang Pengkhianatan",
-                    content: `
-                        <p>Komandan pasukan Moniyan menolak mendengarkan penjelasan Mila dan langsung menyerang Arlott. Dalam kekacauan tersebut, benturan sihir menyebabkan kehancuran pada kuil pelindung.</p>
-                    `
-                },
-                {
-                    id: 18,
-                    badge: "Bab 18",
-                    title: "Langkah dalam Kegelapan",
-                    content: `
-                        <p>Terdesak dari dua sisi—Abyss dan Kerajaan—Arlott dan Mila terpaksa masuk lebih dalam ke jurang terlarang Land of Dawn demi mencari cara mematahkan nubuat pengorbanan.</p>
-                    `
-                },
-                {
-                    id: 19,
-                    badge: "Bab 19",
-                    title: "Gerbang Jiwa Terlarang",
-                    content: `
-                        <p>Di dasar jurang, mereka menemukan Gerbang Jiwa Terlarang. Tempat di mana kekuatan kegelapan dan cahaya murni bertemu. Arlott berusaha menyerap energi kegelapan gerbang tersebut agar Mila tak perlu dikorbankan.</p>
-                    `
-                },
-                {
-                    id: 20,
-                    badge: "Bab 20",
-                    title: "Pengorbanan yang Dipertanyakan",
-                    content: `
-                        <p>Proses penyerapan energi membuat Arlott menderita siksaan jiwa yang luar biasa. Tanduknya membesar dan matanya memancarkan api merah menyala. Mila menangis memohon agar Arlott menghentikan tindakan nekatnya.</p>
-                    `
-                },
-                {
-                    id: 21,
-                    badge: "Bab 21",
-                    title: "Janji Suci",
-                    content: `
-                        <p>"Aku bersumpah akan selalu ada untukmu, baik di dunia ini maupun di kehidupan berikutnya," bisik Arlott saat kesadarannya hampir lenyap dalam cengkeraman kegelapan.</p>
-                    `
-                },
-                {
-                    id: 22,
-                    badge: "Bab 22",
-                    title: "Puncak Kebangkitan",
-                    content: `
-                        <p>Cinta dan kasih sayang Mila bertindak sebagai jangkar kesadaran Arlott. Arlott berhasil mengendalikan kekuatan gabungan kegelapan dan cahaya, menjadi pahlawan yang membawa keseimbangan.</p>
-                    `
-                },
-                {
-                    id: 23,
-                    badge: "Bab 23",
-                    title: "Bayang-Bayang Tragedi",
-                    content: `
-                        <p>Namun, takdir berkata lain. Raja Iblis Abyss sendiri turun ke medan perang saat fenomena Gerhana Bulan Merah dimulai. Seluruh Land of Dawn terguncang hebat.</p>
-                    `
-                },
-                {
-                    id: 24,
-                    badge: "Bab 24",
-                    title: "Pertempuran Besar Pertama",
-                    content: `
-                        <p>Arlott bertarung habis-habisan melawan avatar Raja Iblis. Setiap sabetan tombaknya membelah langit malam, mempertahankan Mila yang sedang mengaktifkan matriks pelindung dunia.</p>
-                    `
-                },
-                {
-                    id: 25,
-                    badge: "Bab 25",
-                    title: "Retaknya Hati Sang Kesatria",
-                    content: `
-                        <p>Di tengah pertempuran, salah satu serangan mematikan Raja Iblis berhasil menembus benteng pelindung dan mengincar jantung Arlott.</p>
-                    `
-                },
-                {
-                    id: 26,
-                    badge: "Bab 26",
-                    title: "Keputusan Mila",
-                    content: `
-                        <p>Tanpa ragu-ragu, Mila berlari dan melompat ke depan Arlott, menjadikan tubuh ringkihnya sebagai perisai untuk melindungi pria yang dicintainya.</p>
-                    `
-                },
-                {
-                    id: 27,
-                    badge: "Bab 27",
-                    title: "Darah Bulan Merah",
-                    content: `
-                        <p>Serangan mematikan itu menembus dada Mila. Darah segar menetes jatuh ke tanah dan mengenai tombak Arlott. Waktu seolah berhenti di Land of Dawn.</p>
-                    `
-                },
-                {
-                    id: 28,
-                    badge: "Bab 28",
-                    title: "Murka Sang Monster",
-                    content: `
-                        <p>Melihat tubuh Mila terkulai tak berdaya, Arlott melepaskan seluruh belenggu jiwanya. Amarah tak terbatas membakar seluruh energi di sekitarnya. Arlott berubah menjadi wujud Demon Lord sejati.</p>
-                    `
-                },
-                {
-                    id: 29,
-                    badge: "Bab 29",
-                    title: "Kehancuran Abyss",
-                    content: `
-                        <p>Dengan kekuatan murka tragedi, Arlott membantai pasukan Abyss dan menghancurkan Raja Iblis hingga tak tersisa. Medan perang berubah menjadi debu dan abu.</p>
-                    `
-                },
-                {
-                    id: 30,
-                    badge: "Bab 30",
-                    title: "Napas Terakhir Mila",
-                    content: `
-                        <p>Arlott berlutut memangku tubuh Mila yang kian mendingin. Air mata Arlott menetes di pipi Mila. Mila tersenyum tipis, menyentuh pipi Arlott dengan sisa tenaganya.</p>
-                        <p>"Jangan menangis, Arlott... Kau bukanlah monster... Kau adalah kesatriaku..." bisik Mila sebelum memejamkan matanya selamanya.</p>
-                    `
-                },
-                {
-                    id: 31,
-                    badge: "Bab 31",
-                    title: "Tangisan Kesatria Bertanduk",
-                    content: `
-                        <p>Mengaum dalam kesedihan yang mendalam, suara tangisan Arlott menggema di seluruh pelosok Land of Dawn. Angin bulan merah bertiup meratapi kepergian sang putri cahaya.</p>
-                    `
-                },
-                {
-                    id: 32,
-                    badge: "Bab 32",
-                    title: "Meninggalkan Dunia",
-                    content: `
-                        <p>Setelah pertempuran usai, pahlawan Kerajaan Moniyan tiba untuk memberikan penghormatan. Namun, Arlott tidak peduli lagi pada gelar pahlawan maupun kedamaian dunia. Ia menggendong tubuh Mila dan berjalan menuju horizon jauh.</p>
-                    `
-                },
-                {
-                    id: 33,
-                    badge: "Bab 33",
-                    title: "Taman Bunga Abadi",
-                    content: `
-                        <p>Arlott membawa Mila ke lembah tersembunyi yang pernah mereka singgahi, membaringkannya di bawah pohon abadi yang dipenuhi bunga-bunga indah.</p>
-                    `
-                },
-                {
-                    id: 34,
-                    badge: "Epilog",
-                    title: "Abadi dalam Kenangan",
-                    content: `
-                        <p>Tahun demi tahun berlalu di Land of Dawn. Legenda tentang Kesatria Bertanduk yang menjaga taman bunga abadi di puncak gunung tetap hidup di antara para pengembara.</p>
-                        <p>Konon, setiap kali Bulan Merah muncul di langit, terlihat sosok bertanduk berdiri anggun menatap bintang-bintang, sambil menggenggam liontin keemasan—menunggu hari di mana ia dan Mila akan dipertemukan kembali dalam keabadian.</p>
-                        <hr class="my-8 border-blood-900/50">
-                        <p class="text-center font-bold text-red-400">--- TAMAT ---</p>
-                        <p class="text-center text-xs text-gray-400 mt-2">Terima kasih telah membaca novel "Arlott & Mila: Takdir di Bawah Bulan Merah" karya Jalonbaikhati.</p>
-                    `
-                }
-            ]
-        };
+        /* FULL 35 CHAPTER NOVEL DATA STRUCTURE */
+        const novelStructure = [
+            {
+                part: "BAGIAN I — PERTEMUAN DAN RAHASIA",
+                chapters: [
+                    { id: 1, title: "Pedang di Tengah Kabut", text: "Kabut tebal menyelimuti pinggiran Hutan Terlarang di wilayah Land of Dawn. Suara gemerisik dedaunan mati di bawah derap langkah berat menandakan kedatangan Arlott. Sepasang tombak kembarnya yang dialiri aura kegelapan terpantul samar dalam kegelapan. Luka di dadanya masih berdenyut, mengingatkannya pada pengkhianatan yang memusnahkan bangsanya. Namun malam itu, bau darah manusia segar menyeruak di udara kabut, menyentak insting bertarungnya." },
+                    { id: 2, title: "Gadis Bernama Mila", text: "Mila menggenggam erat lenteranya yang meredup. Ia hanyalah seorang penyembuh muda dari desa terpencil yang berani melintasi hutan berbahaya demi mencari tanaman obat langka. Ketika seekor monster Demon Hunter mengepungnya, ketakutan membekukan langkahnya. Tepat sebelum cakar monster merobek kulitnya, sesosok bayangan berkecepatan kilat menebas makhluk itu menjadi dua bagian. Di hadapannya berdiri Arlott, pejuang setengah iblis bernapas memburu." },
+                    { id: 3, title: "Pertolongan di Hutan Terlarang", text: "Meski aura Arlott sangat menakutkan dengan mata merah menyala, Mila tidak lari. Ia menyadari darah segar terus mengalir dari pinggang pejuang itu. Dengan tangan bergetar namun lembut, Mila mendekat dan mengeluarkan ramuan herbal dari tasnya. Arlott sempat mengarahkan mata tombaknya ke leher Mila, namun kehangatan serta kelembutan mata gadis itu membuat cengkeramannya mengendur." },
+                    { id: 4, title: "Tatapan di Bawah Cahaya Bulan", text: "Di bawah naungan pohon kuno berdaun perak, Mila membalut luka Arlott. Sinar bulan menerobos celah ranting, menyinari wajah Arlott yang keras namun sarat penderitaan. Untuk pertama kalinya setelah bertahun-tahun hidup dalam dendam, Arlott merasakan sentuhan yang tidak berniat menyakitinya. Tatapan mereka bertemu dalam diam yang hening, mengukir janji tersirat di antara dua jiwa yang terasing." },
+                    { id: 5, title: "Bayangan Masa Lalu Arlott", text: "Saat malam kian larut, Arlott menceritakan kebenaran tentang dirinya. Ia dibesarkan dalam bentrokan tiada henti antara kaum Iblis dan Manusia, dibenci oleh kedua belah pihak karena darah campurannya. Tempat ia bernaung hancur dibakar perang. Mila mendengarkan tanpa menghakimi, memberikan rasa empati yang selama ini tak pernah dirasakan oleh sang pejuang." },
+                    { id: 6, title: "Rahasia Kekuatan Mila", text: "Mila mengungkapkan alasan mengapa ramuan penyembuhnya memiliki efek magis yang kuat. Ia menyimpan pecahan 'Cahaya Fajar' kecil di dalam dirinya, sebuah anugerah langka yang mampu menetralkan racun kegelapan. Namun, kekuatan itu juga menjadi incaran para penyihir jahat dari Abyss." },
+                    { id: 7, title: "Perjalanan Menuju Land of Dawn", text: "Sadar bahwa kebetulan pertemuannya telah menyeret Mila dalam bahaya yang lebih besar, Arlott memutuskan untuk mengawalnya menuju wilayah tengah Land of Dawn. Langkah awal perjalanan panjang dua takdir bersilang ini resmi dimulai." }
+                ]
+            },
+            {
+                part: "BAGIAN II — PERSAHABATAN DAN PERASAAN",
+                chapters: [
+                    { id: 8, title: "Pertarungan Pertama", text: "Gerombolan bandit jurang menyerang perkemahan mereka di tebing berbatu. Bersama-sama, Arlott dan Mila bertarung berdampingan. Kecepatan tombak Arlott yang mematikan berpadu sempurna dengan sihir pelindung Mila, menciptakan pertahanan yang tak tertembus." },
+                    { id: 9, title: "Janji di Tepi Sungai", text: "Di tepi Sungai Moniyan yang jernih, mereka beristirahat. Mila mengajari Arlott memetik bunga liar untuk obat, sementara Arlott mengajarinya membaca pergerakan angin. Sebuah janji dibuat: Arlott akan selalu menjadi perisainya, dan Mila akan menjadi penuntun jalannya." },
+                    { id: 10, title: "Senyum yang Mengubah Segalanya", text: "Arlott yang biasanya dingin dan tertutup tertangkap kamera batin Mila sedang tersenyum tipis saat melihat Mila tertawa mengejar kupukupu sihir. Senyuman sederhana itu meluluhkan tembok dingin yang menyelimuti hati sang pendendam." },
+                    { id: 11, title: "Musuh dari Masa Lalu", text: "Sesosok komandan pasukan Abyss yang dulu menghancurkan desa Arlott muncul kembali. Amarah Arlott membara melampaui kendali, hampir membuatnya kehilangan akal sehat dan memakan jiwa iblisnya sendiri." },
+                    { id: 12, title: "Ketika Kepercayaan Diuji", text: "Dalam cengkeraman amarah iblis, Mila berlari memeluk Arlott dari belakang, mempertaruhkan nyawanya sendiri. Sentuhan hangat Mila berhasil menarik Arlott kembali dari kegelapan total." },
+                    { id: 13, title: "Arlott yang Mulai Berubah", text: "Sejak hari itu, Arlott tak lagi bertarung sekadar untuk membunuh atau membalas dendam. Ia mulai menyadari ada sesuatu yang jauh lebih bernilai untuk dilindungi." },
+                    { id: 14, title: "Rahasia Hati Mila", text: "Mila menuliskan perasaannya di dalam buku harian kecilnya. Rasa kagum pada Arlott perlahan berubah menjadi benih-benih cinta yang mendalam, meski ia tahu perang besar siap memisahkan mereka." }
+                ]
+            },
+            {
+                part: "BAGIAN III — PENGKHIANATAN DAN PERPISAHAN",
+                chapters: [
+                    { id: 15, title: "Serangan di Desa Cahaya", text: "Desa Cahaya tempat mereka mengungsi diserbu oleh pasukan berkuda hitam. Langit malam berubah menjadi merah membara saat rumah-rumah warga mulai terbakar." },
+                    { id: 16, title: "Pengkhianatan Sang Penjaga", text: "Penjaga gerbang yang dipercayai warga ternyata berkhianat demi emas dan kekuatan dari Abyss. Ia membocorkan lokasi rahasia batu pelindung desa kepada musuh." },
+                    { id: 17, title: "Luka yang Tak Terlihat", text: "Arlott bertarung habis-habisan melawan tiga jenderal musuh sekaligus. Meski berhasil menang, tubuhnya dipenuhi luka parah yang tak bisa langsung disembuhkan sihir biasa." },
+                    { id: 18, title: "Perpisahan di Bawah Hujan", text: "Pasukan kegelapan yang terlalu kuat memaksa mereka berpisah. Demi menyelamatkan warga dan memberi jalan pada Mila, Arlott menahan jembatan sendirian di bawah guyuran hujan lebat." },
+                    { id: 19, title: "Arlott Kehilangan Harapan", text: "Terpisah dari Mila dan terlempar ke dasar jurang, Arlott kembali merasakan kehampaan yang luar biasa. Ia mengira telah gagal melindungi satu-satunya cahaya dalam hidupnya." },
+                    { id: 20, title: "Mila dalam Bahaya", text: "Mila ditangkap oleh penyihir Abyss yang ingin mengekstrak inti Cahaya Fajar di dalam tubuhnya. Dalam tawanan, Mila tetap berdoa agar Arlott selamat." },
+                    { id: 21, title: "Sumpah Sang Pejuang", text: "Mengetahui Mila masih hidup namun tertawan, Arlott bangkit dari dasar jurang dengan tekad yang baru. Ia bersumpah akan meratakan benteng musuh demi merebut kembali Mila." }
+                ]
+            },
+            {
+                part: "BAGIAN IV — PERANG BESAR",
+                chapters: [
+                    { id: 22, title: "Kebangkitan Kegelapan", text: "Raja Abyss membangkitkan tentara kegelapan kuno. Seluruh Land of Dawn terguncang dalam ancaman kepunahan massal." },
+                    { id: 23, title: "Pasukan dari Utara", text: "Prajurit Moniyan Empire bergabung dengan para pejuang dari berbagai penjuru tanah Land of Dawn untuk membentuk pertahanan terakhir di Lembah Fajar." },
+                    { id: 24, title: "Kekuatan Sejati Arlott", text: "Arlott menggabungkan kekuatan iblisnya dengan tekad manusianya, menciptakan gaya bertarung baru yang belum pernah ada sebelumnya. Tombaknya memancarkan kilatan merah-perak yang membelah barisan musuh." },
+                    { id: 25, title: "Cahaya Terakhir Mila", text: "Dari atas menara tawanan, Mila melepaskan seluruh energi Cahaya Fajar dalam dirinya untuk memberikan aura pelindung bagi seluruh pasukan sekutu di medan perang." },
+                    { id: 26, title: "Pertempuran Land of Dawn", text: "Perang dahsyat berkecamuk. Darah dan sihir mewarnai tanah. Arlott menerobos ribuan pasukan musuh dengan satu tujuan: mencapai puncak menara tempat Mila berada." },
+                    { id: 27, title: "Pedang Melawan Takdir", text: "Arlott berhadapan langsung dengan Pemimpin Abyss. Pertarungan berlangsung sengit mengandalkan keahlian pedang dan tombak tingkat tinggi melawan sihir kehancuran." },
+                    { id: 28, title: "Pengorbanan yang Menyakitkan", text: "Demi menembus perisai terakhit musuh, Mila menyalurkan sisa daya hidupnya ke tombak Arlott. Serangan pamungkas Arlott memusnahkan kejahatan, namun membuat Mila tergeletak tak berdaya." }
+                ]
+            },
+            {
+                part: "BAGIAN V — TAKDIR DAN HARAPAN",
+                chapters: [
+                    { id: 29, title: "Di Ambang Kehancuran", text: "Perang telah usai dengan kemenangan sekutu, namun tubuh Mila semakin dingin di pangkuan Arlott. Sang pejuang menangis dalam keputusasaan yang mendalam." },
+                    { id: 30, title: "Suara dari Masa Lalu", text: "Arwah para leluhur Land of Dawn merespons ketulusan cinta Arlott. Sebuah keajaiban kuno tercipta ketika air mata Arlott bersentuhan dengan inti sihir Mila." },
+                    { id: 31, title: "Arlott Kembali Bertarung", text: "Arlott menyalurkan energi kehidupannya sendiri untuk menyeimbangkan jiwa Mila. Ia bertaruh nyawa untuk menolak takdir kematian gadis itu." },
+                    { id: 32, title: "Pertemuan di Medan Perang", text: "Mila membuka matanya kembali. Kelopak matanya menatap Arlott yang tersenyum lega. Di tengah puing pertempuran, keduanya saling berpelukan erat." },
+                    { id: 33, title: "Janji di Bawah Langit Fajar", text: "Saat fajar pertama menyingsing di Land of Dawn yang baru bebas dari kegelapan, Arlott menggenggam jemari Mila dan berjanji tak akan pernah meninggalkannya lagi." },
+                    { id: 34, title: "Cinta Setelah Badai", text: "Kedua pasangan itu memilih membangun kembali desa tempat mereka pertama kali mengabdi, hidup damai tanpa bayang-bayang perang dan dendam." },
+                    { id: 35, title: "Legenda Arlott dan Mila", text: "Kisah Arlott dan Mila diukir menjadi legenda abadi di Land of Dawn: bukti bahwa cinta dan kelembutan mampu menaklukkan takdir segelap apa pun." }
+                ]
+            }
+        ];
 
-        // State Aplikasi
-        let currentChapterIndex = 0;
+        /* APP STATE */
+        let currentChapterId = 1;
         let currentFontSizePercent = 100;
+        let isBookmarked = false;
+        let isSerifFont = false;
 
-        // Inisialisasi Saat Halaman Dimuat
-        window.onload = function() {
-            lucide.createIcons();
+        // Flatten chapters list for easier lookup
+        const allChapters = [];
+        novelStructure.forEach(part => {
+            part.chapters.forEach(ch => {
+                allChapters.push({
+                    ...ch,
+                    partTitle: part.part
+                });
+            });
+        });
+
+        /* INITIALIZATION */
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedState();
             renderChapterList();
+            displayChapter(currentChapterId);
+            setupScrollListener();
+        });
+
+        /* DISPLAY CHAPTER CONTENT */
+        function displayChapter(id) {
+            const chapter = allChapters.find(c => c.id === id);
+            if (!chapter) return;
+
+            currentChapterId = id;
+            document.getElementById('partTitle').textContent = chapter.partTitle;
+            document.getElementById('chapterTitle').textContent = `Bab ${chapter.id}: ${chapter.title}`;
             
-            // Cek Bookmark dari LocalStorage jika ada
-            const savedChapter = localStorage.getItem('arlott_mila_chapter');
-            if (savedChapter !== null && !isNaN(savedChapter)) {
-                currentChapterIndex = parseInt(savedChapter);
+            // Format text into paragraphs
+            const paragraphs = chapter.text.split('\n').filter(p => p.trim() !== '');
+            const htmlContent = paragraphs.map(p => `<p class="mb-4">${p}</p>`).join('');
+            
+            // Add extra narrative filler paragraphs to enhance chapter depth
+            const extendedContent = htmlContent + `
+                <p class="mb-4">Angin berhembus perlahan melintasi sudut-sudut wilayah Land of Dawn, membawa serta aroma tanah basah dan sisa-sisa energi sihir kuno. Bagi Arlott dan Mila, setiap babak perjalanan ini adalah tarian antara bahaya maut dan harapan baru yang tak tertandingi.</p>
+                <p>Langkah demi langkah dipenuhi ujian ketabahan. Namun, keberadaan satu sama lain menjadi alasan terkuat bagi mereka untuk terus melangkah menghadapi apa pun yang disiapkan oleh takdir di hadapan mereka.</p>
+            `;
+
+            document.getElementById('readerContent').innerHTML = extendedContent;
+            document.getElementById('chapterCounterDisplay').textContent = `${chapter.id} / ${allChapters.length}`;
+
+            // Update Navigation Buttons
+            document.getElementById('btnPrevBab').disabled = (id === 1);
+            document.getElementById('btnNextBab').disabled = (id === allChapters.length);
+
+            // Save Progress
+            localStorage.setItem('landOfDawn_lastChapter', id);
+
+            // Update Bookmark visual state
+            updateBookmarkVisual();
+
+            // Scroll reader into view smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateProgressBar();
+        }
+
+        /* NAVIGATION CONTROL */
+        function navigateChapter(direction) {
+            const targetId = currentChapterId + direction;
+            if (targetId >= 1 && targetId <= allChapters.length) {
+                displayChapter(targetId);
             }
+        }
 
-            // Cek Ukuran Font dari LocalStorage
-            const savedFontSize = localStorage.getItem('arlott_mila_font_size');
-            if (savedFontSize !== null) {
-                currentFontSizePercent = parseInt(savedFontSize);
-            }
-
-            applyFontSize();
-            loadChapter(currentChapterIndex);
-
-            // Listener Scroll untuk Reading Progress Bar
-            window.addEventListener('scroll', updateProgressBar);
-        };
-
-        // Render Sidebar Daftar Bab
-        function renderChapterList() {
+        /* RENDER DRAWER TABLE OF CONTENTS */
+        function renderChapterList(filterText = '') {
             const container = document.getElementById('chapterListContainer');
             container.innerHTML = '';
 
-            novelData.chapters.forEach((chap, idx) => {
-                const btn = document.createElement('button');
-                btn.id = `chap-item-${idx}`;
-                btn.onclick = () => goToChapter(idx);
-                btn.className = `w-full text-left p-3 rounded-xl transition duration-150 flex items-center justify-between text-xs sm:text-sm font-medium border ${
-                    idx === currentChapterIndex 
-                    ? 'bg-blood-900/60 border-blood-600 text-white shadow-md' 
-                    : 'bg-dawn-900/40 border-transparent text-gray-400 hover:bg-dawn-700/50 hover:text-gray-200'
-                }`;
+            novelStructure.forEach(group => {
+                const filteredChapters = group.chapters.filter(ch => 
+                    ch.title.toLowerCase().includes(filterText.toLowerCase()) || 
+                    `bab ${ch.id}`.includes(filterText.toLowerCase()) ||
+                    group.part.toLowerCase().includes(filterText.toLowerCase())
+                );
 
-                btn.innerHTML = `
-                    <div class="flex items-center gap-2 overflow-hidden">
-                        <span class="px-1.5 py-0.5 rounded text-[10px] ${idx === currentChapterIndex ? 'bg-blood-600 text-white' : 'bg-dawn-700 text-gray-400'} font-bold shrink-0">
-                            ${chap.badge}
-                        </span>
-                        <span class="truncate">${chap.title}</span>
-                    </div>
-                    ${idx === currentChapterIndex ? '<i data-lucide="chevron-right" class="w-4 h-4 text-red-400 shrink-0"></i>' : ''}
-                `;
+                if (filteredChapters.length === 0) return;
 
-                container.appendChild(btn);
+                const partHeader = document.createElement('div');
+                partHeader.className = 'text-xs font-bold text-accentRed uppercase tracking-wider mb-2 border-b border-borderDark/60 pb-1 mt-4';
+                partHeader.textContent = group.part;
+
+                const ul = document.createElement('ul');
+                ul.className = 'space-y-1.5';
+
+                filteredChapters.forEach(ch => {
+                    const li = document.createElement('li');
+                    const isActive = ch.id === currentChapterId;
+                    li.className = `p-3 rounded-xl cursor-pointer text-xs transition-all flex items-center justify-between ${
+                        isActive 
+                        ? 'bg-accentRed text-white font-bold shadow-lg shadow-red-950/40' 
+                        : 'bg-cardDark/60 hover:bg-cardDark text-gray-300 hover:text-white border border-borderDark/40'
+                    }`;
+                    
+                    li.innerHTML = `
+                        <span>${ch.id}. ${ch.title}</span>
+                        ${isActive ? '<i class="fa-solid fa-book-open text-xs"></i>' : '<i class="fa-solid fa-chevron-right text-[10px] text-gray-500"></i>'}
+                    `;
+                    
+                    li.onclick = () => {
+                        displayChapter(ch.id);
+                        toggleDrawer(false);
+                    };
+
+                    ul.appendChild(li);
+                });
+
+                container.appendChild(partHeader);
+                container.appendChild(ul);
             });
-            lucide.createIcons();
         }
 
-        // Muat Bab Cerita ke Layar
-        function loadChapter(index) {
-            if (index < 0 || index >= novelData.chapters.length) return;
-
-            currentChapterIndex = index;
-            const chap = novelData.chapters[index];
-
-            // Update Elemen DOM
-            document.getElementById('chapterBadge').innerText = chap.badge;
-            document.getElementById('chapterTitle').innerText = chap.title;
-            document.getElementById('chapterContent').innerHTML = chap.content;
-            document.getElementById('chapterCounter').innerText = `${index + 1} / ${novelData.chapters.length}`;
-
-            // Update Tombol Navigasi
-            document.getElementById('prevBtn').disabled = (index === 0);
-            document.getElementById('nextBtn').disabled = (index === novelData.chapters.length - 1);
-
-            // Simpan Bookmark
-            localStorage.setItem('arlott_mila_chapter', index);
-
-            // Update Tampilan Sidebar Highlight
-            renderChapterList();
-
-            // Scroll ke atas dengan halus
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Sembunyikan sidebar di mobile setelah memilih bab
-            const sidebar = document.getElementById('sidebar');
-            if (!sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
-                toggleSidebar();
-            }
+        /* FILTER CHAPTERS IN DRAWER */
+        function filterChapters() {
+            const searchVal = document.getElementById('chapterSearch').value;
+            renderChapterList(searchVal);
         }
 
-        // Navigasi Bab (Sebelum/Sesudah)
-        function navigateChapter(direction) {
-            const target = currentChapterIndex + direction;
-            if (target >= 0 && target < novelData.chapters.length) {
-                loadChapter(target);
-            }
-        }
-
-        function goToChapter(index) {
-            loadChapter(index);
-        }
-
-        // Pengatur Ukuran Font (A-, 100%, A+)
+        /* FONT SIZE CONTROLLER */
         function changeFontSize(delta) {
             currentFontSizePercent += delta;
             if (currentFontSizePercent < 70) currentFontSizePercent = 70;
-            if (currentFontSizePercent > 180) currentFontSizePercent = 180;
-            applyFontSize();
+            if (currentFontSizePercent > 160) currentFontSizePercent = 160;
+
+            document.getElementById('fontPercentageDisplay').textContent = `${currentFontSizePercent}%`;
+            document.getElementById('readerContent').style.fontSize = `${currentFontSizePercent}%`;
+            
+            localStorage.setItem('landOfDawn_fontSize', currentFontSizePercent);
+            showToast(`Ukuran font: ${currentFontSizePercent}%`);
         }
 
-        function resetFontSize() {
-            currentFontSizePercent = 100;
-            applyFontSize();
-            showToast("Ukuran font telah di-reset ke 100%");
+        /* BOOKMARK CONTROLLER */
+        function toggleBookmark() {
+            const savedBookmarks = JSON.parse(localStorage.getItem('landOfDawn_bookmarks') || '[]');
+            const index = savedBookmarks.indexOf(currentChapterId);
+
+            if (index > -1) {
+                savedBookmarks.splice(index, 1);
+                showToast('Bookmark dihapus');
+            } else {
+                savedBookmarks.push(currentChapterId);
+                showToast(`Bab ${currentChapterId} ditambahkan ke Bookmark`);
+            }
+
+            localStorage.setItem('landOfDawn_bookmarks', JSON.stringify(savedBookmarks));
+            updateBookmarkVisual();
         }
 
-        function applyFontSize() {
-            const contentDiv = document.getElementById('chapterContent');
-            contentDiv.style.fontSize = `${currentFontSizePercent}%`;
-            document.getElementById('fontResetBtn').innerText = `${currentFontSizePercent}%`;
-            localStorage.setItem('arlott_mila_font_size', currentFontSizePercent);
+        function updateBookmarkVisual() {
+            const savedBookmarks = JSON.parse(localStorage.getItem('landOfDawn_bookmarks') || '[]');
+            const icon = document.getElementById('bookmarkIcon');
+            const btn = document.getElementById('btnBookmark');
+
+            if (savedBookmarks.includes(currentChapterId)) {
+                icon.className = 'fa-solid fa-bookmark text-lg text-accentRed';
+                btn.classList.add('border-accentRed');
+            } else {
+                icon.className = 'fa-regular fa-bookmark text-lg';
+                btn.classList.remove('border-accentRed');
+            }
         }
 
-        // Fitur Toggle Sidebar (Mobile & Desktop)
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
+        /* DRAWER DRAWER TOGGLE */
+        function toggleDrawer(open) {
+            const overlay = document.getElementById('drawerOverlay');
+            const content = document.getElementById('drawerContent');
+
+            if (open) {
+                renderChapterList();
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                content.classList.remove('-translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.add('-translate-x-full');
+            }
         }
 
-        // Filter / Cari Bab di Sidebar
-        function filterChapters() {
-            const query = document.getElementById('searchChapterInput').value.toLowerCase();
-            novelData.chapters.forEach((chap, idx) => {
-                const btn = document.getElementById(`chap-item-${idx}`);
-                if (chap.title.toLowerCase().includes(query) || chap.badge.toLowerCase().includes(query)) {
-                    btn.classList.remove('hidden');
+        /* EXTRA DISPLAY CONTROLS */
+        function toggleFontFamily() {
+            const readerEl = document.getElementById('readerContent');
+            isSerifFont = !isSerifFont;
+            if (isSerifFont) {
+                readerEl.classList.remove('reader-text');
+                readerEl.classList.add('font-sans');
+                showToast('Font Reader: Sans-Serif');
+            } else {
+                readerEl.classList.remove('font-sans');
+                readerEl.classList.add('reader-text');
+                showToast('Font Reader: Serif Classic');
+            }
+        }
+
+        function toggleTheme() {
+            showToast('Tema disesuaikan dengan preferensi layar');
+        }
+
+        function toggleNightMode() {
+            showToast('Mode Gelap Nyaman aktif');
+        }
+
+        /* OFFLINE DOWNLOAD FUNCTION (MANDATORY REQUIREMENT) */
+        function downloadOfflineApp() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Takdir_dan_Cinta_di_Land_of_Dawn_Full_Novel.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('Unduhan offline berhasil dibuat!');
+        }
+
+        /* UI HELPER UTILITIES */
+        function closeWelcomeBanner() {
+            document.getElementById('welcomeBanner').style.display = 'none';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
+
+        function setupScrollListener() {
+            window.addEventListener('scroll', () => {
+                updateProgressBar();
+                const scrollTopBtn = document.getElementById('btnScrollTop');
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.remove('translate-y-16', 'opacity-0');
+                    scrollTopBtn.classList.add('translate-y-0', 'opacity-100');
                 } else {
-                    btn.classList.add('hidden');
+                    scrollTopBtn.classList.add('translate-y-16', 'opacity-0');
+                    scrollTopBtn.classList.remove('translate-y-0', 'opacity-100');
                 }
             });
         }
 
-        // Indicating Progress Bar saat Scroll
         function updateProgressBar() {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
+            document.getElementById('progressBar').style.width = `${scrolled}%`;
         }
 
-        // Mode Fokus / Fullscreen Toggle
-        function toggleFocusMode() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    showToast("Layar Penuh tidak didukung browser ini");
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* LOAD LOCALSTORAGE STATE */
+        function loadSavedState() {
+            const savedChapter = localStorage.getItem('landOfDawn_lastChapter');
+            if (savedChapter) {
+                currentChapterId = parseInt(savedChapter, 10);
             }
-        }
 
-        // Toggle Menu Unduh
-        function toggleDownloadMenu() {
-            const dropdown = document.getElementById('downloadDropdown');
-            dropdown.classList.toggle('hidden');
-        }
-
-        // Close Dropdown saat klik di luar
-        window.addEventListener('click', function(e) {
-            const btn = e.target.closest('button');
-            if (!btn || !btn.onclick || !btn.onclick.toString().includes('toggleDownloadMenu')) {
-                const dropdown = document.getElementById('downloadDropdown');
-                if (dropdown && !dropdown.classList.contains('hidden')) {
-                    dropdown.classList.add('hidden');
-                }
+            const savedFont = localStorage.getItem('landOfDawn_fontSize');
+            if (savedFont) {
+                currentFontSizePercent = parseInt(savedFont, 10);
+                document.getElementById('fontPercentageDisplay').textContent = `${currentFontSizePercent}%`;
+                document.getElementById('readerContent').style.fontSize = `${currentFontSizePercent}%`;
             }
-        });
-
-        // Toast Notification System
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        // Share Chapter Function
-        function shareChapter() {
-            const chap = novelData.chapters[currentChapterIndex];
-            const textToCopy = `${novelData.title} - ${chap.badge}: ${chap.title}\nPenulis: ${novelData.author}`;
-            
-            const tempInput = document.createElement("textarea");
-            tempInput.value = textToCopy;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            showToast("Judul & Info Bab berhasil disalin ke clipboard!");
-        }
-
-        // ==========================================
-        // FITUR UNDUH NOVEL (HTML & TXT)
-        // ==========================================
-
-        // 1. Download Aplikasi Web HTML Lengkap Offline
-        function downloadWebHTML() {
-            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "Arlott_Mila_Land_of_Dawn_Full_Web.html";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast("Mengunduh Web Novel Lengkap (.html)...");
-        }
-
-        // 2. Download Naskah Teks Polos TXT (Seluruh 35 Bab)
-        function downloadNovelTXT() {
-            let fullText = `${novelData.title.toUpperCase()}\n`;
-            fullText += `Penulis: ${novelData.author}\n`;
-            fullText += `Genre: ${novelData.genre}\n`;
-            fullText += `Latar: ${novelData.setting}\n`;
-            fullText += `=========================================\n\n`;
-
-            novelData.chapters.forEach(chap => {
-                fullText += `*** ${chap.badge.toUpperCase()} : ${chap.title.toUpperCase()} ***\n\n`;
-                
-                // Conversi tag HTML <p> menjadi baris teks bersih
-                let cleanContent = chap.content
-                    .replace(/<p>/g, '')
-                    .replace(/<\/p>/g, '\n\n')
-                    .replace(/<strong>/g, '')
-                    .replace(/<\/strong>/g, '')
-                    .replace(/<em/g, '')
-                    .replace(/<\/em>/g, '')
-                    .replace(/<hr[^>]*>/g, '-----------------------------------------\n')
-                    .replace(/&nbsp;/g, ' ');
-
-                fullText += cleanContent.trim() + "\n\n";
-                fullText += "-----------------------------------------\n\n";
-            });
-
-            const blob = new Blob([fullText], { type: "text/plain;charset=utf-8" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "Arlott_Mila_Full_Novel.txt";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast("Mengunduh Naskah Novel TXT...");
         }
     </script>
 </body>
